@@ -1,0 +1,47 @@
+@import '@fontsource-variable/overpass';
+
+.light {
+	--color-background: #fff;
+	--color-foreground: #000;
+	--text-base: 0, 0, 0;
+}
+
+.dark {
+	--color-background: #000;
+	--color-foreground: #fff;
+	--text-base: 255, 255, 255;
+}
+
+:root {
+	--base-spacing: 8px;
+	--color-primary: #6200ee;
+	--color-primary-darker: color-mix(in srgb, var(--color-primary), #000 15%);
+	--color-primary-darkest: color-mix(in srgb, var(--color-primary), #000 30%);
+	--text-base: 0, 0, 0;
+
+	--text-high: rgba(var(--text-base), 0.87);
+	--text-medium: rgba(var(--text-base), 0.67);
+	--text-low: rgba(var(--text-base), 0.3);
+}
+
+body {
+	font-family: 'Overpass Variable', monospace;
+	color: var(--text-high);
+	transition: color 0.2s ease-in-out;
+}
+
+*:disabled {
+	opacity: 0.7;
+}
+
+html {
+	font-size: 18px;
+}
+
+body {
+	transition: background-color 0.2s ease-in-out;
+	background-color: var(--color-background);
+	margin: 0;
+	height: 100vh;
+	overflow: auto;
+}
