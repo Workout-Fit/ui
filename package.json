@@ -10,9 +10,12 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"supabase:gen": "supabase gen types --lang=typescript --project-id $SUPABASE_PROJECT_REF --schema public > src/lib/supabase/database.types.ts",
+		"supabase:generate": "dotenvx run -f .env -- pnpm supabase:gen && pnpm format",
 		"test:unit": "dotenvx run -f .env -- vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^1.21.0",
@@ -27,6 +30,7 @@
 		"globals": "^15.0.0",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
+		"supabase": "^1.207.9",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",
