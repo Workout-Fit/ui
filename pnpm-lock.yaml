@@ -18,6 +18,9 @@ importers:
       '@dotenvx/dotenvx':
         specifier: ^1.21.0
         version: 1.21.0
+      '@fontsource-variable/overpass':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@playwright/test':
         specifier: ^1.45.3
         version: 1.48.2
@@ -260,6 +263,9 @@ packages:
   '@eslint/plugin-kit@0.2.2':
     resolution: {integrity: sha512-CXtq5nR4Su+2I47WPOlWud98Y5Lv8Kyxp2ukhgFx/eW6Blm18VXJO5WuQylPugRo8nbluoi6GvvxBLqHcvqUUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource-variable/overpass@5.1.1':
+    resolution: {integrity: sha512-/H4NQK3TsImPu+hyfm1oWwotxqErd2OpVtPlIchFsCRLHq0n637gwRV9J2WOeksvuG77tFTvBetubWhAAtqN7w==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1731,6 +1737,8 @@ snapshots:
   '@eslint/plugin-kit@0.2.2':
     dependencies:
       levn: 0.4.1
+
+  '@fontsource-variable/overpass@5.1.1': {}
 
   '@humanfs/core@0.19.1': {}
 
