@@ -15,7 +15,7 @@ const renderConfirmationDialog = (props?: Partial<ComponentProps<typeof Confirma
 	});
 
 describe('ConfirmationDialog', () => {
-	test('renders with correct title and message', () => {
+	it('renders with correct title and message', () => {
 		const title = faker.lorem.sentence();
 		const message = faker.lorem.paragraph();
 
@@ -25,7 +25,7 @@ describe('ConfirmationDialog', () => {
 		expect(screen.getByText(message)).toBeInTheDocument();
 	});
 
-	test('calls onconfirm when confirm button is clicked', () => {
+	it('calls onconfirm when confirm button is clicked', () => {
 		const onconfirm = vi.fn();
 		renderConfirmationDialog({ onconfirm });
 
@@ -34,7 +34,7 @@ describe('ConfirmationDialog', () => {
 		expect(onconfirm).toHaveBeenCalled();
 	});
 
-	test('calls oncancel when cancel button is clicked', () => {
+	it('calls oncancel when cancel button is clicked', () => {
 		const oncancel = vi.fn();
 		renderConfirmationDialog({ oncancel });
 
@@ -43,7 +43,7 @@ describe('ConfirmationDialog', () => {
 		expect(oncancel).toHaveBeenCalled();
 	});
 
-	test('disables buttons when disabled prop is true', () => {
+	it('disables buttons when disabled prop is true', () => {
 		renderConfirmationDialog({ disabled: true });
 
 		expect(screen.getByRole('button', { name: /confirm/i })).toBeDisabled();

@@ -17,7 +17,6 @@
 	--color-primary: #6200ee;
 	--color-primary-darker: color-mix(in srgb, var(--color-primary), #000 15%);
 	--color-primary-darkest: color-mix(in srgb, var(--color-primary), #000 30%);
-	--text-base: 0, 0, 0;
 
 	--text-high: rgba(var(--text-base), 0.87);
 	--text-medium: rgba(var(--text-base), 0.67);
