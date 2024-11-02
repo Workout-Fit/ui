@@ -39,8 +39,10 @@ export default defineConfig({
 	],
 
 	test: {
-		setupFiles: ['./vitest-setup.js'],
-		include: ['tests/**/*.spec.ts'],
+		setupFiles: ['./vitest.setup.ts'],
+		include: ['tests/**/*.test.ts'],
+		globals: true,
 		environment: 'happy-dom'
-	}
+	},
+	resolve: process.env.VITEST ? { conditions: ['browser'] } : undefined
 });
