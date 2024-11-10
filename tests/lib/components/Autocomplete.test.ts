@@ -3,15 +3,15 @@ import { faker } from '@faker-js/faker';
 import { fireEvent, render, screen, waitFor } from '@testing-library/svelte';
 import { createRawSnippet, type Snippet } from 'svelte';
 
-const itemSnippet: Snippet<[unknown]> = createRawSnippet((item) => ({
+const itemSnippet = createRawSnippet((item: () => string) => ({
 	render: () => item()
-}));
+})) as Snippet<[item: unknown]>;
 
 describe('<Autocomplete />', () => {
 	it('renders an input', () => {
 		const loadFunction = vi
 			.fn()
-			.mockResolvedValue(faker.helpers.multiple(() => faker.word.noun(), { count: 10 }));
+			.mockResolvedValue(faker.helpers.uniqueArray(() => faker.word.noun(), 10));
 		render(Autocomplete, {
 			loadFunction,
 			debounceValue: 1,
@@ -25,7 +25,7 @@ describe('<Autocomplete />', () => {
 	it('calls loadFunction with the search term', async () => {
 		const loadFunction = vi
 			.fn()
-			.mockResolvedValue(faker.helpers.multiple(() => faker.word.noun(), { count: 10 }));
+			.mockResolvedValue(faker.helpers.uniqueArray(() => faker.word.noun(), 10));
 		const query = faker.word.noun();
 		render(Autocomplete, {
 			loadFunction,
@@ -44,7 +44,7 @@ describe('<Autocomplete />', () => {
 	it('renders results', async () => {
 		const loadFunction = vi
 			.fn()
-			.mockResolvedValue(faker.helpers.multiple(() => faker.word.noun(), { count: 10 }));
+			.mockResolvedValue(faker.helpers.uniqueArray(() => faker.word.noun(), 10));
 		const query = faker.word.noun();
 		render(Autocomplete, {
 			loadFunction,
@@ -62,7 +62,7 @@ describe('<Autocomplete />', () => {
 
 	describe('with selected result', () => {
 		it('renders a close button', async () => {
-			const results = faker.helpers.multiple(() => faker.word.noun(), { count: 10 });
+			const results = faker.helpers.uniqueArray(() => faker.word.noun(), 10);
 			const selectedResult = faker.helpers.arrayElement(results);
 
 			const loadFunction = vi.fn().mockResolvedValue(results);
@@ -84,7 +84,7 @@ describe('<Autocomplete />', () => {
 		});
 
 		it('clears when the close button is clicked', async () => {
-			const results = faker.helpers.multiple(() => faker.word.noun(), { count: 10 });
+			const results = faker.helpers.uniqueArray(() => faker.word.noun(), 10);
 			const selectedResult = faker.helpers.arrayElement(results);
 
 			const loadFunction = vi.fn().mockResolvedValue(results);
