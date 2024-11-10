@@ -1,3 +1,4 @@
+@import './buttons.css';
 @import '@fontsource-variable/overpass';
 
 .light {
@@ -15,6 +16,8 @@
 :root {
 	--base-spacing: 8px;
 	--color-primary: #6200ee;
+	--color-primary-lighter: color-mix(in srgb, var(--color-primary), #fff 60%);
+	--color-primary-lightest: color-mix(in srgb, var(--color-primary), #fff 90%);
 	--color-primary-darker: color-mix(in srgb, var(--color-primary), #000 15%);
 	--color-primary-darkest: color-mix(in srgb, var(--color-primary), #000 30%);
 
@@ -23,10 +26,8 @@
 	--text-low: rgba(var(--text-base), 0.3);
 }
 
-body {
+* {
 	font-family: 'Overpass Variable', monospace;
-	color: var(--text-high);
-	transition: color 0.2s ease-in-out;
 }
 
 *:disabled {
@@ -38,7 +39,9 @@ html {
 }
 
 body {
+	color: var(--text-high);
 	transition: background-color 0.2s ease-in-out;
+	transition: color 0.2s ease-in-out;
 	background-color: var(--color-background);
 	margin: 0;
 	height: 100vh;

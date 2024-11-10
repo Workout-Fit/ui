@@ -1,0 +1,22 @@
+button {
+	border: none;
+}
+
+button:hover:disabled {
+	cursor: wait;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+button.button--text {
+	color: var(--color-primary);
+	background-color: transparent;
+}
+
+button {
+	background-color: var(--color-primary);
+	color: #fff;
+	font-weight: 500;
+}
