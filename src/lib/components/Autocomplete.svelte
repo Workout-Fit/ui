@@ -87,7 +87,7 @@
 			<div class="autocomplete__value">
 				{@render valueSnippet(value)}
 			</div>
-			<button type="button" class="button--text" onclick={clear}>x</button>
+			<button type="button" class="button--text" onclick={clear} aria-label="clear">x</button>
 		{:else}
 			<input
 				bind:this={input}

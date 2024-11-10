@@ -1,4 +1,5 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
+/// <reference types="vite-plugin-pwa/svelte" />
 
 import type { Database } from '$lib/supabase/database.types';
 import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
@@ -16,7 +17,9 @@ declare global {
 		interface PageData {
 			session: Session | null;
 		}
-		// interface PageState {}
+		interface PageState {
+			modalShown?: 'add-exercise';
+		}
 		// interface Platform {}
 	}
 }
