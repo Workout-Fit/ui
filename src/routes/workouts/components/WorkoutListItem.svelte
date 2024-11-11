@@ -8,7 +8,11 @@
 	let { workout }: { workout: Workout } = $props();
 </script>
 
-<ListItem title={workout.name} subtitle={workout.description} href={`/workouts/${workout.id}`}>
+<ListItem
+	title={workout.name}
+	secondLine={workout.description ?? undefined}
+	href={`/workouts/${workout.id}`}
+>
 	{#snippet rightDecoration()}
 		<small>{workout.exercises[0]?.count}</small>
 	{/snippet}
