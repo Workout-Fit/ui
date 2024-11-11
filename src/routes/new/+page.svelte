@@ -10,7 +10,7 @@
 	const LOCALSTORAGE_KEY = 'new-workout';
 
 	const onsave = async (data: WorkoutFormData) => {
-		const createWorkout = await fetch('/api/workouts', {
+		const createWorkout = await fetch('/api', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -21,7 +21,7 @@
 		if (createWorkout.ok) {
 			saveOnExit = false;
 			const { id }: { id: string } = await createWorkout.json();
-			goto(`/workouts/${id}`);
+			goto(`/${id}`);
 			localStorage.removeItem(LOCALSTORAGE_KEY);
 		} else console.error('Failed to create workout');
 	};

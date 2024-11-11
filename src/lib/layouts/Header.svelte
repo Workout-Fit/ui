@@ -4,7 +4,7 @@
 </script>
 
 <header>
-	<a href="/workouts" class="logo">
+	<a href="/" class="logo">
 		<Logo width={32} />
 	</a>
 	<nav>

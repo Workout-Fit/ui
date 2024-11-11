@@ -73,7 +73,7 @@
 
 <div class="autocomplete" aria-disabled={disabled}>
 	<div
-		class="autocomplete__input"
+		class="autocomplete__input input"
 		role="combobox"
 		aria-expanded={openDropdown}
 		aria-controls="listbox"
@@ -87,7 +87,7 @@
 			<div class="autocomplete__value">
 				{@render valueSnippet(value)}
 			</div>
-			<button type="button" class="button--text" onclick={clear} aria-label="clear">x</button>
+			<button type="button" class="button--text" onclick={clear} aria-label="clear">×</button>
 		{:else}
 			<input
 				bind:this={input}
@@ -135,6 +135,7 @@
 <style>
 	.autocomplete {
 		position: relative;
+		width: 100%;
 	}
 
 	.autocomplete[aria-disabled='true'] {
@@ -143,26 +144,20 @@
 	}
 
 	.autocomplete__input {
-		--input-border: rgb(118, 118, 118);
-		padding: 1px 2px;
-		border: 1px inset var(--input-border);
 		display: flex;
 		gap: var(--base-spacing);
 		align-items: center;
 		justify-content: space-between;
-		font-size: 0.7rem;
-		height: 21px;
-		border-radius: 2px;
 	}
 
 	.autocomplete__input:focus,
 	.autocomplete__input--focused {
-		outline: black solid 1px;
+		outline: black inset 2px;
 	}
 
 	input {
-		padding: none;
-		border: none;
+		padding: 0;
+		border: 0;
 		background: none;
 		width: 100%;
 	}
@@ -178,16 +173,18 @@
 		margin: 0;
 		padding: 0;
 		border: 1px solid var(--input-border);
-		max-height: 5rem;
+		max-height: 7rem;
 		overflow-y: auto;
-		background: white;
+		margin-top: var(--base-spacing);
 		width: 100%;
+		border-radius: 4px;
+		background-color: var(--gray-100);
 	}
 
 	.autocomplete__options > li {
 		padding: var(--base-spacing);
 		cursor: pointer;
-		font-size: 0.7rem;
+		font-size: 0.9rem;
 		list-style: none;
 	}
 

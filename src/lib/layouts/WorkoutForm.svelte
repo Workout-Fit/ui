@@ -41,17 +41,18 @@
 			<h2>{title}</h2>
 			<button class="button--text" onclick={() => onsave(data)}>Save</button>
 		</div>
-		<label for="name">Name</label>
-		<input
-			bind:value={data.name}
-			required
-			id="name"
-			type="text"
-			name="name"
-			placeholder="E.g.: Chest & Triceps"
-		/>
-		<label for="description"
-			>Description
+		<label>
+			Name
+			<input
+				bind:value={data.name}
+				required
+				type="text"
+				name="name"
+				placeholder="E.g.: Chest & Triceps"
+			/>
+		</label>
+		<label>
+			Description
 			<textarea
 				bind:value={data.description}
 				name="description"

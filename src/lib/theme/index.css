@@ -1,4 +1,5 @@
 @import './buttons.css';
+@import './input.css';
 @import '@fontsource-variable/overpass';
 
 .light {
@@ -20,10 +21,13 @@
 	--color-primary-lightest: color-mix(in srgb, var(--color-primary), #fff 90%);
 	--color-primary-darker: color-mix(in srgb, var(--color-primary), #000 15%);
 	--color-primary-darkest: color-mix(in srgb, var(--color-primary), #000 30%);
+	--elevation-1dp: 0 4px 10px 0px rgba(0, 0, 0, 0.1);
 
 	--text-high: rgba(var(--text-base), 0.87);
 	--text-medium: rgba(var(--text-base), 0.67);
-	--text-low: rgba(var(--text-base), 0.3);
+	--text-low: rgba(var(--text-base), 0.14);
+
+	--gray-100: #eee;
 }
 
 * {
