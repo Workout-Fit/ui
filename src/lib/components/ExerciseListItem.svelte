@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { WorkoutExercise } from '$lib/types';
 	import type { Snippet } from 'svelte';
-	import type { WorkoutExercise } from '../+page.svelte';
 
 	let { exercise, decoration }: { exercise: WorkoutExercise; decoration?: Snippet } = $props();
 </script>

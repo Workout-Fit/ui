@@ -157,7 +157,7 @@ export type Database = {
 				};
 				Insert: {
 					based_on?: string | null;
-					creation_date: string;
+					creation_date?: string;
 					description?: string | null;
 					id?: string;
 					name: string;
@@ -228,7 +228,13 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Functions: {
-			[_ in never]: never;
+			update_workouts_exercises: {
+				Args: {
+					workout_id: string;
+					exercises: Database['public']['Tables']['workouts_exercises']['Row'][];
+				};
+				Returns: undefined;
+			};
 		};
 		Enums: {
 			[_ in never]: never;
