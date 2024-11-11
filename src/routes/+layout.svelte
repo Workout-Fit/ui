@@ -3,6 +3,7 @@
 	import { onMount, type Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
 	import Header from '$lib/layouts/Header.svelte';
+	import { browser } from '$app/environment';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import '$lib/theme/index.css';
 
@@ -13,6 +14,16 @@
 		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
 			if (newSession?.expires_at !== session?.expires_at) invalidate('supabase:auth');
 		});
+		if (browser)
+			document.body.addEventListener('keydown', (e: KeyboardEvent) => {
+				if (!(e.key === 'Enter' && (e.metaKey || e.ctrlKey)) || !e.target) return;
+
+				if ('form' in e.target) {
+					const formElement = e.target.form as HTMLFormElement;
+					formElement?.requestSubmit();
+				}
+			});
+
 		return () => data.subscription.unsubscribe();
 	});
 </script>

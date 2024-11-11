@@ -34,9 +34,11 @@
 			renderValue={exerciseAutocompleteEntry}
 			renderItem={exerciseAutocompleteEntry}
 		/>
-		<input required type="number" name="sets" placeholder="Sets" />
-		<input required type="number" name="repetitions" placeholder="Repetitions" />
-		<input type="number" name="rest" placeholder="Rest" />
+		<div>
+			<input required type="number" name="sets" placeholder="Sets" />
+			<input required type="number" name="repetitions" placeholder="Repetitions" />
+			<input type="number" name="rest" placeholder="Rest" />
+		</div>
 		<textarea name="notes" placeholder="Notes"></textarea>
 
 		<FormActions oncancel={() => undefined} />
@@ -54,6 +56,16 @@
 
 	h3 {
 		margin: 0;
+	}
+
+	form > div {
+		display: flex;
+		width: 100%;
+		gap: var(--base-spacing);
+	}
+
+	form > div > input {
+		width: 100%;
 	}
 
 	.exercise-form :global(.form-actions) {
