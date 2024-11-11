@@ -8,7 +8,7 @@
 	type WorkoutFormProps = {
 		title: string;
 		onsave: (data: WorkoutFormData) => void | Promise<void>;
-		data: WorkoutFormData;
+		data?: WorkoutFormData;
 	};
 </script>
 
@@ -22,35 +22,56 @@
 
 	const handleCloseModal = () => replaceState('/new', { modalShown: undefined });
 
-	let { title, onsave, data = $bindable() }: WorkoutFormProps = $props();
+	let {
+		title,
+		onsave,
+		data = $bindable({ name: '', description: '', exercises: [] })
+	}: WorkoutFormProps = $props();
 </script>
 
-<div class="workout-form">
-	<button onclick={() => onsave(data)}>v Save</button>
-	<h2>{title}</h2>
-	<label for="name">Name</label>
-	<input
-		bind:value={data.name}
-		id="name"
-		type="text"
-		name="name"
-		placeholder="E.g.: Chest & Triceps"
-	/>
-	<label for="description">Description</label>
-	<textarea
-		bind:value={data.description}
-		id="description"
-		name="description"
-		placeholder="E.g.: Do it twice a week"
-	></textarea>
-	<button onclick={() => pushState('/new', { modalShown: 'add-exercise' })}>Add exercise +</button>
+<form
+	class="workout-form"
+	onsubmit={(e) => {
+		e.preventDefault();
+		onsave(data);
+	}}
+>
+	<div class="workout-form__info">
+		<div class="workout-form__title">
+			<h2>{title}</h2>
+			<button class="button--text" onclick={() => onsave(data)}>Save</button>
+		</div>
+		<label for="name">Name</label>
+		<input
+			bind:value={data.name}
+			required
+			id="name"
+			type="text"
+			name="name"
+			placeholder="E.g.: Chest & Triceps"
+		/>
+		<label for="description"
+			>Description
+			<textarea
+				bind:value={data.description}
+				name="description"
+				placeholder="E.g.: Do it twice a week"
+			></textarea>
+		</label>
+	</div>
 	<div class="workout-form__exercise-list">
+		<div class="workout-form__title">
+			<h2>Exercises</h2>
+			<button onclick={() => pushState('/new', { modalShown: 'add-exercise' })}>
+				Add exercise +
+			</button>
+		</div>
 		{#each data.exercises ?? [] as exercise}
 			<ExerciseListItem {exercise}>
 				{#snippet decoration()}
 					<button
 						type="button"
-						onclick={() => (data.exercises = data.exercises.filter((item) => item !== exercise))}
+						onclick={() => (data.exercises = data.exercises?.filter((item) => item !== exercise))}
 						class="button--text exercise-list-item__decoration"
 					>
 						Remove
@@ -59,7 +80,7 @@
 			</ExerciseListItem>
 		{/each}
 	</div>
-</div>
+</form>
 
 <ExerciseDialog
 	open={$page.state.modalShown === 'add-exercise'}
@@ -67,7 +88,7 @@
 	onsubmit={(event: SubmitEvent) => {
 		event.preventDefault();
 		const formData = new FormData(event.target as HTMLFormElement);
-		data.exercises.push({
+		data.exercises?.push({
 			exercise: JSON.parse(
 				formData.get('exercise') as string
 			) as Database['public']['Tables']['exercises']['Row'],
@@ -83,8 +104,30 @@
 
 <style>
 	.workout-form {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template: auto 1fr auto / 1fr;
 		gap: var(--base-spacing);
+		height: 100%;
+	}
+
+	.workout-form__info {
+		display: flex;
+		gap: var(--base-spacing);
+		flex-direction: column;
+	}
+
+	.workout-form__exercise-list {
+		height: 100%;
+	}
+
+	.workout-form__title {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	textarea,
+	input {
+		width: 100%;
 	}
 </style>

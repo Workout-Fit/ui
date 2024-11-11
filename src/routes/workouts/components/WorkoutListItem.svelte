@@ -14,6 +14,6 @@
 	href={`/workouts/${workout.id}`}
 >
 	{#snippet rightDecoration()}
-		<small>{workout.exercises[0]?.count}</small>
+		<small>{workout.exercises[0]?.count} exercises</small>
 	{/snippet}
 </ListItem>

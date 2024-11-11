@@ -13,7 +13,10 @@
 </script>
 
 <div class="workouts">
-	<a href="/new" class="workouts__add">Add Workout</a>
+	<div class="workouts__title">
+		<h2>Workouts</h2>
+		<a href="/new" class="workouts__add button button--text">+ Create Workout</a>
+	</div>
 	<input class="workouts__search" type="text" bind:value={searchTerm} placeholder="Search..." />
 	<div class="workouts__list">
 		{#each filteredWorkouts as workout}
@@ -29,7 +32,13 @@
 		gap: calc(var(--base-spacing) * 2);
 	}
 
-	.workouts__add {
-		align-self: flex-end;
+	.workouts__title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.workouts__title h2 {
+		margin: 0;
 	}
 </style>

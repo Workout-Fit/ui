@@ -22,13 +22,19 @@
 	{@html pwaInfo?.webManifest?.linkTag ?? ''}
 </svelte:head>
 
-<Header />
 <div>
+	<Header />
 	{@render children()}
 </div>
 
 <style>
 	div {
 		padding: calc(var(--base-spacing) * 2);
+		max-width: 960px;
+		margin: auto;
+		min-height: 100vh;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
 	}
 </style>

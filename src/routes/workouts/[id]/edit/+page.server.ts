@@ -1,3 +1,5 @@
+import { redirect } from '@sveltejs/kit';
+
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
 	const { user } = await safeGetSession();
 	const { data: workout } = await supabase
@@ -23,5 +25,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 		.eq('id', params.id)
 		.single();
 
-	return { workout: { ...workout, user_id: undefined }, editable: workout?.user_id === user?.id };
+	if (workout?.user_id === user?.id) return { workout: { ...workout, user_id: undefined } };
+
+	return redirect(302, `/workouts/${params.id}`);
 };

@@ -1,22 +1,23 @@
-button {
+button,
+.button {
 	border: none;
-}
-
-button:hover:disabled {
-	cursor: wait;
-}
-
-button:hover {
-	cursor: pointer;
-}
-
-button.button--text {
-	color: var(--color-primary);
-	background-color: transparent;
-}
-
-button {
+	text-transform: uppercase;
 	background-color: var(--color-primary);
 	color: #fff;
 	font-weight: 500;
+	text-decoration: none;
+	font-size: 0.7rem;
+}
+
+:is(button, .button):hover:disabled {
+	cursor: wait;
+}
+
+:is(button, .button):hover {
+	cursor: pointer;
+}
+
+:is(button, .button).button--text {
+	color: var(--color-primary);
+	background-color: transparent;
 }

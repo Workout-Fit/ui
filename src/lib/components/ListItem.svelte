@@ -67,4 +67,9 @@
 	.list-item__title {
 		font-weight: 700;
 	}
+
+	.list-item__second-line,
+	.list-item__third-line {
+		color: var(--text-medium);
+	}
 </style>
