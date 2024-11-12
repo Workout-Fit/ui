@@ -21,7 +21,7 @@
 		if (createWorkout.ok) {
 			saveOnExit = false;
 			const { id }: { id: string } = await createWorkout.json();
-			goto(`/${id}`);
+			goto(`/workouts/${id}`);
 			localStorage.removeItem(LOCALSTORAGE_KEY);
 		} else console.error('Failed to create workout');
 	};

@@ -178,18 +178,19 @@
 		margin-top: var(--base-spacing);
 		width: 100%;
 		border-radius: 4px;
-		background-color: var(--gray-100);
+		background-color: var(--color-background);
 	}
 
 	.autocomplete__options > li {
 		padding: var(--base-spacing);
 		cursor: pointer;
 		font-size: 0.9rem;
+		color: var(--color-foreground);
 		list-style: none;
 	}
 
 	.autocomplete__options > li:hover {
-		background-color: var(--color-primary-lightest);
+		background-color: var(--text-lowest);
 	}
 
 	.autocomplete__options--hidden {

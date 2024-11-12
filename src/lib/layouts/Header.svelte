@@ -4,10 +4,10 @@
 </script>
 
 <header>
-	<a href="/" class="logo">
-		<Logo width={32} />
-	</a>
+	<Logo width={32} />
 	<nav>
+		<a class="button button--text" href="/">Workouts</a>
+		<a class="button button--text" href="/profile">Profile</a>
 		<ThemeToggle />
 	</nav>
 </header>
@@ -20,18 +20,9 @@
 		padding: calc(var(--base-spacing) * 2) 0;
 	}
 
-	.logo {
-		color: var(--text-high);
-		text-decoration: none;
-	}
-
 	nav {
 		color: var(--color-primary);
 		display: flex;
 		gap: 1rem;
-	}
-
-	h2 {
-		margin: 0;
 	}
 </style>

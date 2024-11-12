@@ -3,10 +3,11 @@ input,
 textarea {
 	border: none;
 	border-radius: 4px;
-	background-color: var(--gray-100);
+	background-color: var(--text-lowest);
 	box-sizing: border-box;
 	padding: 0 calc(var(--base-spacing) * 2);
 	font-size: medium;
+	color: var(--text-high);
 }
 
 input,

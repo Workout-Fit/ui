@@ -39,7 +39,7 @@
 	<div class="workout-form__info">
 		<div class="workout-form__title">
 			<h2>{title}</h2>
-			<button class="button--text" onclick={() => onsave(data)}>Save</button>
+			<button onclick={() => onsave(data)}>Save</button>
 		</div>
 		<label>
 			Name
@@ -61,10 +61,13 @@
 		</label>
 	</div>
 	<div class="workout-form__exercise-list">
-		<div class="workout-form__title">
+		<div class="workout-form__exercise-list-title">
 			<h2>Exercises</h2>
-			<button onclick={() => pushState('/new', { modalShown: 'add-exercise' })}>
-				Add exercise +
+			<button
+				class="button--text"
+				onclick={() => pushState('/new', { modalShown: 'add-exercise' })}
+			>
+				+ ADD EXERCISE
 			</button>
 		</div>
 		{#each data.exercises ?? [] as exercise}
@@ -125,6 +128,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.workout-form__exercise-list-title {
+		display: flex;
+		align-items: center;
+		gap: var(--base-spacing);
 	}
 
 	textarea,

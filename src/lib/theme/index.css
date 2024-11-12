@@ -6,12 +6,14 @@
 	--color-background: #fff;
 	--color-foreground: #000;
 	--text-base: 0, 0, 0;
+	--text-lowest: rgba(var(--text-base), 0.08);
 }
 
 .dark {
 	--color-background: #000;
 	--color-foreground: #fff;
 	--text-base: 255, 255, 255;
+	--text-lowest: rgba(var(--text-base), 0.2);
 }
 
 :root {
@@ -26,8 +28,6 @@
 	--text-high: rgba(var(--text-base), 0.87);
 	--text-medium: rgba(var(--text-base), 0.67);
 	--text-low: rgba(var(--text-base), 0.14);
-
-	--gray-100: #eee;
 }
 
 * {
@@ -44,8 +44,9 @@ html {
 
 body {
 	color: var(--text-high);
-	transition: background-color 0.2s ease-in-out;
-	transition: color 0.2s ease-in-out;
+	transition:
+		color 0.2s ease-in-out,
+		background-color 0.2s ease-in-out;
 	background-color: var(--color-background);
 	margin: 0;
 	height: 100vh;
