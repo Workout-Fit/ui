@@ -1,10 +1,9 @@
 import type { WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
-import type { RequestHandler } from '@sveltejs/kit';
-import { request } from 'http';
+import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ locals: { supabase }, request }) => {
 	const workout: WorkoutFormData = await request.json();
-	const { data, error } = await supabase
+	const createWorkout = await supabase
 		.from('workouts')
 		.insert({
 			name: workout.name,
@@ -13,21 +12,26 @@ export const POST: RequestHandler = async ({ locals: { supabase }, request }) =>
 		.select('id')
 		.single();
 
-	if (error) console.error(error);
+	if (createWorkout.error) {
+		console.error(createWorkout.error);
+		return error(500, 'Failed to create Workout');
+	}
 
-	if (data?.id)
-		await supabase.from('workouts_exercises').insert(
-			workout.exercises.map((exercise) => ({
-				exercise_id: exercise.exercise.id,
-				workout_id: data.id,
-				sets: exercise.sets,
-				repetitions: exercise.repetitions,
-				rest: exercise.rest,
-				notes: exercise.notes
-			}))
-		);
+	const createExercises = await supabase.from('workouts_exercises').insert(
+		workout.exercises.map((exercise) => ({
+			exercise_id: exercise.exercise.id,
+			workout_id: createWorkout.data.id,
+			sets: exercise.sets,
+			repetitions: exercise.repetitions,
+			rest: exercise.rest,
+			notes: exercise.notes
+		}))
+	);
 
-	if (error) console.error(error);
+	if (createExercises.error) {
+		console.error(createExercises.error);
+		return error(500, 'Failed to create Workout Exercises');
+	}
 
-	return new Response(JSON.stringify(data));
+	return json(createWorkout.data);
 };

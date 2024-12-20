@@ -1,8 +1,8 @@
 import type { WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
-import type { RequestHandler } from '@sveltejs/kit';
+import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const PATCH: RequestHandler = async ({ locals: { supabase }, request, params }) => {
-	if (params.id === undefined) return new Response(null, { status: 400 });
+	if (params.id === undefined) return error(400, 'Missing workout ID');
 
 	const workout: WorkoutFormData = await request.json();
 	const [updateWorkout, updateWorkoutExercises] = await Promise.all([
@@ -15,17 +15,19 @@ export const PATCH: RequestHandler = async ({ locals: { supabase }, request, par
 			.eq('id', params.id as string)
 			.single(),
 		supabase.rpc('update_workouts_exercises', {
-			workoutId: params.id,
+			workout_id: params.id?.toString(),
 			exercises: workout.exercises.map(({ exercise, ...rest }) => ({
 				...rest,
-				workout_id: params.id,
+				workout_id: params.id?.toString() as string,
 				exercise_id: exercise.id
 			}))
 		})
 	]);
 
-	if (updateWorkout.error || updateWorkoutExercises.error)
+	if (updateWorkout.error || updateWorkoutExercises.error) {
 		console.error(updateWorkout.error ?? updateWorkoutExercises.error);
+		return error(500, 'Failed to update workout');
+	}
 
-	return new Response(JSON.stringify(updateWorkout.data));
+	return json(updateWorkout.data);
 };
