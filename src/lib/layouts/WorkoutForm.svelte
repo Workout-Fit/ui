@@ -65,6 +65,7 @@
 			<h2>Exercises</h2>
 			<button
 				class="button--text"
+				type="button"
 				onclick={() => pushState('/new', { modalShown: 'add-exercise' })}
 			>
 				+ ADD EXERCISE

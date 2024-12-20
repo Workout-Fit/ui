@@ -5,6 +5,7 @@ export const PATCH: RequestHandler = async ({ locals: { supabase }, request, par
 	if (params.id === undefined) return error(400, 'Missing workout ID');
 
 	const workout: WorkoutFormData = await request.json();
+
 	const [updateWorkout, updateWorkoutExercises] = await Promise.all([
 		supabase
 			.from('workouts')
@@ -15,7 +16,6 @@ export const PATCH: RequestHandler = async ({ locals: { supabase }, request, par
 			.eq('id', params.id as string)
 			.single(),
 		supabase.rpc('update_workouts_exercises', {
-			workout_id: params.id?.toString(),
 			exercises: workout.exercises.map(({ exercise, ...rest }) => ({
 				...rest,
 				workout_id: params.id?.toString() as string,

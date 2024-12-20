@@ -121,28 +121,31 @@ export type Database = {
 			};
 			profile_infos: {
 				Row: {
-					bio: string;
-					height: number;
+					bio: string | null;
+					created_at: string;
+					height: number | null;
 					name: string;
-					profile_picture: string;
+					profile_picture: string | null;
 					user_id: string;
-					weight: number;
+					weight: number | null;
 				};
 				Insert: {
-					bio: string;
-					height: number;
+					bio?: string | null;
+					created_at?: string;
+					height?: number | null;
 					name: string;
-					profile_picture: string;
+					profile_picture?: string | null;
 					user_id?: string;
-					weight: number;
+					weight?: number | null;
 				};
 				Update: {
-					bio?: string;
-					height?: number;
+					bio?: string | null;
+					created_at?: string;
+					height?: number | null;
 					name?: string;
-					profile_picture?: string;
+					profile_picture?: string | null;
 					user_id?: string;
-					weight?: number;
+					weight?: number | null;
 				};
 				Relationships: [];
 			};
@@ -228,13 +231,20 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Functions: {
-			update_workouts_exercises: {
-				Args: {
-					workout_id: string;
-					exercises: Database['public']['Tables']['workouts_exercises']['Row'][];
-				};
-				Returns: undefined;
-			};
+			update_workouts_exercises:
+				| {
+						Args: {
+							exercises: Database['public']['Tables']['workouts_exercises']['Row'][];
+						};
+						Returns: undefined;
+				  }
+				| {
+						Args: {
+							workout_id: string;
+							exercises: Database['public']['Tables']['workouts_exercises']['Row'][];
+						};
+						Returns: undefined;
+				  };
 		};
 		Enums: {
 			[_ in never]: never;
