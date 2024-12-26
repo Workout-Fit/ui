@@ -18,7 +18,7 @@
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import type { Database } from '$lib/supabase/database.types';
 	import type { WorkoutExercise } from '$lib/types';
-	import ExerciseDialog from './ExerciseDialog.svelte';
+	import ExerciseDialog from '../layouts/ExerciseDialog.svelte';
 
 	const handleCloseModal = () => replaceState('/new', { modalShown: undefined });
 
