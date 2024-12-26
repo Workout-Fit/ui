@@ -4,8 +4,6 @@
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();
-
-	$inspect(data.workout);
 </script>
 
 <div class="workout">

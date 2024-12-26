@@ -34,7 +34,7 @@
 </svelte:head>
 
 <div>
-	<Header />
+	<Header username={data.username} />
 	{@render children()}
 </div>
 
