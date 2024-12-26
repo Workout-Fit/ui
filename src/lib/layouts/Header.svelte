@@ -9,7 +9,7 @@
 	<Logo width={32} />
 	<nav>
 		<a class="button button--text" href="/">Workouts</a>
-		{#if username}<a class="button button--text" href={`profile/${username}`}>Profile</a>{/if}
+		{#if username}<a class="button button--text" href={`/profile/${username}`}>Profile</a>{/if}
 		<ThemeToggle />
 	</nav>
 </header>

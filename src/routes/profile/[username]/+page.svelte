@@ -1,19 +1,21 @@
 <script lang="ts">
-	import WorkoutListItem from '$lib/components/WorkoutListItem.svelte';
+	import WorkoutList from '$lib/components/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
 
 <div class="profile">
-	{#if data.editable}
-		<a href={`/profile/${data.profile.username}/edit`}>
-			<button>Edit</button>
-		</a>
-	{/if}
 	<img class="profile__avatar" src={data.profile.avatar_url} alt="" />
 	<div class="profile__info">
-		<h2 class="profile__fullname">{data.profile.full_name}</h2>
+		<h2 class="profile__fullname">
+			{data.profile.full_name}
+			{#if data.editable}
+				<a href={`/profile/${data.profile.username}/edit`}>
+					<button>Edit</button>
+				</a>
+			{/if}
+		</h2>
 		<small>@{data.profile.username}</small>
 	</div>
 	{#if data.profile.weight || data.profile.height}
@@ -28,14 +30,13 @@
 		<i>No bio available</i>
 	{/if}
 
-	<h3>Workouts</h3>
-	<div class="profile__workouts">
-		{#if data.workouts.length === 0}
-			<p>No workouts available</p>
-		{:else}
-			{#each data.workouts as workout}<WorkoutListItem {workout} />{/each}
-		{/if}
-	</div>
+	<WorkoutList workouts={data.workouts}>
+		{#snippet action()}
+			{#if data.editable}
+				<a href="/new" class="workouts__add button button--text">+ Create Workout</a>
+			{/if}
+		{/snippet}
+	</WorkoutList>
 </div>
 
 <style>
@@ -69,10 +70,6 @@
 	.profile__body-composition small {
 		font-size: 0.8rem;
 		font-weight: normal;
-	}
-
-	.profile__workouts {
-		width: 100%;
 	}
 
 	.profile__info {
