@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ListItem from '$lib/components/ListItem.svelte';
+	import WorkoutListItem from '$lib/components/WorkoutListItem.svelte';
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();
@@ -19,17 +20,7 @@
 	</div>
 	<input class="workouts__search" type="text" bind:value={searchTerm} placeholder="Search..." />
 	<div class="workouts__list">
-		{#each filteredWorkouts as workout}
-			<ListItem
-				title={workout.name}
-				secondLine={workout.description ?? undefined}
-				href={`/workouts/${workout.id}`}
-			>
-				{#snippet rightDecoration()}
-					<small>{workout.exercises[0]?.count} exercises</small>
-				{/snippet}
-			</ListItem>
-		{/each}
+		{#each filteredWorkouts as workout}<WorkoutListItem {workout} />{/each}
 	</div>
 </div>
 
