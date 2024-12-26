@@ -6,3 +6,10 @@ export type WorkoutExercise = Omit<
 > & {
 	exercise: Pick<Database['public']['Tables']['exercises']['Row'], 'name' | 'id'>;
 };
+
+export type Profile = Omit<
+	Database['public']['Tables']['profiles']['Row'],
+	'user_id' | 'created_at'
+> & {
+	avatar_url?: string;
+};
