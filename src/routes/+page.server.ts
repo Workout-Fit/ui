@@ -1,10 +1,10 @@
+import getWorkouts from '$lib/supabase/queries/getWorkouts';
+import { error } from '@sveltejs/kit';
+
 export const load = async ({ locals: { supabase, safeGetSession } }) => {
 	const { user } = await safeGetSession();
-	const { data: workouts } = await supabase
-		.from('workouts')
-		.select(`id, name, description, exercises(count)`)
-		.eq('user_id', user?.id as string)
-		.order('creation_date', { ascending: false });
+	if (!user) return error(403, 'Forbidden');
 
+	const { data: workouts } = await getWorkouts(supabase, user.id);
 	return { workouts: workouts ?? [] };
 };
