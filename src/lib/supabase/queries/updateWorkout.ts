@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '../database.types';
-import type { WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
+import type { WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
 
 const updateWorkout = async (
 	supabase: SupabaseClient<Database>,

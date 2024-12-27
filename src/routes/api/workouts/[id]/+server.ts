@@ -1,4 +1,4 @@
-import type { WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
+import type { WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
 import updateWorkout from '$lib/supabase/queries/updateWorkout';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 

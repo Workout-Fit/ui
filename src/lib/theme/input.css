@@ -1,4 +1,4 @@
-input,
+input:not([type='file']),
 .input,
 textarea {
 	border: none;
@@ -10,7 +10,7 @@ textarea {
 	color: var(--text-high);
 }
 
-input,
+input:not([type='file']),
 .input {
 	height: 48px;
 }

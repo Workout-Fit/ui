@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import WorkoutForm, { type WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
+	import WorkoutForm, { type WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();

@@ -1,4 +1,4 @@
-import type { WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
+import type { WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ locals: { supabase }, request }) => {

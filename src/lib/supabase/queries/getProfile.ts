@@ -7,6 +7,7 @@ export const getProfileByUsername = (supabase: SupabaseClient<Database>, usernam
 		.select()
 		.eq('username', username)
 		.order('created_at', { ascending: false })
+		.limit(1)
 		.single();
 
 export const getProfile = (supabase: SupabaseClient<Database>, id: string) =>
@@ -14,5 +15,6 @@ export const getProfile = (supabase: SupabaseClient<Database>, id: string) =>
 		.from('profiles')
 		.select()
 		.eq('user_id', id)
+		.limit(1)
 		.order('created_at', { ascending: false })
 		.single();

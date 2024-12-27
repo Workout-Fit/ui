@@ -1,5 +1,5 @@
 <script lang="ts">
-	import WorkoutList from '$lib/components/WorkoutList.svelte';
+	import WorkoutList from '$lib/layouts/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();

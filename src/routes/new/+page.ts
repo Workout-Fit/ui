@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import { browser } from '$app/environment';
-import type { WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
+import type { WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
 
 export const load: PageLoad = async () => {
 	if (browser) {

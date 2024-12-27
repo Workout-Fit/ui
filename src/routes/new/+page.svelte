@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import usePersistOnUnmount from '$lib/hooks/usePersistOnUnmount.svelte';
-	import WorkoutForm, { type WorkoutFormData } from '$lib/layouts/WorkoutForm.svelte';
+	import WorkoutForm, { type WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
