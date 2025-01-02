@@ -1,7 +1,7 @@
 <script lang="ts" module>
 	import { z } from 'zod';
 
-	export const schema = z.object({
+	export const profileFormSchema = z.object({
 		full_name: z.string().nonempty().max(50),
 		username: z.string().nonempty(),
 		weight: z.number().nullable(),
@@ -20,9 +20,9 @@
 	import InputField from '$lib/components/InputField.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 
-	let { form: formData }: { form: SuperForm<z.infer<typeof schema>> } = $props();
+	let { form: formData }: { form: SuperForm<z.infer<typeof profileFormSchema>> } = $props();
 
-	let { form, constraints, errors } = formData;
+	let { form, errors } = formData;
 	let avatarPreview: HTMLImageElement;
 
 	$effect(() => {
@@ -32,7 +32,7 @@
 				avatarPreview.src = reader.result as string;
 			});
 
-			reader.readAsDataURL($form.avatar[0]);
+			reader.readAsDataURL(($form.avatar as FileList)[0]);
 		}
 	});
 </script>
@@ -46,51 +46,18 @@
 				name="avatar"
 				type="file"
 				accept="image/jpeg,image/jpg,image/png,image/webp"
-				bind:files={$form.avatar}
+				bind:files={$form.avatar as FileList}
 			/>
 			<span>{$errors.avatar}</span>
 		</div>
 	</div>
-	<InputField
-		label="Full Name"
-		name="full_name"
-		bind:value={$form.full_name}
-		errors={$errors.full_name}
-		constraints={$constraints.full_name}
-	/>
-	<InputField
-		label="Username"
-		name="username"
-		bind:value={$form.username}
-		errors={$errors.username}
-		constraints={$constraints.username}
-	/>
+	<InputField label="Full Name" field="full_name" form={formData} />
+	<InputField label="Username" field="username" form={formData} />
 	<div style="display: flex; gap: var(--base-spacing); width: 100%;">
-		<InputField
-			label="Weight"
-			type="number"
-			name="weight"
-			bind:value={$form.weight}
-			errors={$errors.weight}
-			constraints={$constraints.weight}
-		/>
-		<InputField
-			label="Height"
-			type="number"
-			name="height"
-			bind:value={$form.height}
-			errors={$errors.height}
-			constraints={$constraints.height}
-		/>
+		<InputField label="Weight" type="number" field="weight" form={formData} />
+		<InputField label="Height" type="number" field="height" form={formData} />
 	</div>
-	<InputField
-		label="Bio"
-		name="bio"
-		multiline
-		bind:value={$form.bio}
-		errors={$errors.bio}
-		constraints={$constraints.bio}
-	/>
+	<InputField label="Bio" field="bio" form={formData} />
 </div>
 
 <style>

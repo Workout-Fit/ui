@@ -39,6 +39,7 @@
 <style>
 	dialog {
 		background: var(--color-background);
+		color: var(--text-high);
 	}
 
 	dialog[open] {

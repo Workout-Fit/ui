@@ -190,7 +190,7 @@ export type Database = {
 			workouts_exercises: {
 				Row: {
 					exercise_id: string;
-					notes: string;
+					notes: string | null;
 					repetitions: number;
 					rest: number;
 					sets: number;
@@ -198,7 +198,7 @@ export type Database = {
 				};
 				Insert: {
 					exercise_id: string;
-					notes: string;
+					notes?: string | null;
 					repetitions: number;
 					rest: number;
 					sets: number;
@@ -206,7 +206,7 @@ export type Database = {
 				};
 				Update: {
 					exercise_id?: string;
-					notes?: string;
+					notes?: string | null;
 					repetitions?: number;
 					rest?: number;
 					sets?: number;

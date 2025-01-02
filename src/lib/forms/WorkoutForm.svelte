@@ -1,64 +1,64 @@
 <script module lang="ts">
-	export type WorkoutFormData = {
-		name: string;
-		description: string;
-		exercises: WorkoutExercise[];
-	};
+	import { z } from 'zod';
+	import { type SuperValidated } from 'sveltekit-superforms';
 
 	type WorkoutFormProps = {
 		title: string;
-		onsave: (data: WorkoutFormData) => void | Promise<void>;
-		data?: WorkoutFormData;
+		form: SuperValidated<z.infer<typeof workoutFormSchema>>;
+		exerciseForm: SuperValidated<z.infer<typeof exerciseFormSchema>>;
 	};
+
+	export const workoutFormSchema = z.object({
+		name: z.string().nonempty(),
+		description: z.string().nullable(),
+		exercises: z.array(exerciseFormSchema)
+	});
 </script>
 
 <script lang="ts">
 	import { pushState, replaceState } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
-	import type { Database } from '$lib/supabase/database.types';
 	import type { WorkoutExercise } from '$lib/types';
-	import ExerciseDialog from '../layouts/ExerciseDialog.svelte';
+	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import InputField from '$lib/components/InputField.svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import { superForm } from 'sveltekit-superforms/client';
 
-	const handleCloseModal = () => replaceState('/new', { modalShown: undefined });
+	const handleCloseModal = () => replaceState('', { modalShown: undefined });
 
-	let {
-		title,
-		onsave,
-		data = $bindable({ name: '', description: '', exercises: [] })
-	}: WorkoutFormProps = $props();
+	let { title, form: formData, exerciseForm }: WorkoutFormProps = $props();
+
+	const _form = superForm(formData, {
+		validators: zodClient(workoutFormSchema),
+		dataType: 'json'
+	});
+
+	const { form, enhance } = _form;
 </script>
 
-<form
-	class="workout-form"
-	onsubmit={(e) => {
-		e.preventDefault();
-		onsave(data);
-	}}
->
+<form class="workout-form" action="?/workout" method="POST" use:enhance>
 	<div class="workout-form__info">
 		<div class="workout-form__title">
 			<h2>{title}</h2>
-			<button onclick={() => onsave(data)}>Save</button>
+			<button type="submit">Save</button>
 		</div>
-		<label>
-			Name
-			<input
-				bind:value={data.name}
-				required
-				type="text"
-				name="name"
-				placeholder="E.g.: Chest & Triceps"
-			/>
-		</label>
-		<label>
-			Description
-			<textarea
-				bind:value={data.description}
-				name="description"
-				placeholder="E.g.: Do it twice a week"
-			></textarea>
-		</label>
+
+		<InputField
+			label="Name"
+			type="text"
+			form={_form}
+			field="name"
+			placeholder="E.g.: Chest & Triceps"
+		/>
+		<InputField
+			label="Description"
+			form={_form}
+			multiline
+			field="description"
+			placeholder="E.g.: Do it twice a week"
+		/>
 	</div>
 	<div class="workout-form__exercise-list">
 		<div class="workout-form__exercise-list-title">
@@ -66,17 +66,18 @@
 			<button
 				class="button--text"
 				type="button"
-				onclick={() => pushState('/new', { modalShown: 'add-exercise' })}
+				onclick={() => pushState('', { modalShown: 'add-exercise' })}
 			>
 				+ ADD EXERCISE
 			</button>
 		</div>
-		{#each data.exercises ?? [] as exercise}
-			<ExerciseListItem {exercise}>
+		{#each $form.exercises as exercise}
+			<ExerciseListItem exercise={exercise as WorkoutExercise}>
 				{#snippet decoration()}
 					<button
 						type="button"
-						onclick={() => (data.exercises = data.exercises?.filter((item) => item !== exercise))}
+						onclick={() =>
+							($form.exercises = $form.exercises?.filter((item) => item !== exercise) ?? [])}
 						class="button--text exercise-list-item__decoration"
 					>
 						Remove
@@ -87,25 +88,27 @@
 	</div>
 </form>
 
-<ExerciseDialog
-	open={$page.state.modalShown === 'add-exercise'}
-	onclose={handleCloseModal}
-	onsubmit={(event: SubmitEvent) => {
-		event.preventDefault();
-		const formData = new FormData(event.target as HTMLFormElement);
-		data.exercises?.push({
-			exercise: JSON.parse(
-				formData.get('exercise') as string
-			) as Database['public']['Tables']['exercises']['Row'],
-			sets: Number(formData.get('sets')),
-			repetitions: Number(formData.get('repetitions')),
-			notes: formData.get('notes') as string,
-			rest: Number(formData.get('rest'))
-		});
-
-		handleCloseModal();
-	}}
-/>
+<Dialog open={page.state.modalShown === 'add-exercise'} onclose={handleCloseModal}>
+	<div class="exercise-dialog">
+		<h3>Add Exercise</h3>
+		<ExerciseForm
+			oncancel={handleCloseModal}
+			form={exerciseForm}
+			action="?/exercise"
+			onUpdate={({ result, formElement, cancel }) => {
+				if (result.type === 'success') {
+					$form.exercises = [
+						...$form.exercises,
+						result.data.form.data as z.infer<typeof exerciseFormSchema>
+					];
+					handleCloseModal();
+					formElement.reset();
+					cancel();
+				}
+			}}
+		/>
+	</div>
+</Dialog>
 
 <style>
 	.workout-form {
@@ -137,8 +140,7 @@
 		gap: var(--base-spacing);
 	}
 
-	textarea,
-	input {
-		width: 100%;
+	.exercise-dialog {
+		padding: calc(var(--base-spacing) * 2);
 	}
 </style>

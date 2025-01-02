@@ -2,10 +2,11 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import insertProfile from '$lib/supabase/queries/insertProfile';
 import { getProfileByUsername } from '$lib/supabase/queries/getProfile';
-import { schema } from '$lib/forms/ProfileForm.svelte';
+import { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import omit from 'lodash.omit';
+import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
 	const profileResponse = await getProfileByUsername(supabase, params.username);
@@ -17,7 +18,7 @@ export const load = async ({ locals: { supabase, user }, params }) => {
 			avatarUrl: supabase.storage.from('avatars').getPublicUrl(`${user.id}/avatar.webp`).data
 				?.publicUrl
 		},
-		zod(schema)
+		zod(profileFormSchema)
 	);
 
 	return { form };
@@ -25,7 +26,7 @@ export const load = async ({ locals: { supabase, user }, params }) => {
 
 export const actions = {
 	default: async ({ locals: { supabase, user }, request }) => {
-		const form = await superValidate(request, zod(schema));
+		const form = await superValidate(request, zod(profileFormSchema));
 		if (!user) return error(401, 'Unauthorized');
 
 		if (!form.valid)
@@ -54,5 +55,11 @@ export const actions = {
 		}
 
 		return redirect(302, `/profile/${form.data.username}`);
+	},
+	exercise: async ({ request }) => {
+		const form = await superValidate(request, zod(exerciseFormSchema));
+		console.log({ form });
+		if (!form.valid) return fail(400, { form });
+		return { form };
 	}
 } satisfies Actions;

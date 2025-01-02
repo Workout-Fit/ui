@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FormActions from '$lib/components/FormActions.svelte';
-	import ProfileForm, { schema } from '$lib/forms/ProfileForm.svelte';
+	import ProfileForm, { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 	import { superForm } from 'sveltekit-superforms';
 	import type { PageServerData } from './$types';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -8,7 +8,7 @@
 	const { data }: { data: PageServerData } = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(schema)
+		validators: zodClient(profileFormSchema)
 	});
 
 	const { enhance } = form;

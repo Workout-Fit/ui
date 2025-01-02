@@ -1,10 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '../database.types';
-import type { WorkoutFormData } from '$lib/forms/WorkoutForm.svelte';
+import type { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
+import type { z } from 'zod';
 
 const updateWorkout = async (
 	supabase: SupabaseClient<Database>,
-	workout: WorkoutFormData & { id: string }
+	workout: z.infer<typeof workoutFormSchema> & { id: string }
 ) =>
 	Promise.all([
 		supabase

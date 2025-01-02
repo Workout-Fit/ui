@@ -3,12 +3,12 @@
 	import type { Snippet } from 'svelte';
 	import ListItem from '../components/ListItem.svelte';
 
-	type Props = {
+	type WorkoutListProps = {
 		workouts: Exclude<Awaited<ReturnType<typeof getWorkouts>>['data'], null>;
 		action?: Snippet;
 	};
 
-	const { workouts, action }: Props = $props();
+	const { workouts, action }: WorkoutListProps = $props();
 
 	let searchTerm = $state('');
 	let filteredWorkouts = $derived(

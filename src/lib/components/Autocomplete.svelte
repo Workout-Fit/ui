@@ -6,12 +6,14 @@
 		loadFunction: (query: string) => Promise<Item[]>;
 		id?: string;
 		name?: string;
+		error?: string;
 		renderValue: Snippet<[Item]>;
 		renderItem: Snippet<[Item]>;
 		debounceValue?: number;
 		searchThreshold?: number;
 		value?: Item;
 		disabled?: boolean;
+		label?: string;
 	};
 
 	let {
@@ -22,7 +24,9 @@
 		name = '',
 		searchThreshold = 3,
 		id,
+		label,
 		disabled,
+		error,
 		value = $bindable()
 	}: AutocompleteProps = $props();
 	let query = $state('');
@@ -72,6 +76,7 @@
 </script>
 
 <div class="autocomplete" aria-disabled={disabled}>
+	<label for={id}>{label}</label>
 	<div
 		class="autocomplete__input input"
 		role="combobox"
@@ -106,11 +111,12 @@
 				{id}
 				bind:value={inputValue}
 				placeholder="Search..."
-				readonly={value !== undefined}
+				readonly={value != null}
 			/>
 		{/if}
 		{#if loading}o{/if}
 	</div>
+	{#if error}<span class="autocomplete__error">{error}</span>{/if}
 	<ul
 		class="autocomplete__options"
 		class:autocomplete__options--hidden={!openDropdown}
@@ -195,5 +201,11 @@
 
 	.autocomplete__options--hidden {
 		display: none;
+	}
+
+	.autocomplete__error {
+		color: red;
+		font-size: 0.7rem;
+		opacity: 0.87;
 	}
 </style>
