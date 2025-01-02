@@ -18,7 +18,7 @@ declare global {
 			session: Session | null;
 		}
 		interface PageState {
-			modalShown?: 'add-exercise';
+			modalShown?: 'add-exercise' | 'auth';
 		}
 		// interface Platform {}
 	}

@@ -56,7 +56,6 @@ export const actions = {
 		return redirect(302, `/workouts/${params.id}`);
 	},
 	exercise: async ({ request }) => {
-		debugger;
 		const form = await superValidate(request, zod(exerciseFormSchema));
 		if (!form.valid) return fail(400, { form });
 

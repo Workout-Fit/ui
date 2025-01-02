@@ -14,7 +14,7 @@
 	const { enhance } = form;
 </script>
 
-<form method="POST" enctype="multipart/form-data" use:enhance>
+<form method="POST" use:enhance>
 	<ProfileForm {form} />
 	<FormActions oncancel={() => history.back()} />
 </form>

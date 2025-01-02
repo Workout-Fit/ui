@@ -39,7 +39,7 @@
 
 <div class="profile-fields">
 	<div class="profile-fields__avatar">
-		<label for="avatar">Avatar</label>
+		<label for="avatar"><small>Avatar</small></label>
 		<div>
 			<img bind:this={avatarPreview} src={$form.avatarUrl} alt="" />
 			<input
@@ -51,20 +51,27 @@
 			<span>{$errors.avatar}</span>
 		</div>
 	</div>
-	<InputField label="Full Name" field="full_name" form={formData} />
-	<InputField label="Username" field="username" form={formData} />
+	<InputField label="Full Name" placeholder="E.g.: John Doe" field="full_name" form={formData} />
+	<InputField label="Username" placeholder="johndoe" field="username" form={formData} />
 	<div style="display: flex; gap: var(--base-spacing); width: 100%;">
-		<InputField label="Weight" type="number" field="weight" form={formData} />
-		<InputField label="Height" type="number" field="height" form={formData} />
+		<InputField
+			label="Weight"
+			placeholder="60.0"
+			step="0.1"
+			type="number"
+			field="weight"
+			form={formData}
+		/>
+		<InputField label="Height" placeholder="173" type="number" field="height" form={formData} />
 	</div>
-	<InputField label="Bio" field="bio" form={formData} />
+	<InputField label="Bio" placeholder="E.g.: Brazilian, 30yr" field="bio" form={formData} />
 </div>
 
 <style>
 	.profile-fields {
 		display: flex;
 		flex-direction: column;
-		gap: calc(2 * var(--base-spacing));
+		gap: var(--base-spacing);
 		width: 100%;
 	}
 
