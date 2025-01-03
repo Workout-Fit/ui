@@ -3,6 +3,9 @@ button,
 	border: none;
 	text-transform: uppercase;
 	background-color: var(--color-primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	color: #fff;
 	font-weight: 500;
 	text-decoration: none;

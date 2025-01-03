@@ -45,19 +45,13 @@
 			<button type="submit">Save</button>
 		</div>
 
-		<InputField
-			label="Name"
-			type="text"
-			form={_form}
-			field="name"
-			placeholder="E.g.: Chest & Triceps"
-		/>
+		<InputField label="Name" type="text" form={_form} field="name" placeholder="Chest & Triceps" />
 		<InputField
 			label="Description"
 			form={_form}
 			multiline
 			field="description"
-			placeholder="E.g.: Do it twice a week"
+			placeholder="Do it twice a week"
 		/>
 	</div>
 	<div class="workout-form__exercise-list">

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import WorkoutList from '$lib/layouts/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
+	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
 
 <div class="profile">
-	<img class="profile__avatar" src={data.profile.avatar_url} alt="" />
+	<img class="profile__avatar" src={data.profile.avatar_url ?? emptyProfilePicture} alt="" />
 	<div class="profile__info">
 		<h2 class="profile__fullname">
 			{data.profile.full_name}

@@ -47,11 +47,31 @@
 	});
 
 	const { enhance } = form;
+
+	let passwordFieldType = $state<'password' | 'text'>('password');
 </script>
 
 <form method="POST" {action} {enctype} use:enhance>
-	<InputField label="E-mail" field={'email' as any} {form} type="email" />
-	<InputField label="Password" field={'password' as any} {form} type="password" />
+	<InputField
+		label="E-mail"
+		field={'email' as any}
+		placeholder="johndoe@email.com"
+		{form}
+		type="email"
+	/>
+	<InputField label="Password" field={'password' as any} {form} type={passwordFieldType}>
+		{#snippet decoration()}
+			<button
+				class="button--text"
+				type="button"
+				onclick={() => (passwordFieldType = passwordFieldType === 'password' ? 'text' : 'password')}
+			>
+				<small>
+					{#if passwordFieldType === 'password'}Show{:else}Hide{/if}
+				</small>
+			</button>
+		{/snippet}
+	</InputField>
 	{#if extraFields}{@render extraFields(form)}{/if}
 	<button type="submit">{submitLabel}</button>
 </form>

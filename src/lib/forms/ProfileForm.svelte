@@ -1,5 +1,6 @@
 <script lang="ts" module>
 	import { z } from 'zod';
+	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 
 	export const profileFormSchema = z.object({
 		full_name: z.string().nonempty().max(50),
@@ -41,7 +42,7 @@
 	<div class="profile-fields__avatar">
 		<label for="avatar"><small>Avatar</small></label>
 		<div>
-			<img bind:this={avatarPreview} src={$form.avatarUrl} alt="" />
+			<img bind:this={avatarPreview} src={$form.avatarUrl ?? emptyProfilePicture} alt="" />
 			<input
 				name="avatar"
 				type="file"
@@ -51,7 +52,7 @@
 			<span>{$errors.avatar}</span>
 		</div>
 	</div>
-	<InputField label="Full Name" placeholder="E.g.: John Doe" field="full_name" form={formData} />
+	<InputField label="Full Name" placeholder="John Doe" field="full_name" form={formData} />
 	<InputField label="Username" placeholder="johndoe" field="username" form={formData} />
 	<div style="display: flex; gap: var(--base-spacing); width: 100%;">
 		<InputField
@@ -64,7 +65,7 @@
 		/>
 		<InputField label="Height" placeholder="173" type="number" field="height" form={formData} />
 	</div>
-	<InputField label="Bio" placeholder="E.g.: Brazilian, 30yr" field="bio" form={formData} />
+	<InputField label="Bio" placeholder="Brazilian, 30yr" field="bio" form={formData} />
 </div>
 
 <style>

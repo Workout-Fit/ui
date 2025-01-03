@@ -94,6 +94,7 @@
 		padding: var(--base-spacing);
 		font-size: medium;
 		color: var(--text-high);
+		display: flex;
 	}
 
 	label {
