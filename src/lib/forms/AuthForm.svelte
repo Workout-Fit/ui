@@ -17,12 +17,12 @@
 		Schema extends ZodObject<Record<string, ZodTypeAny>> = typeof authFormSchema
 	> = {
 		action?: string;
-		form: SuperValidated<z.TypeOf<Schema>>;
+		data: SuperValidated<z.TypeOf<Schema>>;
 		extraFields?: Snippet<[form: SuperForm<z.TypeOf<Schema>>]>;
 		submitLabel: string;
 		enctype?: HTMLFormAttributes['enctype'];
 		schema?: Schema;
-	} & Omit<FormOptions<z.TypeOf<Schema>>, 'validators' | 'dataType'>;
+	} & Omit<FormOptions<z.TypeOf<Schema>>, 'validators'>;
 </script>
 
 <script lang="ts" generics="Schema extends ZodObject<Record<string, ZodTypeAny>>">
@@ -30,26 +30,22 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
+	import SuperDebug from 'sveltekit-superforms';
 
-	let {
-		form: formData,
-		submitLabel,
-		extraFields,
-		enctype,
-		schema,
-		action,
-		...rest
-	}: AuthFormProps<Schema> = $props();
+	let { data, submitLabel, extraFields, enctype, schema, action, ...rest }: AuthFormProps<Schema> =
+		$props();
 
-	const form = superForm(formData, {
+	const form = superForm(data, {
 		validators: zodClient(schema ?? authFormSchema),
 		...rest
 	});
 
-	const { enhance } = form;
+	const { enhance, form: debug } = form;
 
 	let passwordFieldType = $state<'password' | 'text'>('password');
 </script>
+
+<SuperDebug data={$debug} />
 
 <form method="POST" {action} {enctype} use:enhance>
 	<InputField
@@ -64,6 +60,7 @@
 			<button
 				class="button--text"
 				type="button"
+				style="height:auto"
 				onclick={() => (passwordFieldType = passwordFieldType === 'password' ? 'text' : 'password')}
 			>
 				<small>

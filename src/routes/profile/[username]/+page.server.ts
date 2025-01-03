@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import type { Profile } from '$lib/types';
 import { error } from '@sveltejs/kit';
-import omit from 'lodash.omit';
+import omit from 'lodash/omit';
 import { getProfileByUsername } from '$lib/supabase/queries/getProfile';
 import getWorkouts from '$lib/supabase/queries/getWorkouts';
 

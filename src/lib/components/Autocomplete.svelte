@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item">
 	import { onMount, type Snippet } from 'svelte';
-	import debounce from 'lodash.debounce';
+	import debounce from 'lodash/debounce';
 
 	type AutocompleteProps = {
 		loadFunction: (query: string) => Promise<Item[]>;

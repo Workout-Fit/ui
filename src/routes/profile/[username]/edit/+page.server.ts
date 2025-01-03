@@ -5,7 +5,7 @@ import { getProfileByUsername } from '$lib/supabase/queries/getProfile';
 import { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import omit from 'lodash.omit';
+import omit from 'lodash/omit';
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
@@ -58,7 +58,6 @@ export const actions = {
 	},
 	exercise: async ({ request }) => {
 		const form = await superValidate(request, zod(exerciseFormSchema));
-		console.log({ form });
 		if (!form.valid) return fail(400, { form });
 		return { form };
 	}

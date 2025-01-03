@@ -3,44 +3,48 @@
 </script>
 
 <script lang="ts">
-	import { page } from '$app/state';
 	import AuthForm, { authFormSchema } from '$lib/forms/AuthForm.svelte';
 	import ProfileForm, { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import type { PageServerData } from './$types';
 	import type { z } from 'zod';
+	import { fly } from 'svelte/transition';
 
 	const { data }: { data: PageServerData } = $props();
 
-	let mode: 'signup' | 'signin' = $state('signup');
-
-	$effect(() => {
-		if (page.url.searchParams.get('mode'))
-			mode = page.url.searchParams.get('mode') as 'signup' | 'signin';
-	});
+	let mode: 'signup' | 'signin' = $state('signin');
 </script>
 
 <div class="auth">
 	<h1>Welcome to Workout</h1>
-	<AuthForm
-		action={mode === 'signup' ? '?/signup' : '?/signin'}
-		submitLabel={mode === 'signup' ? 'Sign-up' : 'signin'}
-		form={data.signUpForm}
-		schema={mode === 'signup' ? signUpFormSchema : authFormSchema}
-		enctype="multipart/form-data"
-	>
-		{#snippet extraFields(form)}
+	{#key mode}
+		<div in:fly={{ x: 50, duration: 300 }}>
 			{#if mode === 'signup'}
-				<ProfileForm form={form as unknown as SuperForm<z.infer<typeof profileFormSchema>>} />
+				<AuthForm
+					action="?/signup"
+					submitLabel="Sign-up"
+					data={data.signUpForm}
+					schema={signUpFormSchema}
+					enctype="multipart/form-data"
+				>
+					{#snippet extraFields(form)}
+						<ProfileForm form={form as unknown as SuperForm<z.infer<typeof profileFormSchema>>} />
+					{/snippet}
+				</AuthForm>
+			{:else}
+				<AuthForm action="?/signin" submitLabel="Sign-in" data={data.signInForm} />
 			{/if}
-		{/snippet}
-	</AuthForm>
-
+		</div>
+	{/key}
 	<small>
 		{mode === 'signup' ? 'Already have an account?' : "Don't have an account?"}
-		<a href={mode === 'signup' ? '?mode=signin' : '?mode=signup'}>
+		<button
+			style="display: inline;"
+			class="button--text"
+			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
+		>
 			{mode === 'signup' ? 'Log-in' : 'Sign-up'}
-		</a>
+		</button>
 	</small>
 </div>
 
