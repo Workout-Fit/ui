@@ -7,6 +7,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { signUpFormSchema } from './+page.svelte';
 import insertProfile from '$lib/supabase/queries/insertProfile';
 import pick from 'lodash/pick';
+import type { AuthError } from '@supabase/supabase-js';
 
 export const load = async () => ({
 	signUpForm: await superValidate(zod(signUpFormSchema)),
@@ -27,19 +28,25 @@ export const actions: Actions = {
 			user_id: data.user?.id as string
 		});
 
-		if (accountError || userResponse.error || avatarResponse?.error) {
-			console.error(accountError ?? userResponse.error ?? avatarResponse?.error);
-			return error(500, 'Failed to create account');
+		const signUpError = [userResponse.error, avatarResponse?.error, accountError].find(
+			(e) => e !== undefined
+		);
+
+		if (signUpError) {
+			console.error(signUpError);
+			return error(
+				(signUpError as AuthError).status ?? 500,
+				signUpError.message ?? 'Failed to sign-up'
+			);
 		} else redirect(303, '/');
 	},
 	signin: async ({ request, locals: { supabase } }) => {
 		const form = await superValidate(request, zod(authFormSchema));
 		if (!form.valid) return fail(400, { form });
 
-		const { error } = await supabase.auth.signInWithPassword(form.data);
-		if (error) {
-			console.error(error);
-			redirect(303, '/auth/error');
-		} else redirect(303, '/');
+		const { error: signInError } = await supabase.auth.signInWithPassword(form.data);
+		if (signInError)
+			return error(signInError.status ?? 500, signInError.message ?? 'Failed to sign-in');
+		else redirect(303, '/');
 	}
 };
