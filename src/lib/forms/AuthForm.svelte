@@ -9,7 +9,7 @@
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
 
 	export const authFormSchema = z.object({
-		email: z.string().email(),
+		email: z.string().nonempty().email(),
 		password: z.string().min(8).max(50)
 	});
 
@@ -32,8 +32,15 @@
 	import type { HTMLFormAttributes } from 'svelte/elements';
 	import SuperDebug from 'sveltekit-superforms';
 
-	let { data, submitLabel, extraFields, enctype, schema, action, ...rest }: AuthFormProps<Schema> =
-		$props();
+	const {
+		data,
+		submitLabel,
+		extraFields,
+		enctype,
+		schema,
+		action,
+		...rest
+	}: AuthFormProps<Schema> = $props();
 
 	const form = superForm(data, {
 		validators: zodClient(schema ?? authFormSchema),

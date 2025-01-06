@@ -40,6 +40,7 @@
 				aria-invalid={$errors && $errors.length > 0 ? 'true' : undefined}
 				bind:value={$value}
 				required={false}
+				name={field}
 				{...$constraints}
 				{...rest as SvelteHTMLElements['textarea']}
 			></textarea>
@@ -47,6 +48,7 @@
 			<input
 				aria-invalid={$errors && $errors.length > 0 ? 'true' : undefined}
 				bind:value={$value}
+				name={field}
 				type={(rest as SvelteHTMLElements['input']).type ?? 'text'}
 				{...$constraints}
 				required={false}
