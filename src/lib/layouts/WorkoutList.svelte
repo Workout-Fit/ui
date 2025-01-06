@@ -23,7 +23,12 @@
 		<h2>Workouts <small>{workouts.length}</small></h2>
 		{#if action}{@render action()}{/if}
 	</div>
-	<input class="workouts__search" type="text" bind:value={searchTerm} placeholder="Search..." />
+	<input
+		class="input workouts__search"
+		type="text"
+		bind:value={searchTerm}
+		placeholder="Search..."
+	/>
 	<div class="workouts__list">
 		{#each filteredWorkouts as workout}
 			<ListItem
