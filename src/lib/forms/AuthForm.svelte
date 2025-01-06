@@ -2,7 +2,7 @@
 <script lang="ts" module>
 	export const authFormSchema = z.object({
 		email: z.string().nonempty().email(),
-		password: z.string().min(8).max(50)
+		password: z.string()
 	});
 
 	export type AuthFormProps<
@@ -30,6 +30,7 @@
 	} from 'sveltekit-superforms/client';
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
 	import { showToast } from '$lib/utils/toast';
+	import PasswordField from '$lib/components/PasswordField.svelte';
 
 	const {
 		data,
@@ -43,13 +44,14 @@
 
 	const form = superForm(data, {
 		validators: zodClient(schema ?? authFormSchema),
-		onError: (error) => showToast('error', { text: error.result.error.message }),
+		onError: ({ result }) => showToast('error', { text: result.error.message }),
+		onUpdated: ({ form }) => {
+			if (form.message) showToast('success', { text: form.message });
+		},
 		...rest
 	});
 
 	const { enhance } = form;
-
-	let passwordFieldType = $state<'password' | 'text'>('password');
 </script>
 
 <form method="POST" {action} {enctype} use:enhance>
@@ -60,26 +62,7 @@
 		{form}
 		type="email"
 	/>
-	<InputField
-		label="Password"
-		placeholder="********"
-		field={'password' as any}
-		{form}
-		type={passwordFieldType}
-	>
-		{#snippet decoration()}
-			<button
-				class="button--text"
-				type="button"
-				style="height:auto"
-				onclick={() => (passwordFieldType = passwordFieldType === 'password' ? 'text' : 'password')}
-			>
-				<small>
-					{#if passwordFieldType === 'password'}Show{:else}Hide{/if}
-				</small>
-			</button>
-		{/snippet}
-	</InputField>
+	<PasswordField label="Password" placeholder="********" field={'password' as any} {form} />
 	{#if extraFields}{@render extraFields(form)}{/if}
 	<button type="submit">{submitLabel}</button>
 </form>

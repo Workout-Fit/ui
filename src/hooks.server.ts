@@ -8,6 +8,8 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 
 initializeImageMagick(readFileSync('node_modules/@imagemagick/magick-wasm/dist/magick.wasm'));
 
+const PUBLIC_URLS = ['/auth', '/workouts/[id]', '/auth/reset'];
+
 const supabase: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
 		cookies: {
@@ -52,7 +54,8 @@ const authGuard: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 	event.locals.user = user;
 
-	if (!event.locals.session && !(event.url.pathname === '/auth')) redirect(303, '/auth');
+	if (!event.locals.session && !PUBLIC_URLS.includes(event.route.id as string))
+		redirect(303, '/auth?next=' + event.request.url);
 	if (event.locals.session && event.url.pathname === '/auth') redirect(303, '');
 
 	return resolve(event);

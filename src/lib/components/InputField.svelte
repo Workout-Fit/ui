@@ -1,9 +1,5 @@
-<script lang="ts" generics="Form extends Record<string, unknown>">
-	import type { Snippet } from 'svelte';
-	import type { SvelteHTMLElements } from 'svelte/elements';
-	import { formFieldProxy, type FormPathLeaves, type SuperForm } from 'sveltekit-superforms/client';
-
-	type InputFieldProps = {
+<script lang="ts" module>
+	export type InputFieldProps<Form extends Record<string, unknown>> = {
 		label: string;
 		form: SuperForm<Form>;
 		field: FormPathLeaves<Form>;
@@ -17,6 +13,12 @@
 				multiline: true;
 		  } & Omit<SvelteHTMLElements['textarea'], 'form'>)
 	);
+</script>
+
+<script lang="ts" generics="Form extends Record<string, unknown>">
+	import type { Snippet } from 'svelte';
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import { formFieldProxy, type FormPathLeaves, type SuperForm } from 'sveltekit-superforms/client';
 
 	let {
 		label,
@@ -26,7 +28,7 @@
 		decorationPosition = 'after',
 		decoration,
 		...rest
-	}: InputFieldProps = $props();
+	}: InputFieldProps<Form> = $props();
 
 	const { value, errors, constraints } = formFieldProxy<Form, FormPathLeaves<Form>>(form, field);
 </script>

@@ -1,5 +1,9 @@
 <script lang="ts" module>
-	export const signUpFormSchema = profileFormSchema.merge(authFormSchema);
+	export const signUpFormSchema = z.object({
+		...profileFormSchema.shape,
+		...authFormSchema.shape,
+		password: z.string().min(8).max(50)
+	});
 </script>
 
 <script lang="ts">
@@ -7,9 +11,11 @@
 	import ProfileForm, { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import type { PageServerData } from './$types';
-	import type { z } from 'zod';
+	import { z } from 'zod';
 	import { fly } from 'svelte/transition';
 	import Logo from '$lib/components/Logo.svelte';
+	import { page } from '$app/state';
+	import { showToast } from '$lib/utils/toast';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -34,7 +40,13 @@
 					{/snippet}
 				</AuthForm>
 			{:else}
-				<AuthForm action="?/signin" submitLabel="Sign-in" data={data.signInForm} />
+				<AuthForm action="?/signin" submitLabel="Sign-in" data={data.signInForm}>
+					{#snippet extraFields(form)}
+						<button formaction="?/forgot" class="button--text forgot-password">
+							Forgot your password?
+						</button>
+					{/snippet}
+				</AuthForm>
 			{/if}
 		</div>
 	{/key}
@@ -58,5 +70,14 @@
 		gap: calc(2 * var(--base-spacing));
 		max-width: 350px;
 		margin: auto;
+	}
+
+	.forgot-password {
+		display: inline;
+		padding: 0;
+		text-align: left;
+		font-size: 0.5rem;
+		height: auto;
+		margin-bottom: calc(2 * var(--base-spacing));
 	}
 </style>
