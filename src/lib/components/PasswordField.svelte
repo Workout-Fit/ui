@@ -1,16 +1,16 @@
 <script lang="ts" module>
-	export type PasswordFieldProps<Form extends Record<string, unknown>> = InputFieldProps<Form>;
+	export type PasswordFieldProps<Form extends Record<string, unknown>> = TextFieldProps<Form>;
 </script>
 
 <script lang="ts" generics="Form extends Record<string, unknown>">
-	import InputField, { type InputFieldProps } from './InputField.svelte';
+	import TextField, { type TextFieldProps } from './TextField.svelte';
 
 	let passwordFieldType = $state<'password' | 'text'>('password');
 
 	let props: PasswordFieldProps<Form> = $props();
 </script>
 
-<InputField
+<TextField
 	label="Password"
 	placeholder="********"
 	field={'password' as any}
@@ -29,4 +29,4 @@
 			</small>
 		</button>
 	{/snippet}
-</InputField>
+</TextField>

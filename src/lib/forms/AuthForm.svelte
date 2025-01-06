@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts" generics="Schema extends ZodObject<Record<string, ZodTypeAny>>">
-	import InputField from '$lib/components/InputField.svelte';
+	import TextField from '$lib/components/TextField.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
@@ -55,7 +55,7 @@
 </script>
 
 <form method="POST" {action} {enctype} use:enhance>
-	<InputField
+	<TextField
 		label="E-mail"
 		field={'email' as any}
 		placeholder="johndoe@email.com"

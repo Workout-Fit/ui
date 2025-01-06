@@ -22,7 +22,7 @@
 	import type { WorkoutExercise } from '$lib/types';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import InputField from '$lib/components/InputField.svelte';
+	import TextField from '$lib/components/TextField.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 
@@ -45,8 +45,8 @@
 			<button type="submit">Save</button>
 		</div>
 
-		<InputField label="Name" type="text" form={_form} field="name" placeholder="Chest & Triceps" />
-		<InputField
+		<TextField label="Name" type="text" form={_form} field="name" placeholder="Chest & Triceps" />
+		<TextField
 			label="Description"
 			form={_form}
 			multiline

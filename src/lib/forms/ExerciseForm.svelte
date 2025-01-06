@@ -32,7 +32,7 @@
 	import Autocomplete from '$lib/components/Autocomplete.svelte';
 	import FormActions from '$lib/components/FormActions.svelte';
 	import type { Database } from '$lib/supabase/database.types';
-	import InputField from '$lib/components/InputField.svelte';
+	import TextField from '$lib/components/TextField.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { superForm } from 'sveltekit-superforms/client';
 
@@ -70,17 +70,17 @@
 		renderItem={exerciseAutocompleteEntry}
 	/>
 	<div>
-		<InputField type="number" label="Sets" field="sets" placeholder="4" form={_form} />
-		<InputField
+		<TextField type="number" label="Sets" field="sets" placeholder="4" form={_form} />
+		<TextField
 			type="number"
 			label="Repetitions"
 			field="repetitions"
 			placeholder="12"
 			form={_form}
 		/>
-		<InputField type="number" label="Rest" field="rest" placeholder="60" form={_form} />
+		<TextField type="number" label="Rest" field="rest" placeholder="60" form={_form} />
 	</div>
-	<InputField multiline field="notes" label="Notes" placeholder="Slow execution" form={_form} />
+	<TextField multiline field="notes" label="Notes" placeholder="Slow execution" form={_form} />
 
 	<FormActions {oncancel} />
 </form>

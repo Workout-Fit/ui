@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	export type InputFieldProps<Form extends Record<string, unknown>> = {
+	export type TextFieldProps<Form extends Record<string, unknown>> = {
 		label: string;
 		form: SuperForm<Form>;
 		field: FormPathLeaves<Form>;
@@ -28,14 +28,14 @@
 		decorationPosition = 'after',
 		decoration,
 		...rest
-	}: InputFieldProps<Form> = $props();
+	}: TextFieldProps<Form> = $props();
 
 	const { value, errors, constraints } = formFieldProxy<Form, FormPathLeaves<Form>>(form, field);
 </script>
 
-<div class="input">
+<div class="text-field">
 	<label for="name">{label}</label>
-	<div class="input__field">
+	<div class="text-field__input">
 		{#if decoration && decorationPosition === 'before'}{@render decoration()}{/if}
 		{#if multiline}
 			<textarea
@@ -63,7 +63,7 @@
 </div>
 
 <style>
-	.input {
+	.text-field {
 		display: flex;
 		flex-direction: column;
 		gap: calc(0.5 * var(--base-spacing));
@@ -90,7 +90,7 @@
 		min-height: 100px;
 	}
 
-	.input__field {
+	.text-field__input {
 		min-height: 32px;
 		border-radius: 4px;
 		background-color: var(--text-lowest);
