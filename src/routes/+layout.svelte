@@ -6,6 +6,7 @@
 	import { browser } from '$app/environment';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import '$lib/theme/index.css';
+	import 'toastify-js/src/toastify.css';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 	let { session, supabase } = data;

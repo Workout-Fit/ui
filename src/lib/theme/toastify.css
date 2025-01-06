@@ -1,0 +1,18 @@
+.toastify.toastify--error {
+	background: #ff4336;
+	color: white;
+}
+
+.toastify.toastify--success {
+	background: #4caf50;
+	color: white;
+}
+
+.toastify.toastify--warning {
+	background: #ffbf00;
+	color: white;
+}
+
+.toastify {
+	font-size: 0.8rem;
+}
