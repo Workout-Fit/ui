@@ -9,6 +9,7 @@
 	import type { PageServerData } from './$types';
 	import type { z } from 'zod';
 	import { fly } from 'svelte/transition';
+	import Logo from '$lib/components/Logo.svelte';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -16,7 +17,8 @@
 </script>
 
 <div class="auth">
-	<h1>Welcome to Workout</h1>
+	<Logo width={100} />
+
 	{#key mode}
 		<div in:fly={{ x: 50, duration: 300 }}>
 			{#if mode === 'signup'}
@@ -54,5 +56,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: calc(2 * var(--base-spacing));
+		max-width: 350px;
+		margin: auto;
 	}
 </style>
