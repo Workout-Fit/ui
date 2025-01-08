@@ -19,17 +19,17 @@
 		"prepare": "husky"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.32.0",
+		"@dotenvx/dotenvx": "^1.32.1",
 		"@faker-js/faker": "^9.3.0",
 		"@fontsource-variable/overpass": "^5.1.2",
 		"@playwright/test": "^1.49.1",
 		"@sveltejs/adapter-auto": "^3.3.1",
-		"@sveltejs/kit": "^2.15.1",
+		"@sveltejs/kit": "^2.15.2",
 		"@sveltejs/vite-plugin-svelte": "^4.0.4",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.6",
 		"@types/eslint": "^9.6.1",
-		"@types/lodash": "^4.17.13",
+		"@types/lodash": "^4.17.14",
 		"@types/toastify-js": "^1.12.3",
 		"@vite-pwa/assets-generator": "^0.2.6",
 		"@vite-pwa/sveltekit": "^0.6.7",
@@ -44,12 +44,12 @@
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.2",
 		"supabase": "^1.226.4",
-		"svelte": "^5.16.1",
-		"svelte-check": "^4.1.1",
+		"svelte": "^5.17.0",
+		"svelte-check": "^4.1.2",
 		"sveltekit-superforms": "^2.22.1",
 		"type-fest": "^4.31.0",
 		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.19.0",
+		"typescript-eslint": "^8.19.1",
 		"vite": "^5.4.11",
 		"vitest": "^2.1.8",
 		"zod": "^3.24.1"
@@ -57,7 +57,7 @@
 	"dependencies": {
 		"@imagemagick/magick-wasm": "^0.0.32",
 		"@supabase/ssr": "^0.5.2",
-		"@supabase/supabase-js": "^2.47.10",
+		"@supabase/supabase-js": "^2.47.12",
 		"toastify-js": "^1.12.0"
 	},
 	"lint-staged": {
