@@ -16,7 +16,7 @@
 		<h1>{data.workout?.name}</h1>
 		<span>{data.workout?.description}</span>
 		{#if data.editable}
-			<a href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
+			<a class="button button--text" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
 		{/if}
 	</div>
 

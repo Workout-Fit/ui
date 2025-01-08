@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Logo from '$lib/components/Logo.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 
@@ -6,13 +7,17 @@
 </script>
 
 <header>
-	<Logo width={32} />
+	<a class="button button--text" href="/">
+		<Logo width={32} />
+	</a>
 	<nav>
-		{#if username}
-			<a class="button button--text" href="/">Workouts</a>
-			<a class="button button--text" href={`/profile/${username}`}>Profile</a>
-		{/if}
 		<ThemeToggle />
+		{#if username}
+			<a class="button button--text" href={`/profile/${username}`}>Profile</a>
+			<form method="POST" action="/?/signout" use:enhance>
+				<button class="button button--text">Sign-out</button>
+			</form>
+		{/if}
 	</nav>
 </header>
 

@@ -56,7 +56,7 @@ const authGuard: Handle = async ({ event, resolve }) => {
 
 	if (!event.locals.session && !PUBLIC_URLS.includes(event.route.id as string))
 		redirect(303, '/auth?next=' + event.request.url);
-	if (event.locals.session && event.url.pathname === '/auth') redirect(303, '');
+	if (event.locals.session && event.url.pathname === '/auth') redirect(303, '/');
 
 	return resolve(event);
 };

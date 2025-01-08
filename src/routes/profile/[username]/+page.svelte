@@ -12,9 +12,7 @@
 		<h2 class="profile__fullname">
 			{data.profile.full_name}
 			{#if data.editable}
-				<a href={`/profile/${data.profile.username}/edit`}>
-					<button>Edit</button>
-				</a>
+				<a class="button button--text" href={`/profile/${data.profile.username}/edit`}>Edit</a>
 			{/if}
 		</h2>
 		<small>@{data.profile.username}</small>
