@@ -129,6 +129,7 @@ export type Database = {
 					user_id: string;
 					username: string;
 					weight: number | null;
+					workouts: unknown | null;
 				};
 				Insert: {
 					bio?: string | null;
@@ -160,6 +161,7 @@ export type Database = {
 					id: string;
 					name: string;
 					user_id: string;
+					profile: unknown | null;
 				};
 				Insert: {
 					based_on?: string | null;
@@ -241,11 +243,39 @@ export type Database = {
 				};
 				Returns: string;
 			};
+			profile: {
+				Args: {
+					'': unknown;
+				};
+				Returns: {
+					bio: string | null;
+					birthdate: string | null;
+					created_at: string;
+					full_name: string;
+					height: number | null;
+					user_id: string;
+					username: string;
+					weight: number | null;
+				}[];
+			};
 			update_workouts_exercises: {
 				Args: {
 					exercises: Database['public']['Tables']['workouts_exercises']['Row'][];
 				};
 				Returns: undefined;
+			};
+			workouts: {
+				Args: {
+					'': unknown;
+				};
+				Returns: {
+					based_on: string | null;
+					creation_date: string;
+					description: string | null;
+					id: string;
+					name: string;
+					user_id: string;
+				}[];
 			};
 		};
 		Enums: {

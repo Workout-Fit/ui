@@ -12,6 +12,8 @@
 		if (page.url.searchParams.get('showToast') === 'clone-success')
 			showToast('success', { text: 'Successfully cloned workout' });
 	});
+
+	const username = (data.workout?.profile as unknown as { username: string }).username;
 </script>
 
 <div class="workout">
@@ -22,7 +24,15 @@
 			</small>
 		{/if}
 		<h1>{data.workout?.name}</h1>
-		<span>{data.workout?.description}</span>
+		<small>
+			Created by <a href={`/profile/${username}`}>{username}</a>
+			{#if data.workout?.based_on}
+				<br />
+				Based on
+				<a href={`/workouts/${data.workout?.based_on?.id}`}>{data.workout?.based_on?.name}</a>
+			{/if}
+		</small>
+		<p>{data.workout?.description}</p>
 		<div class="workout__actions">
 			{#if data.editable}
 				<a class="button button--text" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>

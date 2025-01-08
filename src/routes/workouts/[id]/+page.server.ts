@@ -7,9 +7,13 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
       id,
       description,
       name,
-      based_on,
+      based_on(
+        id,
+        name
+      ),
       creation_date,
       user_id,
+      profile(username),
       exercises:workouts_exercises(
         exercise_id,
         exercise:exercises(id, name),
