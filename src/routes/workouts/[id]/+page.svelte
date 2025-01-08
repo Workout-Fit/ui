@@ -1,9 +1,17 @@
 <script lang="ts">
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import type { WorkoutExercise } from '$lib/types';
+	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
+	import { page } from '$app/state';
+	import { showToast } from '$lib/utils/toast';
 
 	let { data }: { data: PageServerData } = $props();
+
+	onMount(() => {
+		if (page.url.searchParams.get('showToast') === 'clone-success')
+			showToast('success', { text: 'Successfully cloned workout' });
+	});
 </script>
 
 <div class="workout">
@@ -15,9 +23,16 @@
 		{/if}
 		<h1>{data.workout?.name}</h1>
 		<span>{data.workout?.description}</span>
-		{#if data.editable}
-			<a class="button button--text" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
-		{/if}
+		<div class="workout__actions">
+			{#if data.editable}
+				<a class="button button--text" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
+			{/if}
+			<a
+				class="button button--text"
+				data-sveltekit-preload-data="tap"
+				href={`/workouts/${data.workout?.id}/clone`}>Clone</a
+			>
+		</div>
 	</div>
 
 	<div class="workout__exercise-list">
@@ -39,5 +54,10 @@
 
 	.workout__exercise-list {
 		margin-top: calc(var(--base-spacing) * 4);
+	}
+
+	.workout__actions {
+		display: flex;
+		gap: calc(var(--base-spacing) * 2);
 	}
 </style>

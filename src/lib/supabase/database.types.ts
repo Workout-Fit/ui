@@ -234,6 +234,13 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Functions: {
+			clone_workout: {
+				Args: {
+					target_user_id: string;
+					source_workout_id: string;
+				};
+				Returns: string;
+			};
 			update_workouts_exercises: {
 				Args: {
 					exercises: Database['public']['Tables']['workouts_exercises']['Row'][];
