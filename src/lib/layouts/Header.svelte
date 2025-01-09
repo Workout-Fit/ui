@@ -3,7 +3,9 @@
 	import Logo from '$lib/components/Logo.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 
-	const { username }: { username?: string } = $props();
+	let { username }: { username?: string } = $props();
+
+	$inspect(username);
 </script>
 
 <header>
@@ -12,12 +14,10 @@
 	</a>
 	<nav>
 		<ThemeToggle />
-		{#if username}
-			<a class="button button--text" href={`/profile/${username}`}>Profile</a>
-			<form method="POST" action="/?/signout" use:enhance>
-				<button class="button button--text">Sign-out</button>
-			</form>
-		{/if}
+		<a class="button button--text" href={`/profile/${username}`}>Profile</a>
+		<form method="POST" action="/?/signout" use:enhance>
+			<button class="button button--text">Sign-out</button>
+		</form>
 	</nav>
 </header>
 

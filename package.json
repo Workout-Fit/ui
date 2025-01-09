@@ -29,6 +29,8 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/svelte": "^5.2.6",
 		"@types/eslint": "^9.6.1",
+		"@types/google-one-tap": "^1.2.6",
+		"@types/google.accounts": "^0.0.15",
 		"@types/lodash": "^4.17.14",
 		"@types/toastify-js": "^1.12.3",
 		"@vite-pwa/assets-generator": "^0.2.6",

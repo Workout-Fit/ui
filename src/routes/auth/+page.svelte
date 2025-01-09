@@ -14,17 +14,69 @@
 	import { z } from 'zod';
 	import { fly } from 'svelte/transition';
 	import Logo from '$lib/components/Logo.svelte';
-	import { page } from '$app/state';
+	import type { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
+	import { onDestroy, onMount } from 'svelte';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { showToast } from '$lib/utils/toast';
+	import type { CredentialResponse } from 'google-one-tap';
 
 	const { data }: { data: PageServerData } = $props();
 
 	let mode: 'signup' | 'signin' = $state('signin');
+
+	const handleSignInWithProvider = async (credentials: SignInWithIdTokenCredentials) => {
+		const response = await fetch('/auth/sso', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ ...credentials, nonce: data.nonce })
+		});
+
+		if (response.ok) {
+			const { redirect } = await response.json();
+			goto(redirect);
+		} else {
+			const { message } = await response.json();
+			showToast('error', { text: message });
+		}
+	};
+
+	const handleSignInWithGoogle = ({ credential }: CredentialResponse) => {
+		handleSignInWithProvider({ provider: 'google', token: credential });
+	};
+
+	let googleSSOButton: HTMLDivElement;
+
+	onMount(() => {
+		google.accounts.id.initialize({
+			client_id: '38946104540-ds46as4ipuuhe2a57i5t34gmp60baolg.apps.googleusercontent.com',
+			context: 'signin',
+			ux_mode: 'popup',
+			callback: handleSignInWithGoogle,
+			nonce: data.hashedNonce,
+			auto_select: true,
+			itp_support: true,
+			use_fedcm_for_prompt: true
+		});
+
+		google.accounts.id.prompt();
+		google.accounts.id.renderButton(googleSSOButton, {
+			type: 'standard',
+			shape: 'rectangular',
+			theme: 'outline',
+			text: 'continue_with',
+			size: 'large',
+			logo_alignment: 'left'
+		});
+	});
 </script>
+
+<svelte:head>
+	<meta name="referrer" content="origin" />
+	<script src="https://accounts.google.com/gsi/client" async></script>
+</svelte:head>
 
 <div class="auth">
 	<Logo width={100} />
-
 	{#key mode}
 		<div in:fly={{ x: 50, duration: 300 }}>
 			{#if mode === 'signup'}
@@ -41,7 +93,7 @@
 				</AuthForm>
 			{:else}
 				<AuthForm action="?/signin" submitLabel="Sign-in" data={data.signInForm}>
-					{#snippet extraFields(form)}
+					{#snippet extraFields()}
 						<button formaction="?/forgot" class="button--text forgot-password">
 							Forgot your password?
 						</button>
@@ -60,6 +112,7 @@
 			{mode === 'signup' ? 'Log-in' : 'Sign-up'}
 		</button>
 	</small>
+	<div bind:this={googleSSOButton}></div>
 </div>
 
 <style>
@@ -67,7 +120,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: calc(2 * var(--base-spacing));
+		gap: var(--base-spacing);
 		max-width: 350px;
 		margin: auto;
 	}

@@ -6,10 +6,10 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
 	const token_hash = url.searchParams.get('token_hash');
 	const type = url.searchParams.get('type') as EmailOtpType | null;
-	const next = url.searchParams.get('next') ?? '/';
+	const redirectUri = url.searchParams.get('redirect_uri') ?? '/';
 
 	const redirectTo = new URL(url);
-	redirectTo.pathname = next;
+	redirectTo.pathname = redirectUri.replace(url.origin, '');
 	redirectTo.searchParams.delete('token_hash');
 	redirectTo.searchParams.delete('type');
 
