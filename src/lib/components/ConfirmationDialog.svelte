@@ -1,3 +1,16 @@
+<script lang="ts" module>
+	export type DialogProps = {
+		cancelLabel?: string;
+		confirmLabel: string;
+		disabled?: boolean;
+		message: string;
+		title: string;
+		open: boolean;
+		onconfirm: () => void;
+		oncancel: () => void;
+	};
+</script>
+
 <script lang="ts">
 	import Dialog from '$lib/components/Dialog.svelte';
 
@@ -10,16 +23,7 @@
 		message,
 		disabled,
 		oncancel
-	}: {
-		cancelLabel?: string;
-		confirmLabel: string;
-		disabled?: boolean;
-		message: string;
-		title: string;
-		open: boolean;
-		onconfirm: () => void;
-		oncancel: () => void;
-	} = $props();
+	}: DialogProps = $props();
 </script>
 
 <Dialog {open} onclose={oncancel}>
