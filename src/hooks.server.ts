@@ -8,7 +8,7 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 
 initializeImageMagick(readFileSync('node_modules/@imagemagick/magick-wasm/dist/magick.wasm'));
 
-const PUBLIC_URLS = ['/auth', '/workouts/[id]', '/auth/reset', '/auth/sso'];
+const PUBLIC_URLS = ['/auth', '/workouts/[id]', '/auth/reset', '/auth/sso', '/profile/[username]'];
 
 const supabase: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
