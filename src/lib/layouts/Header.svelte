@@ -18,6 +18,8 @@
 			<form method="POST" action="/?/signout" use:enhance>
 				<Button variant="text">Sign-out</Button>
 			</form>
+		{:else}
+			<a class="link" href="/auth">Sign-in</a>
 		{/if}
 	</nav>
 </header>
