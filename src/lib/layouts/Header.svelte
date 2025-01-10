@@ -5,8 +5,6 @@
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 
 	let { username }: { username?: string } = $props();
-
-	$inspect(username);
 </script>
 
 <header>
@@ -15,10 +13,12 @@
 	</a>
 	<nav>
 		<ThemeToggle />
-		<a class="link" href={`/profile/${username}`}>Profile</a>
-		<form method="POST" action="/?/signout" use:enhance>
-			<Button variant="text">Sign-out</Button>
-		</form>
+		{#if username}
+			<a class="link" href={`/profile/${username}`}>Profile</a>
+			<form method="POST" action="/?/signout" use:enhance>
+				<Button variant="text">Sign-out</Button>
+			</form>
+		{/if}
 	</nav>
 </header>
 

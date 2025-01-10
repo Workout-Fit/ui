@@ -93,16 +93,15 @@
 					{/snippet}
 				</AuthForm>
 			{:else}
-				<AuthForm action="?/signin" submitLabel="Sign-in" data={data.signInForm}>
-					{#snippet extraFields()}
-						<Button variant="text" formaction="?/forgot" class="forgot-password">
-							Forgot your password?
-						</Button>
-					{/snippet}
-				</AuthForm>
+				<AuthForm action="?/signin" id="sign-in" submitLabel="Sign-in" data={data.signInForm} />
+				<Button variant="text" form="sign-in" formaction="?/forgot" class="forgot-password">
+					Forgot your password?
+				</Button>
 			{/if}
 		</div>
 	{/key}
+	<hr style="width: 100%;" />
+	<div bind:this={googleSSOButton}></div>
 	<small>
 		{mode === 'signup' ? 'Already have an account?' : "Don't have an account?"}
 		<Button
@@ -113,7 +112,6 @@
 			{mode === 'signup' ? 'Log-in' : 'Sign-up'}
 		</Button>
 	</small>
-	<div bind:this={googleSSOButton}></div>
 </div>
 
 <style>
@@ -126,12 +124,17 @@
 		margin: auto;
 	}
 
-	.forgot-password {
-		display: inline;
-		padding: 0;
-		text-align: left;
-		font-size: 0.5rem;
+	:global(button.forgot-password) {
+		margin-top: var(--base-spacing);
+		text-align: right;
+		font-size: 0.6rem;
 		height: auto;
-		margin-bottom: calc(2 * var(--base-spacing));
+		margin-left: auto;
+	}
+
+	hr {
+		border: none;
+		margin: calc(0.5 * var(--base-spacing)) 0;
+		border-bottom: 1px dashed var(--text-medium);
 	}
 </style>

@@ -53,14 +53,14 @@
 	}
 
 	.progress--white {
-		stroke: white;
+		fill: white;
 	}
 
 	.progress--black {
-		stroke: black;
+		fill: black;
 	}
 
 	.progress--primary {
-		stroke: var(--color-primary);
+		fill: var(--color-primary);
 	}
 </style>

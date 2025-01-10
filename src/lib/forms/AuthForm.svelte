@@ -33,13 +33,14 @@
 	import PasswordField from '$lib/components/PasswordField.svelte';
 	import Button from '$lib/components/Button.svelte';
 
-	const {
+	let {
 		data,
 		submitLabel,
 		extraFields,
 		enctype,
 		schema,
 		action,
+		id,
 		...rest
 	}: AuthFormProps<Schema> = $props();
 
@@ -52,20 +53,27 @@
 		...rest
 	});
 
-	const { enhance } = form;
+	const { enhance, submitting } = form;
 </script>
 
-<form method="POST" {action} {enctype} use:enhance>
+<form method="POST" {id} {action} {enctype} use:enhance>
 	<TextField
 		label="E-mail"
 		field={'email' as any}
 		placeholder="johndoe@email.com"
+		disabled={$submitting}
 		{form}
 		type="email"
 	/>
-	<PasswordField label="Password" placeholder="********" field={'password' as any} {form} />
+	<PasswordField
+		disabled={$submitting}
+		label="Password"
+		placeholder="********"
+		field={'password' as any}
+		{form}
+	/>
 	{#if extraFields}{@render extraFields(form)}{/if}
-	<Button>{submitLabel}</Button>
+	<Button loading={$submitting}>{submitLabel}</Button>
 </form>
 
 <style>

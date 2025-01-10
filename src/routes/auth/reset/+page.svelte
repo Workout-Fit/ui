@@ -45,8 +45,4 @@
 		max-width: 350px;
 		margin: auto;
 	}
-
-	button {
-		width: 100%;
-	}
 </style>
