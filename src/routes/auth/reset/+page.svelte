@@ -24,7 +24,7 @@
 		}
 	});
 
-	const { enhance } = form;
+	const { enhance, submitting, delayed } = form;
 </script>
 
 <form method="POST" class="forgot-password" use:enhance>
@@ -33,7 +33,7 @@
 		You are resetting the password for <b>{page.url.searchParams.get('email') ?? ''}</b>
 	</small>
 	<PasswordField label="Password" placeholder="********" field={'password' as any} {form} />
-	<Button>Reset your password</Button>
+	<Button disabled={$submitting} loading={$delayed}>Reset your password</Button>
 </form>
 
 <style>

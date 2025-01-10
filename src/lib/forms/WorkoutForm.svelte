@@ -31,25 +31,33 @@
 
 	let { title, form: formData, exerciseForm }: WorkoutFormProps = $props();
 
-	const _form = superForm(formData, {
+	const form = superForm(formData, {
 		validators: zodClient(workoutFormSchema),
 		dataType: 'json'
 	});
 
-	const { form, enhance } = _form;
+	const { form: data, enhance, submitting, delayed } = form;
 </script>
 
 <form class="workout-form" action="?/workout" method="POST" use:enhance>
 	<div class="workout-form__info">
 		<div class="workout-form__title">
 			<h2>{title}</h2>
-			<Button type="submit">Save</Button>
+			<Button type="submit" disabled={$submitting} loading={$delayed}>Save</Button>
 		</div>
 
-		<TextField label="Name" type="text" form={_form} field="name" placeholder="Chest & Triceps" />
+		<TextField
+			label="Name"
+			type="text"
+			{form}
+			disabled={$submitting}
+			field="name"
+			placeholder="Chest & Triceps"
+		/>
 		<TextField
 			label="Description"
-			form={_form}
+			{form}
+			disabled={$submitting}
 			multiline
 			field="description"
 			placeholder="Do it twice a week"
@@ -61,18 +69,20 @@
 			<Button
 				variant="text"
 				type="button"
+				disabled={$submitting}
 				onclick={() => pushState('', { modalShown: 'add-exercise' })}
 			>
 				+ ADD EXERCISE
 			</Button>
 		</div>
-		{#each $form.exercises as exercise}
+		{#each $data.exercises as exercise}
 			<ExerciseListItem exercise={exercise as WorkoutExercise}>
 				{#snippet decoration()}
 					<Button
 						type="button"
+						disabled={$submitting}
 						onclick={() =>
-							($form.exercises = $form.exercises?.filter((item) => item !== exercise) ?? [])}
+							($data.exercises = $data.exercises?.filter((item) => item !== exercise) ?? [])}
 						variant="text"
 					>
 						Remove
@@ -92,8 +102,8 @@
 			action="?/exercise"
 			onUpdate={({ result, formElement, cancel }) => {
 				if (result.type === 'success') {
-					$form.exercises = [
-						...$form.exercises,
+					$data.exercises = [
+						...$data.exercises,
 						result.data.form.data as z.infer<typeof exerciseFormSchema>
 					];
 					handleCloseModal();

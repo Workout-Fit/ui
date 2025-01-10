@@ -11,12 +11,12 @@
 		validators: zodClient(profileFormSchema)
 	});
 
-	const { enhance } = form;
+	const { enhance, submitting, delayed } = form;
 </script>
 
 <form method="POST" use:enhance>
 	<ProfileForm {form} />
-	<FormActions oncancel={() => history.back()} />
+	<FormActions disabled={$submitting} loading={$delayed} oncancel={() => history.back()} />
 </form>
 
 <style>

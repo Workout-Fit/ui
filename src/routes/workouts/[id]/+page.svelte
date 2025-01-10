@@ -26,6 +26,8 @@
 			goto('/');
 		} else showToast('error', { text: 'Failed to delete workout' });
 	}
+
+	let cloning = $state(false);
 </script>
 
 <div class="workout">
@@ -52,16 +54,19 @@
 			<form
 				method="POST"
 				action="?/clone"
-				use:enhance={() =>
-					async ({ result }) => {
+				use:enhance={() => {
+					cloning = true;
+					return async ({ result }) => {
+						cloning = false;
 						if (result.type === 'error') return showToast('error', { text: result.error });
 						else if (result.type === 'redirect') {
 							showToast('success', { text: 'Successfully cloned workout' });
 							goto(result.location);
 						}
-					}}
+					};
+				}}
 			>
-				<Button variant="text">Clone</Button>
+				<Button variant="text" loading={cloning}>Clone</Button>
 			</form>
 			<Button
 				variant="text"

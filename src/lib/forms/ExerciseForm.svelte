@@ -43,13 +43,13 @@
 		return await response.json();
 	};
 
-	const _form = superForm(formData, {
+	const form = superForm(formData, {
 		validators: zodClient(exerciseFormSchema),
 		dataType: 'json',
 		...rest
 	});
 
-	const { form, errors, enhance } = _form;
+	const { form: data, submitting, errors, enhance, delayed } = form;
 </script>
 
 {#snippet exerciseAutocompleteEntry(item: Database['public']['Tables']['exercises']['Row'])}
@@ -64,25 +64,47 @@
 		label="Exercise"
 		debounceValue={300}
 		searchThreshold={3}
+		disabled={$submitting}
 		renderValue={exerciseAutocompleteEntry}
-		bind:value={$form.exercise as Database['public']['Tables']['exercises']['Row']}
+		bind:value={$data.exercise as Database['public']['Tables']['exercises']['Row']}
 		error={$errors.exercise?._errors?.[0]}
 		renderItem={exerciseAutocompleteEntry}
 	/>
 	<div>
-		<TextField type="number" label="Sets" field="sets" placeholder="4" form={_form} />
+		<TextField
+			type="number"
+			disabled={$submitting}
+			label="Sets"
+			field="sets"
+			placeholder="4"
+			{form}
+		/>
 		<TextField
 			type="number"
 			label="Repetitions"
 			field="repetitions"
 			placeholder="12"
-			form={_form}
+			{form}
+			disabled={$submitting}
 		/>
-		<TextField type="number" label="Rest" field="rest" placeholder="60" form={_form} />
+		<TextField
+			disabled={$submitting}
+			type="number"
+			label="Rest"
+			field="rest"
+			placeholder="60"
+			{form}
+		/>
 	</div>
-	<TextField multiline field="notes" label="Notes" placeholder="Slow execution" form={_form} />
-
-	<FormActions {oncancel} />
+	<TextField
+		disabled={$submitting}
+		multiline
+		field="notes"
+		label="Notes"
+		placeholder="Slow execution"
+		{form}
+	/>
+	<FormActions disabled={$submitting} loading={$delayed} {oncancel} />
 </form>
 
 <style>
