@@ -7,6 +7,7 @@
 	height="24"
 	class={`circular-progress--${color}`}
 	viewBox="0 0 24 24"
+	role="progressbar"
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<g class="circular-progress">
