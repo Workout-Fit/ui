@@ -11,6 +11,7 @@
 	import type { PageServerData } from './$types';
 	import { showToast } from '$lib/utils/toast';
 	import { goto } from '$app/navigation';
+	import Button from '$lib/components/Button.svelte';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -32,7 +33,7 @@
 		You are resetting the password for <b>{page.url.searchParams.get('email') ?? ''}</b>
 	</small>
 	<PasswordField label="Password" placeholder="********" field={'password' as any} {form} />
-	<button>Reset your password</button>
+	<Button>Reset your password</Button>
 </form>
 
 <style>

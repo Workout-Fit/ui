@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
+	import Button from './Button.svelte';
 
 	let {
 		open = $bindable(),
@@ -32,7 +33,7 @@
 </script>
 
 <dialog bind:this={dialog}>
-	<button onclick={handleClose} class="button--text">Close</button>
+	<Button type="button" onclick={handleClose} variant="text">Close</Button>
 	{@render children?.()}
 </dialog>
 

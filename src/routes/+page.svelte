@@ -7,6 +7,6 @@
 
 <WorkoutList workouts={data.workouts}>
 	{#snippet action()}
-		<a href="/new" class="workouts__add button button--text">+ Create Workout</a>
+		<a href="/new" class="link">+ Create Workout</a>
 	{/snippet}
 </WorkoutList>

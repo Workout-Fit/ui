@@ -15,10 +15,11 @@
 	import { fly } from 'svelte/transition';
 	import Logo from '$lib/components/Logo.svelte';
 	import type { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
-	import { onDestroy, onMount } from 'svelte';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { showToast } from '$lib/utils/toast';
 	import type { CredentialResponse } from 'google-one-tap';
+	import Button from '$lib/components/Button.svelte';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -94,9 +95,9 @@
 			{:else}
 				<AuthForm action="?/signin" submitLabel="Sign-in" data={data.signInForm}>
 					{#snippet extraFields()}
-						<button formaction="?/forgot" class="button--text forgot-password">
+						<Button variant="text" formaction="?/forgot" class="forgot-password">
 							Forgot your password?
-						</button>
+						</Button>
 					{/snippet}
 				</AuthForm>
 			{/if}
@@ -104,13 +105,13 @@
 	{/key}
 	<small>
 		{mode === 'signup' ? 'Already have an account?' : "Don't have an account?"}
-		<button
+		<Button
 			style="display: inline;"
-			class="button--text"
+			variant="text"
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
 		>
 			{mode === 'signup' ? 'Log-in' : 'Sign-up'}
-		</button>
+		</Button>
 	</small>
 	<div bind:this={googleSSOButton}></div>
 </div>

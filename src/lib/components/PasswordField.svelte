@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts" generics="Form extends Record<string, unknown>">
+	import Button from './Button.svelte';
+
 	import TextField, { type TextFieldProps } from './TextField.svelte';
 
 	let passwordFieldType = $state<'password' | 'text'>('password');
@@ -18,8 +20,8 @@
 	{...props as any}
 >
 	{#snippet decoration()}
-		<button
-			class="button--text"
+		<Button
+			variant="text"
 			type="button"
 			style="height:auto"
 			onclick={() => (passwordFieldType = passwordFieldType === 'password' ? 'text' : 'password')}
@@ -27,6 +29,6 @@
 			<small>
 				{#if passwordFieldType === 'password'}Show{:else}Hide{/if}
 			</small>
-		</button>
+		</Button>
 	{/snippet}
 </TextField>

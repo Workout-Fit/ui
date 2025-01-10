@@ -1,6 +1,7 @@
 <script lang="ts" generics="Item">
 	import { onMount, type Snippet } from 'svelte';
 	import debounce from 'lodash/debounce';
+	import Button from './Button.svelte';
 
 	type AutocompleteProps = {
 		loadFunction: (query: string) => Promise<Item[]>;
@@ -92,7 +93,7 @@
 			<div class="autocomplete__value">
 				{@render valueSnippet(value)}
 			</div>
-			<button type="button" class="button--text" onclick={clear} aria-label="clear">×</button>
+			<Button type="button" onclick={clear} aria-label="clear" variant="text">×</Button>
 		{:else}
 			<input
 				bind:this={input}

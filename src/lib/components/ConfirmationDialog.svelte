@@ -13,6 +13,7 @@
 
 <script lang="ts">
 	import Dialog from '$lib/components/Dialog.svelte';
+	import Button from './Button.svelte';
 
 	let {
 		open,
@@ -31,8 +32,8 @@
 		<h4>{title}</h4>
 		<p>{message}</p>
 		<div class="confirmation-dialog__actions">
-			<button {disabled} onclick={oncancel} class="button--text">{cancelLabel}</button>
-			<button {disabled} onclick={onconfirm}>{confirmLabel}</button>
+			<Button type="button" {disabled} onclick={oncancel} variant="text">{cancelLabel}</Button>
+			<Button type="button" {disabled} onclick={onconfirm}>{confirmLabel}</Button>
 		</div>
 	</div>
 </Dialog>

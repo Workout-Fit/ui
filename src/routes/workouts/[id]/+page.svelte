@@ -35,13 +35,15 @@
 		<p>{data.workout?.description}</p>
 		<div class="workout__actions">
 			{#if data.editable}
-				<a class="button button--text" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
+				<a class="link" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
 			{/if}
 			<a
-				class="button button--text"
+				class="link"
 				data-sveltekit-preload-data="tap"
-				href={`/workouts/${data.workout?.id}/clone`}>Clone</a
+				href={`/workouts/${data.workout?.id}/clone`}
 			>
+				Clone
+			</a>
 		</div>
 	</div>
 

@@ -12,7 +12,7 @@
 		<h2 class="profile__fullname">
 			{data.profile.full_name}
 			{#if data.editable}
-				<a class="button button--text" href={`/profile/${data.profile.username}/edit`}>Edit</a>
+				<a class="link" href={`/profile/${data.profile.username}/edit`}>Edit</a>
 			{/if}
 		</h2>
 		<small>@{data.profile.username}</small>
@@ -32,7 +32,7 @@
 	<WorkoutList workouts={data.workouts}>
 		{#snippet action()}
 			{#if data.editable}
-				<a href="/new" class="workouts__add button button--text">+ Create Workout</a>
+				<a href="/new" class="workouts__add link">+ Create Workout</a>
 			{/if}
 		{/snippet}
 	</WorkoutList>

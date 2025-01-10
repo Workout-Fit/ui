@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Button from './Button.svelte';
+
 	let {
 		oncancel,
 		saveLabel = 'Save',
@@ -13,8 +15,8 @@
 </script>
 
 <div class="form-actions">
-	<button {disabled} type="reset" onclick={oncancel} class="button--text">{cancelLabel}</button>
-	<button {disabled} type="submit">{saveLabel}</button>
+	<Button {disabled} type="reset" onclick={oncancel} variant="text">{cancelLabel}</Button>
+	<Button {disabled} type="submit">{saveLabel}</Button>
 </div>
 
 <style>

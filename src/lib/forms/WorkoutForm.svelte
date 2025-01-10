@@ -25,6 +25,7 @@
 	import TextField from '$lib/components/TextField.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
+	import Button from '$lib/components/Button.svelte';
 
 	const handleCloseModal = () => replaceState('', { modalShown: undefined });
 
@@ -42,7 +43,7 @@
 	<div class="workout-form__info">
 		<div class="workout-form__title">
 			<h2>{title}</h2>
-			<button type="submit">Save</button>
+			<Button type="submit">Save</Button>
 		</div>
 
 		<TextField label="Name" type="text" form={_form} field="name" placeholder="Chest & Triceps" />
@@ -57,25 +58,25 @@
 	<div class="workout-form__exercise-list">
 		<div class="workout-form__exercise-list-title">
 			<h2>Exercises</h2>
-			<button
-				class="button--text"
+			<Button
+				variant="text"
 				type="button"
 				onclick={() => pushState('', { modalShown: 'add-exercise' })}
 			>
 				+ ADD EXERCISE
-			</button>
+			</Button>
 		</div>
 		{#each $form.exercises as exercise}
 			<ExerciseListItem exercise={exercise as WorkoutExercise}>
 				{#snippet decoration()}
-					<button
+					<Button
 						type="button"
 						onclick={() =>
 							($form.exercises = $form.exercises?.filter((item) => item !== exercise) ?? [])}
-						class="button--text exercise-list-item__decoration"
+						variant="text"
 					>
 						Remove
-					</button>
+					</Button>
 				{/snippet}
 			</ExerciseListItem>
 		{/each}

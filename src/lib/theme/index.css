@@ -1,6 +1,7 @@
 @import './input.css';
 @import './toastify.css';
 @import '@fontsource-variable/overpass';
+@import './link.css';
 
 .light {
 	--color-background: #fff;

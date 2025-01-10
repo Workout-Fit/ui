@@ -31,6 +31,7 @@
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
 	import { showToast } from '$lib/utils/toast';
 	import PasswordField from '$lib/components/PasswordField.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	const {
 		data,
@@ -64,7 +65,7 @@
 	/>
 	<PasswordField label="Password" placeholder="********" field={'password' as any} {form} />
 	{#if extraFields}{@render extraFields(form)}{/if}
-	<button type="submit">{submitLabel}</button>
+	<Button>{submitLabel}</Button>
 </form>
 
 <style>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
 	import Logo from '$lib/components/Logo.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 
@@ -9,14 +10,14 @@
 </script>
 
 <header>
-	<a class="button button--text" href="/">
+	<a class="link" href="/">
 		<Logo width={32} />
 	</a>
 	<nav>
 		<ThemeToggle />
-		<a class="button button--text" href={`/profile/${username}`}>Profile</a>
+		<a class="link" href={`/profile/${username}`}>Profile</a>
 		<form method="POST" action="/?/signout" use:enhance>
-			<button class="button button--text">Sign-out</button>
+			<Button variant="text">Sign-out</Button>
 		</form>
 	</nav>
 </header>
@@ -33,5 +34,6 @@
 		color: var(--color-primary);
 		display: flex;
 		gap: 1rem;
+		align-items: center;
 	}
 </style>

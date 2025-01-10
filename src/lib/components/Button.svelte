@@ -27,11 +27,11 @@
 <style>
 	button {
 		border: none;
-		text-transform: uppercase;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-weight: 500;
+		text-transform: uppercase;
 		text-decoration: none;
 		font-size: 0.7rem;
 		height: 32px;
