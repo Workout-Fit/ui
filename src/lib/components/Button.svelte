@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import CircularProgress from './CircularProgress.svelte';
+	import ProgressIndicator from './ProgressIndicator.svelte';
 
 	const {
 		variant = 'primary',
@@ -19,9 +19,17 @@
 	}: ButtonProps = $props();
 </script>
 
-<button disabled={disabled ?? loading} class={`button--${variant}`} {...rest}>
-	{@render children()}
-	{#if loading}<CircularProgress color="white" />{/if}
+<button
+	disabled={disabled ?? loading}
+	class:button--text={variant === 'text'}
+	class:button--primary={variant === 'primary'}
+	{...rest}
+>
+	{#if loading}
+		<ProgressIndicator color="white" />
+	{:else}
+		{@render children()}
+	{/if}
 </button>
 
 <style>
@@ -53,6 +61,6 @@
 
 	button.button--text {
 		color: var(--color-primary);
-		background-color: transparent;
+		background: transparent;
 	}
 </style>
