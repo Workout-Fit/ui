@@ -4,7 +4,9 @@
 	import type { LayoutData } from './$types';
 	import Header from '$lib/layouts/Header.svelte';
 	import { browser } from '$app/environment';
+	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { pwaInfo } from 'virtual:pwa-info';
+
 	import '$lib/theme/index.css';
 	import 'toastify-js/src/toastify.css';
 
@@ -33,6 +35,8 @@
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html pwaInfo?.webManifest?.linkTag ?? ''}
 </svelte:head>
+
+<ProgressBar color="var(--color-primary);" />
 
 <div>
 	<Header username={data.username} />
