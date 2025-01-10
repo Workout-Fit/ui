@@ -18,7 +18,7 @@ declare global {
 			session: Session | null;
 		}
 		interface PageState {
-			modalShown?: 'add-exercise' | 'auth';
+			modalShown?: 'add-exercise' | 'confirm-delete-workout';
 		}
 		// interface Platform {}
 	}

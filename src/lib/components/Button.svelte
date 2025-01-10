@@ -28,7 +28,7 @@
 	{#if loading}
 		<ProgressIndicator color="white" />
 	{:else}
-		{@render children()}
+		{@render children?.()}
 	{/if}
 </button>
 

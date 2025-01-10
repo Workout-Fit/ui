@@ -5,6 +5,10 @@
 	import type { PageServerData } from './$types';
 	import { page } from '$app/state';
 	import { showToast } from '$lib/utils/toast';
+	import Button from '$lib/components/Button.svelte';
+	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
+	import { goto, replaceState } from '$app/navigation';
+	import { enhance } from '$app/forms';
 
 	let { data }: { data: PageServerData } = $props();
 
@@ -14,6 +18,14 @@
 	});
 
 	const username = (data.workout?.profile as unknown as { username: string }).username;
+
+	async function handleDeleteWorkout() {
+		const res = await fetch(`/workouts/${data.workout.id}`, { method: 'DELETE' });
+		if (res.ok) {
+			showToast('success', { text: 'Successfully deleted workout' });
+			goto('/');
+		} else showToast('error', { text: 'Failed to delete workout' });
+	}
 </script>
 
 <div class="workout">
@@ -37,13 +49,26 @@
 			{#if data.editable}
 				<a class="link" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
 			{/if}
-			<a
-				class="link"
-				data-sveltekit-preload-data="tap"
-				href={`/workouts/${data.workout?.id}/clone`}
+			<form
+				method="POST"
+				action="?/clone"
+				use:enhance={() =>
+					async ({ result }) => {
+						if (result.type === 'error') return showToast('error', { text: result.error });
+						else if (result.type === 'redirect') {
+							showToast('success', { text: 'Successfully cloned workout' });
+							goto(result.location);
+						}
+					}}
 			>
-				Clone
-			</a>
+				<Button variant="text">Clone</Button>
+			</form>
+			<Button
+				variant="text"
+				onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
+			>
+				Delete
+			</Button>
 		</div>
 	</div>
 
@@ -54,6 +79,15 @@
 		{/each}
 	</div>
 </div>
+
+<ConfirmationDialog
+	open={page.state.modalShown === 'confirm-delete-workout'}
+	title={`Are you sure you want to delete ${data.workout.name}?`}
+	message="This workout will be permanently removed and cannot be recovered."
+	confirmLabel="Delete"
+	oncancel={() => replaceState('', { modalShown: undefined })}
+	onconfirm={handleDeleteWorkout}
+/>
 
 <style>
 	h1 {
@@ -71,5 +105,6 @@
 	.workout__actions {
 		display: flex;
 		gap: calc(var(--base-spacing) * 2);
+		align-items: center;
 	}
 </style>
