@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
+	import { type Snippet } from 'svelte';
 	import Button from './Button.svelte';
 
 	let {
@@ -8,6 +8,7 @@
 		onclose
 	}: { open: boolean; children?: Snippet; onclose?: () => void } = $props();
 
+	// svelte-ignore non_reactive_update
 	let dialog: HTMLDialogElement;
 
 	const handleClose = () => {
@@ -19,22 +20,21 @@
 		if (open) dialog.showModal();
 		else dialog.close();
 	});
-
-	onMount(() => {
-		const clickEvent = (event: MouseEvent) => {
-			if (event.target === dialog) handleClose();
-		};
-		dialog.addEventListener('click', clickEvent);
-
-		return () => {
-			dialog.removeEventListener('click', clickEvent);
-		};
-	});
 </script>
 
-<dialog bind:this={dialog}>
-	<Button type="button" onclick={handleClose} variant="text">Close</Button>
-	{@render children?.()}
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<dialog
+	bind:this={dialog}
+	onmousedown={(event: MouseEvent) => {
+		if (event.target === dialog) handleClose();
+	}}
+>
+	<div class="dialog__content">
+		<Button type="button" style="margin-left: auto;" onclick={handleClose} variant="text">
+			Close
+		</Button>
+		{@render children?.()}
+	</div>
 </dialog>
 
 <style>
@@ -43,7 +43,7 @@
 		color: var(--text-high);
 	}
 
-	dialog[open] {
+	.dialog__content {
 		padding: 0;
 		border: 0;
 		display: flex;
@@ -51,7 +51,41 @@
 		gap: var(--base-spacing);
 	}
 
-	dialog::backdrop {
+	::backdrop {
 		background-color: var(--text-low);
+	}
+
+	dialog,
+	::backdrop {
+		transition:
+			display 0.3s allow-discrete,
+			overlay 0.3s allow-discrete,
+			opacity 0.3s;
+		opacity: 0;
+	}
+
+	[open],
+	[open]::backdrop {
+		opacity: 1;
+	}
+
+	dialog {
+		border: 0;
+	}
+
+	@starting-style {
+		[open],
+		[open]::backdrop {
+			opacity: 0;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		dialog {
+			width: 100%;
+			max-width: unset;
+			margin: 0;
+			margin-top: auto;
+		}
 	}
 </style>

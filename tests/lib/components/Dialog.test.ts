@@ -17,7 +17,7 @@ describe('<Dialog />', () => {
 
 		expect(screen.getByRole('dialog')).toBeInTheDocument();
 		// Click outside the dialog
-		fireEvent.click(screen.getByRole('dialog'));
+		fireEvent.mouseDown(screen.getByRole('dialog'));
 
 		await waitFor(() => {
 			expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
