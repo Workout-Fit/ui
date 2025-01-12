@@ -1,12 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { type Handle, redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { readFileSync } from 'node:fs';
-import { initializeImageMagick } from '@imagemagick/magick-wasm';
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
-
-initializeImageMagick(readFileSync('node_modules/@imagemagick/magick-wasm/dist/magick.wasm'));
 
 const PUBLIC_URLS = ['/auth', '/workouts/[id]', '/auth/reset', '/auth/sso', '/profile/[username]'];
 
