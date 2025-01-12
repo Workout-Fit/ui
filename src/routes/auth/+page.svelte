@@ -87,6 +87,7 @@
 					submitLabel="Sign-up"
 					data={data.signUpForm}
 					schema={signUpFormSchema}
+					passwordHTMLAutocomplete="new-password"
 					enctype="multipart/form-data"
 				>
 					{#snippet extraFields(form)}

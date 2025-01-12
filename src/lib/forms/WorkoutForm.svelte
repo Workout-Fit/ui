@@ -148,4 +148,8 @@
 	.exercise-dialog {
 		padding: calc(var(--base-spacing) * 2);
 	}
+
+	h3 {
+		margin-top: 0;
+	}
 </style>

@@ -2,6 +2,7 @@
 	import { onMount, type Snippet } from 'svelte';
 	import debounce from 'lodash/debounce';
 	import Button from './Button.svelte';
+	import { on } from 'svelte/events';
 
 	type AutocompleteProps = {
 		loadFunction: (query: string) => Promise<Item[]>;
@@ -36,7 +37,8 @@
 	let loading: boolean = $state(false);
 	let openDropdown = $state(false);
 	let inputFocused = $state(false);
-	let input: HTMLInputElement | undefined = $state();
+	// svelte-ignore non_reactive_update
+	let input: HTMLInputElement;
 
 	const updateQuery = debounce((q: string) => (query = q), debounceValue);
 
@@ -64,15 +66,17 @@
 	});
 
 	onMount(() => {
-		const handleFormData = ({ formData }: FormDataEvent) => {
-			if (value) formData.append(name, JSON.stringify(value));
-		};
+		if (input.form) {
+			const inputHandlerRemove = on(
+				input.form as HTMLFormElement,
+				'formdata',
+				({ formData }: FormDataEvent) => {
+					if (value) formData.append(name, JSON.stringify(value));
+				}
+			);
 
-		input?.form?.addEventListener('formdata', handleFormData);
-
-		return () => {
-			input?.form?.removeEventListener('formdata', handleFormData);
-		};
+			return inputHandlerRemove;
+		}
 	});
 </script>
 
@@ -166,6 +170,8 @@
 		padding: 0;
 		border: 0;
 		background: none;
+		font-size: medium;
+		color: var(--text-high);
 		width: 100%;
 	}
 
@@ -184,6 +190,7 @@
 		overflow-y: auto;
 		margin-top: var(--base-spacing);
 		width: 100%;
+		z-index: 1;
 		border-radius: 4px;
 		background-color: var(--color-background);
 	}
@@ -208,5 +215,9 @@
 		color: red;
 		font-size: 0.7rem;
 		opacity: 0.87;
+	}
+
+	label {
+		font-size: small;
 	}
 </style>

@@ -45,6 +45,7 @@
 			<img bind:this={avatarPreview} src={$form.avatarUrl ?? emptyProfilePicture} alt="" />
 			<input
 				name="avatar"
+				id="avatar"
 				type="file"
 				accept="image/jpeg,image/jpg,image/png,image/webp"
 				bind:files={$form.avatar as FileList}
@@ -52,8 +53,20 @@
 			<span>{$errors.avatar}</span>
 		</div>
 	</div>
-	<TextField label="Full Name" placeholder="John Doe" field="full_name" form={formData} />
-	<TextField label="Username" placeholder="johndoe" field="username" form={formData} />
+	<TextField
+		label="Full Name"
+		autocomplete="name"
+		placeholder="John Doe"
+		field="full_name"
+		form={formData}
+	/>
+	<TextField
+		label="Username"
+		autocomplete="username"
+		placeholder="johndoe"
+		field="username"
+		form={formData}
+	/>
 	<div style="display: flex; gap: var(--base-spacing); width: 100%;">
 		<TextField
 			label="Weight"

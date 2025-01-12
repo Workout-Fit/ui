@@ -10,17 +10,19 @@
 	import { pwaInfo } from 'virtual:pwa-info';
 
 	import 'toastify-js/src/toastify.css';
+	import { on } from 'svelte/events';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 	let { session, supabase } = data;
 
 	onMount(() => {
+		let formEventHandlerRemove: () => void;
 		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
 			if (newSession?.expires_at !== session?.expires_at) invalidate('supabase:auth');
 		});
 
 		if (browser)
-			document.body.addEventListener('keydown', (e: KeyboardEvent) => {
+			formEventHandlerRemove = on(document, 'keydown', (e: KeyboardEvent) => {
 				if (!(e.key === 'Enter' && (e.metaKey || e.ctrlKey)) || !e.target) return;
 
 				if ('form' in e.target) {
@@ -29,7 +31,10 @@
 				}
 			});
 
-		return () => data.subscription.unsubscribe();
+		return () => {
+			data.subscription.unsubscribe();
+			formEventHandlerRemove();
+		};
 	});
 </script>
 

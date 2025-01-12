@@ -32,7 +32,13 @@
 	<small>
 		You are resetting the password for <b>{page.url.searchParams.get('email') ?? ''}</b>
 	</small>
-	<PasswordField label="Password" placeholder="********" field={'password' as any} {form} />
+	<PasswordField
+		label="Password"
+		placeholder="********"
+		autocomplete="new-password"
+		field={'password' as any}
+		{form}
+	/>
 	<Button disabled={$submitting} loading={$delayed}>Reset your password</Button>
 </form>
 

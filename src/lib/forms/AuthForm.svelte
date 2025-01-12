@@ -8,10 +8,11 @@
 	export type AuthFormProps<
 		Schema extends ZodObject<Record<string, ZodTypeAny>> = typeof authFormSchema
 	> = {
-		action?: string;
 		data: SuperValidated<z.TypeOf<Schema>>;
-		extraFields?: Snippet<[form: SuperForm<z.TypeOf<Schema>>]>;
 		submitLabel: string;
+		action?: string;
+		extraFields?: Snippet<[form: SuperForm<z.TypeOf<Schema>>]>;
+		passwordHTMLAutocomplete?: 'current-password' | 'new-password';
 		enctype?: HTMLFormAttributes['enctype'];
 		schema?: Schema;
 	} & Omit<FormOptions<z.TypeOf<Schema>>, 'validators'>;
@@ -40,6 +41,7 @@
 		enctype,
 		schema,
 		action,
+		passwordHTMLAutocomplete = 'current-password',
 		id,
 		...rest
 	}: AuthFormProps<Schema> = $props();
@@ -61,6 +63,7 @@
 		label="E-mail"
 		field={'email' as any}
 		placeholder="johndoe@email.com"
+		autocomplete="email"
 		disabled={$submitting}
 		{form}
 		type="email"
@@ -69,6 +72,7 @@
 		disabled={$submitting}
 		label="Password"
 		placeholder="********"
+		autocomplete={passwordHTMLAutocomplete}
 		field={'password' as any}
 		{form}
 	/>

@@ -27,6 +27,7 @@
 		field,
 		decorationPosition = 'after',
 		decoration,
+		id = field,
 		...rest
 	}: TextFieldProps<Form> = $props();
 
@@ -34,7 +35,7 @@
 </script>
 
 <div class="text-field">
-	<label for="name">{label}</label>
+	<label for={field}>{label}</label>
 	<div class="text-field__input">
 		{#if decoration && decorationPosition === 'before'}{@render decoration()}{/if}
 		{#if multiline}
@@ -43,6 +44,7 @@
 				bind:value={$value}
 				required={false}
 				name={field}
+				{id}
 				{...$constraints}
 				{...rest as SvelteHTMLElements['textarea']}
 			></textarea>
@@ -53,6 +55,7 @@
 				name={field}
 				type={(rest as SvelteHTMLElements['input']).type ?? 'text'}
 				{...$constraints}
+				{id}
 				required={false}
 				{...rest as SvelteHTMLElements['input']}
 			/>
@@ -91,7 +94,6 @@
 	}
 
 	.text-field__input {
-		min-height: 32px;
 		border-radius: 4px;
 		background-color: var(--text-lowest);
 		box-sizing: border-box;

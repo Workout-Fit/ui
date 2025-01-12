@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params, depends }) => {
 	const { user } = await safeGetSession();
-	const { data: workout } = await supabase
+	const { data: workout, error: workoutError } = await supabase
 		.from('workouts')
 		.select(
 			`
@@ -29,6 +29,8 @@ export const load = async ({ locals: { supabase, safeGetSession }, params, depen
 		)
 		.eq('id', params.id)
 		.single();
+
+	if (workoutError) console.error(workoutError);
 
 	return { workout: omit(workout, 'user_id'), editable: workout?.user_id === user?.id };
 };
