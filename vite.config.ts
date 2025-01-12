@@ -2,11 +2,13 @@ import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { svelteTesting } from '@testing-library/svelte/vite';
+import svg from '@poppanator/sveltekit-svg';
 
 export default defineConfig({
 	plugins: [
 		sveltekit(),
 		svelteTesting(),
+		svg(),
 		SvelteKitPWA({
 			registerType: 'autoUpdate',
 			injectRegister: false,

@@ -3,6 +3,7 @@
 
 import type { Database } from '$lib/supabase/database.types';
 import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
+import '@poppanator/sveltekit-svg/dist/svg';
 
 // for information about these interfaces
 declare global {
