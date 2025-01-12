@@ -15,12 +15,11 @@
 		"types": [
 			"vitest/globals",
 			"@testing-library/jest-dom",
-			"types",
 			"google-one-tap",
-			"google.accounts"
+			"google.accounts",
+			"vite-plugin-pwa/info"
 		]
-	},
-	"include": ["src/**/*", "tests/**/*.ts", "./vitest.setup.ts"]
+	}
 	// Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
 	// except $lib which is handled by https://svelte.dev/docs/kit/configuration#files
 	//
