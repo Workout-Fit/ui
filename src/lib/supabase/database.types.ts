@@ -231,6 +231,29 @@ export type Database = {
 					}
 				];
 			};
+			workouts_likes: {
+				Row: {
+					user_id: string;
+					workout_id: string;
+				};
+				Insert: {
+					user_id: string;
+					workout_id: string;
+				};
+				Update: {
+					user_id?: string;
+					workout_id?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'workouts_likes_workout_id_fkey';
+						columns: ['workout_id'];
+						isOneToOne: false;
+						referencedRelation: 'workouts';
+						referencedColumns: ['id'];
+					}
+				];
+			};
 		};
 		Views: {
 			[_ in never]: never;

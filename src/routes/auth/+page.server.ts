@@ -28,7 +28,7 @@ export const load = async () => {
 export const actions: Actions = {
 	signup: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(signUpFormSchema));
-		const redirectTo = url.searchParams.get('redirectTo') ?? '/';
+		const redirectUri = url.searchParams.get('redirect_uri') ?? '/';
 		if (!form.valid) return fail(400, { form });
 
 		const { error: accountError, data } = await supabase.auth.signUp(
@@ -52,20 +52,20 @@ export const actions: Actions = {
 				(signUpError as AuthError).status ?? 500,
 				signUpError.message ?? 'Failed to sign-up'
 			);
-		} else redirect(303, redirectTo);
+		} else redirect(303, redirectUri);
 	},
 	signin: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(
 			request,
 			zod(z.object({ ...authFormSchema.shape, password: z.string().nonempty() }))
 		);
-		const redirectTo = url.searchParams.get('redirectTo') ?? '/';
+		const redirectUri = url.searchParams.get('redirect_uri') ?? '/';
 		if (!form.valid) return fail(400, { form });
 
 		const { error: signInError } = await supabase.auth.signInWithPassword(form.data);
 		if (signInError)
 			return error(signInError.status ?? 500, signInError.message ?? 'Failed to sign-in');
-		else redirect(303, redirectTo);
+		else redirect(303, redirectUri);
 	},
 	forgot: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(authFormSchema));

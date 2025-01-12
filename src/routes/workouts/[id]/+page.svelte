@@ -2,15 +2,17 @@
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import type { WorkoutExercise } from '$lib/types';
 	import { onMount } from 'svelte';
-	import type { PageServerData } from './$types';
+	import type { PageData } from './$types';
 	import { page } from '$app/state';
 	import { showToast } from '$lib/utils/toast';
 	import Button from '$lib/components/Button.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
-	import { goto, replaceState } from '$app/navigation';
+	import { goto, invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
+	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
+	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
 
-	let { data }: { data: PageServerData } = $props();
+	let { data }: { data: PageData } = $props();
 
 	onMount(() => {
 		if (page.url.searchParams.get('showToast') === 'clone-success')
@@ -28,6 +30,10 @@
 	}
 
 	let cloning = $state(false);
+	let liking = $state(false);
+
+	$inspect(data.liked);
+	$inspect(data.likes);
 </script>
 
 <div class="workout">
@@ -75,6 +81,27 @@
 				Delete
 			</Button>
 		</div>
+		<form
+			method="POST"
+			action="?/like"
+			use:enhance={() => {
+				liking = true;
+				return async ({ result }) => {
+					liking = false;
+					if (result.type === 'error') return showToast('error', { text: result.error });
+					invalidate('supabase:likes');
+					data.liked = !data.liked;
+					data.likes += data.liked ? 1 : -1;
+				};
+			}}
+		>
+			<input type="hidden" name="liked" value={data.liked} />
+			<Button class="workout__like" variant="text" disabled={liking}>
+				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
+				<Icon style="fill: var(--color-primary);" width={16} height={16} />
+				{data.likes} Likes
+			</Button>
+		</form>
 	</div>
 
 	<div class="workout__exercise-list">
@@ -111,5 +138,10 @@
 		display: flex;
 		gap: calc(var(--base-spacing) * 2);
 		align-items: center;
+	}
+
+	:global(.workout__like) {
+		display: flex;
+		gap: var(--base-spacing);
 	}
 </style>

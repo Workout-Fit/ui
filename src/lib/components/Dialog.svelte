@@ -51,10 +51,6 @@
 		gap: var(--base-spacing);
 	}
 
-	button {
-		margin-left: auto;
-	}
-
 	dialog::backdrop {
 		background-color: var(--text-low);
 	}
