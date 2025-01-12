@@ -5,8 +5,8 @@ import { getProfileByUsername } from '$lib/supabase/queries/getProfile';
 import { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import type { SetNonNullable } from 'type-fest';
 import omit from 'lodash/omit';
-import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
 	const profileResponse = await getProfileByUsername(supabase, params.username);
@@ -14,7 +14,7 @@ export const load = async ({ locals: { supabase, user }, params }) => {
 
 	const form = await superValidate(
 		{
-			...profileResponse.data,
+			...(profileResponse.data as SetNonNullable<typeof profileResponse.data>),
 			avatarUrl: supabase.storage.from('avatars').getPublicUrl(`${user.id}/avatar.webp`).data
 				?.publicUrl
 		},
@@ -55,10 +55,5 @@ export const actions = {
 		}
 
 		return redirect(302, `/profile/${form.data.username}`);
-	},
-	exercise: async ({ request }) => {
-		const form = await superValidate(request, zod(exerciseFormSchema));
-		if (!form.valid) return fail(400, { form });
-		return { form };
 	}
 } satisfies Actions;

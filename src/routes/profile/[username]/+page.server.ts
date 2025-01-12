@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({
 
 	return {
 		editable: profileResponse.data.user_id === user?.id,
-		workouts: (await getWorkouts(supabase, profileResponse.data.user_id)).data ?? [],
+		workouts: (await getWorkouts(supabase, profileResponse.data.user_id as string)).data ?? [],
 		profile: <Partial<Profile>>{
 			...omit(profileResponse.data, 'created_at', 'user_id'),
 			avatar_url: supabase.storage

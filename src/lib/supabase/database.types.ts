@@ -256,7 +256,19 @@ export type Database = {
 			};
 		};
 		Views: {
-			[_ in never]: never;
+			vw_profiles: {
+				Row: {
+					bio: string | null;
+					birthdate: string | null;
+					created_at: string | null;
+					full_name: string | null;
+					height: number | null;
+					user_id: string | null;
+					username: string | null;
+					weight: number | null;
+				};
+				Relationships: [];
+			};
 		};
 		Functions: {
 			clone_workout: {

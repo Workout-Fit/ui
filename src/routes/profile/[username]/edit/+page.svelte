@@ -14,7 +14,7 @@
 	const { enhance, submitting, delayed } = form;
 </script>
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance enctype="multipart/form-data">
 	<ProfileForm {form} />
 	<FormActions disabled={$submitting} loading={$delayed} oncancel={() => history.back()} />
 </form>
