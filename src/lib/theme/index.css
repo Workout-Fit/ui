@@ -1,6 +1,6 @@
+@import '@fontsource-variable/overpass';
 @import './input.css';
 @import './toastify.css';
-@import '@fontsource-variable/overpass';
 @import './link.css';
 
 .light {
@@ -33,6 +33,7 @@
 
 * {
 	font-family: 'Overpass Variable', monospace;
+	-webkit-tap-highlight-color: transparent;
 }
 
 *:disabled {

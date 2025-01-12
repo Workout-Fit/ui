@@ -44,7 +44,7 @@ export const actions = {
 		});
 
 		if (cloneError) {
-			console.log(cloneError);
+			console.error(cloneError);
 			return error(500, 'Failed to clone workout');
 		}
 		return redirect(302, `/workouts/${workoutId}`);
@@ -61,7 +61,7 @@ export const actions = {
 				: await supabase.from('workouts_likes').insert({ workout_id: id, user_id: user.id });
 
 		if (likeError) {
-			console.log(likeError);
+			console.error(likeError);
 			return error(500, 'Failed to like workout');
 		}
 	}

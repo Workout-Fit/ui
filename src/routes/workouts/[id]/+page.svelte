@@ -31,9 +31,6 @@
 
 	let cloning = $state(false);
 	let liking = $state(false);
-
-	$inspect(data.liked);
-	$inspect(data.likes);
 </script>
 
 <div class="workout">

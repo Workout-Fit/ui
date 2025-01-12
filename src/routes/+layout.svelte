@@ -1,4 +1,6 @@
 <script lang="ts">
+	import '$lib/theme/index.css';
+
 	import { invalidate } from '$app/navigation';
 	import { onMount, type Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
@@ -7,7 +9,6 @@
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { pwaInfo } from 'virtual:pwa-info';
 
-	import '$lib/theme/index.css';
 	import 'toastify-js/src/toastify.css';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();

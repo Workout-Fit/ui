@@ -44,6 +44,7 @@
 		font-size: 0.7rem;
 		height: 32px;
 		border-radius: calc(0.5 * var(--base-spacing));
+		transition: all 0.3s ease-in-out;
 	}
 
 	button:hover:disabled {
@@ -62,5 +63,13 @@
 	button.button--text {
 		color: var(--color-primary);
 		background: transparent;
+	}
+
+	button.button--primary:focus {
+		background-color: var(--color-primary-darker);
+	}
+
+	button.button--text:focus {
+		color: var(--color-primary-darker);
 	}
 </style>

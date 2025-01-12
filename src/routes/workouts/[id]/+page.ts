@@ -5,8 +5,6 @@ export const load = async ({ parent, params: { id }, data, depends }) => {
 		.select('user_id')
 		.eq('workout_id', id);
 
-	console.log('likes', likes);
-
 	depends('supabase:likes');
 
 	return {
