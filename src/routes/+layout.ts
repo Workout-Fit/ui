@@ -1,5 +1,6 @@
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { getProfile } from '$lib/supabase/queries/getProfile';
 
 export const load = async ({ data, depends, fetch }) => {
 	/**
@@ -25,5 +26,10 @@ export const load = async ({ data, depends, fetch }) => {
 		data: { user }
 	} = await supabase.auth.getUser();
 
-	return { session, supabase, user, username: data.username };
+	return {
+		session,
+		supabase,
+		user,
+		username: session ? (await getProfile(supabase, session.user.id)).data?.username : undefined
+	};
 };

@@ -17,6 +17,7 @@
 		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
 			if (newSession?.expires_at !== session?.expires_at) invalidate('supabase:auth');
 		});
+
 		if (browser)
 			document.body.addEventListener('keydown', (e: KeyboardEvent) => {
 				if (!(e.key === 'Enter' && (e.metaKey || e.ctrlKey)) || !e.target) return;

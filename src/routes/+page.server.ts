@@ -11,11 +11,8 @@ export const load = async ({ locals: { supabase, safeGetSession } }) => {
 };
 
 export const actions: Actions = {
-	signout: async ({ locals: { supabase, safeGetSession } }) => {
-		const { session } = await safeGetSession();
-		if (session) {
-			await supabase.auth.signOut();
-			redirect(303, '/auth');
-		}
+	signout: async ({ locals: { supabase } }) => {
+		await supabase.auth.signOut();
+		redirect(303, '/auth');
 	}
 };
