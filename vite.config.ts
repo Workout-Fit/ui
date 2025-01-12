@@ -21,8 +21,7 @@ export default defineConfig({
 			manifest: {
 				name: 'Workout',
 				short_name: 'Workout',
-				description: 'Workout',
-				theme_color: '#ffffff'
+				description: 'Workout'
 			},
 
 			workbox: {
