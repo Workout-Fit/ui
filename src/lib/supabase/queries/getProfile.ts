@@ -5,4 +5,4 @@ export const getProfileByUsername = (supabase: SupabaseClient<Database>, usernam
 	supabase.from('vw_profiles').select().eq('username', username).maybeSingle();
 
 export const getProfile = (supabase: SupabaseClient<Database>, id: string) =>
-	supabase.from('profiles').select().eq('user_id', id).maybeSingle();
+	supabase.from('vw_profiles').select().eq('user_id', id).maybeSingle();

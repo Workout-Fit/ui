@@ -57,6 +57,7 @@
 
 	button.button--primary {
 		background-color: var(--color-primary);
+		padding: 0 var(--base-spacing);
 		color: #fff;
 	}
 

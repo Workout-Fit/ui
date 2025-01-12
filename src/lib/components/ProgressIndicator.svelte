@@ -7,24 +7,12 @@
 	height="24"
 	viewBox="0 0 24 24"
 	class={`progress--${color}`}
+	role="progressbar"
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<circle class="progress__dot" cx="4" cy="12" r="3" />
 	<circle class="progress__dot" cx="12" cy="12" r="3" />
 	<circle class="progress__dot" cx="20" cy="12" r="3" />
-</svg>
-
-<svg
-	width="24"
-	height="24"
-	class={`circular-progress--${color}`}
-	viewBox="0 0 24 24"
-	role="progressbar"
-	xmlns="http://www.w3.org/2000/svg"
->
-	<g class="circular-progress">
-		<circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
-	</g>
 </svg>
 
 <style>
