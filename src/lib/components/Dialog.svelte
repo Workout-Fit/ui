@@ -41,10 +41,10 @@
 	dialog {
 		background: var(--color-background);
 		color: var(--text-high);
+		padding: 0;
 	}
 
 	.dialog__content {
-		padding: 0;
 		border: 0;
 		display: flex;
 		flex-direction: column;
@@ -86,6 +86,7 @@
 			max-width: unset;
 			margin: 0;
 			margin-top: auto;
+			box-sizing: border-box;
 		}
 	}
 </style>
