@@ -8,7 +8,7 @@
 </script>
 
 <header>
-	<a class="link" href="/">
+	<a class="link logo" href="/">
 		<Logo width={32} />
 	</a>
 	<nav>
@@ -37,5 +37,9 @@
 		display: flex;
 		gap: 1rem;
 		align-items: center;
+	}
+
+	.logo:focus {
+		background: none;
 	}
 </style>
