@@ -17,7 +17,7 @@
 </script>
 
 <div class="form-actions">
-	<Button {disabled} type="reset" onclick={oncancel} variant="text">{cancelLabel}</Button>
+	<Button {disabled} type="button" onclick={oncancel} variant="text">{cancelLabel}</Button>
 	<Button {disabled} {loading} type="submit">{saveLabel}</Button>
 </div>
 

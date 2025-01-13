@@ -2,6 +2,7 @@
 	import WorkoutList from '$lib/layouts/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
+	import Link from '$lib/components/Link.svelte';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
@@ -12,7 +13,7 @@
 		<h2 class="profile__fullname">
 			{data.profile.full_name}
 			{#if data.editable}
-				<a class="link" href={`/profile/${data.profile.username}/edit`}>Edit</a>
+				<Link class="link" href={`/profile/${data.profile.username}/edit`}>Edit</Link>
 			{/if}
 		</h2>
 		<small>@{data.profile.username}</small>
@@ -32,7 +33,7 @@
 	<WorkoutList workouts={data.workouts}>
 		{#snippet action()}
 			{#if data.editable}
-				<a href="/new" class="workouts__add link">+ Create Workout</a>
+				<Link href="/new" class="workouts__add link">+ Create Workout</Link>
 			{/if}
 		{/snippet}
 	</WorkoutList>

@@ -7,7 +7,8 @@ import getWorkouts from '$lib/supabase/queries/getWorkouts';
 
 export const load: PageServerLoad = async ({
 	locals: { supabase, safeGetSession },
-	params: { username }
+	params: { username },
+	depends
 }) => {
 	const { user } = await safeGetSession();
 

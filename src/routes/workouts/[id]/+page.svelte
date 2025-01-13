@@ -11,6 +11,7 @@
 	import { enhance } from '$app/forms';
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
 	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
+	import Link from '$lib/components/Link.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -42,17 +43,17 @@
 		{/if}
 		<h1>{data.workout?.name}</h1>
 		<small>
-			Created by <a href={`/profile/${username}`}>{username}</a>
+			Created by <Link href={`/profile/${username}`}>{username}</Link>
 			{#if data.workout?.based_on}
 				<br />
 				Based on
-				<a href={`/workouts/${data.workout?.based_on?.id}`}>{data.workout?.based_on?.name}</a>
+				<Link href={`/workouts/${data.workout?.based_on?.id}`}>{data.workout?.based_on?.name}</Link>
 			{/if}
 		</small>
 		<p>{data.workout?.description}</p>
 		<div class="workout__actions">
 			{#if data.editable}
-				<a class="link" href={`/workouts/${data.workout?.id}/edit`}>Edit</a>
+				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>Edit</Link>
 			{/if}
 			<form
 				method="POST"

@@ -16,7 +16,7 @@
 	import Logo from '$lib/components/Logo.svelte';
 	import type { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
 	import { onMount } from 'svelte';
-	import { goto, invalidate } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { showToast } from '$lib/utils/toast';
 	import type { CredentialResponse } from 'google-one-tap';
 	import Button from '$lib/components/Button.svelte';
@@ -37,7 +37,7 @@
 		if (response.ok) {
 			const { redirect } = await response.json();
 			// https://github.com/sveltejs/kit/pull/13256
-			goto(redirect).then(() => invalidate('supabase:auth'));
+			goto(redirect, { invalidateAll: true });
 		} else {
 			const { message } = await response.json();
 			showToast('error', { text: message });

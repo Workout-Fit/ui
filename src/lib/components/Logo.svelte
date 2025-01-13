@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { SvelteHTMLElements } from 'svelte/elements';
 
-	let props: SvelteHTMLElements['svg'] = $props();
+	let { active = false, ...props }: { active?: boolean } & SvelteHTMLElements['svg'] = $props();
 </script>
 
-<svg {...props} viewBox="0 0 159 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg {...props} class:active viewBox="0 0 159 172" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<path
 		d="M37.7709 110.034V149.647L80.1743 169.453L122.571 149.647V110.034L80.1743 90.2271L37.7709 110.034Z"
 		fill="black"
@@ -166,3 +166,14 @@
 		stroke-miterlimit="10"
 	/>
 </svg>
+
+<style>
+	svg:is(:hover, .active, :focus) {
+		filter: invert(1);
+	}
+
+	svg {
+		filter: invert(0);
+		transition: filter 0.3s ease-in-out;
+	}
+</style>

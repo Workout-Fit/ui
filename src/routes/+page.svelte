@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Link from '$lib/components/Link.svelte';
 	import WorkoutList from '$lib/layouts/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
 
@@ -7,6 +8,6 @@
 
 <WorkoutList workouts={data.workouts}>
 	{#snippet action()}
-		<a href="/new" class="link">+ Create Workout</a>
+		<Link href="/new" class="link">+ Create Workout</Link>
 	{/snippet}
 </WorkoutList>
