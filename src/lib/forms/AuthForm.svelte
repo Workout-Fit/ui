@@ -14,6 +14,7 @@
 		extraFields?: Snippet<[form: SuperForm<z.TypeOf<Schema>>]>;
 		passwordHTMLAutocomplete?: 'current-password' | 'new-password';
 		enctype?: HTMLFormAttributes['enctype'];
+		disabled?: boolean;
 		schema?: Schema;
 	} & Omit<FormOptions<z.TypeOf<Schema>>, 'validators'>;
 </script>
@@ -43,6 +44,7 @@
 		action,
 		passwordHTMLAutocomplete = 'current-password',
 		id,
+		disabled = false,
 		...rest
 	}: AuthFormProps<Schema> = $props();
 
@@ -64,12 +66,12 @@
 		field={'email' as any}
 		placeholder="johndoe@email.com"
 		autocomplete="email"
-		disabled={$submitting}
+		disabled={$submitting || disabled}
 		{form}
 		type="email"
 	/>
 	<PasswordField
-		disabled={$submitting}
+		disabled={$submitting || disabled}
 		label="Password"
 		placeholder="********"
 		autocomplete={passwordHTMLAutocomplete}
@@ -77,7 +79,7 @@
 		{form}
 	/>
 	{#if extraFields}{@render extraFields(form)}{/if}
-	<Button loading={$submitting}>{submitLabel}</Button>
+	<Button loading={$submitting || disabled}>{submitLabel}</Button>
 </form>
 
 <style>

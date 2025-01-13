@@ -24,8 +24,10 @@
 	const { data }: { data: PageServerData } = $props();
 
 	let mode: 'signup' | 'signin' = $state('signin');
+	let ssoSignIn = $state(false);
 
 	const handleSignInWithProvider = async (credentials: SignInWithIdTokenCredentials) => {
+		ssoSignIn = true;
 		const response = await fetch('/auth/sso', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -95,7 +97,13 @@
 					{/snippet}
 				</AuthForm>
 			{:else}
-				<AuthForm action="?/signin" id="sign-in" submitLabel="Sign-in" data={data.signInForm} />
+				<AuthForm
+					action="?/signin"
+					id="sign-in"
+					submitLabel="Sign-in"
+					data={data.signInForm}
+					disabled={ssoSignIn}
+				/>
 				<Button variant="text" form="sign-in" formaction="?/forgot" class="forgot-password">
 					Forgot your password?
 				</Button>
@@ -109,6 +117,7 @@
 		<Button
 			style="display: inline;"
 			variant="text"
+			disabled={ssoSignIn}
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
 		>
 			{mode === 'signup' ? 'Log-in' : 'Sign-up'}
