@@ -15,14 +15,17 @@
 		sets: z
 			.number()
 			.int()
+			.min(1)
 			.default(null as unknown as number),
 		repetitions: z
 			.number()
 			.int()
+			.min(1)
 			.default(null as unknown as number),
 		rest: z
 			.number()
 			.int()
+			.min(0)
 			.default(null as unknown as number),
 		notes: z.string().nullable()
 	});
