@@ -49,6 +49,11 @@
 		display: grid;
 		grid-template: 1fr / auto 1fr auto;
 		padding: var(--base-spacing);
+		transition: background-color 0.3s ease-in-out;
+	}
+
+	.list-item:is(:hover, :focus) {
+		background-color: var(--text-low);
 	}
 
 	a.list-item {
