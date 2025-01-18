@@ -82,7 +82,7 @@
 <div class="auth">
 	<Logo width={100} />
 	{#key mode}
-		<div in:fly={{ x: 50, duration: 300 }}>
+		<div style="width: 100%;" in:fly={{ x: 50, duration: 300 }}>
 			{#if mode === 'signup'}
 				<AuthForm
 					action="?/signup"
@@ -131,8 +131,10 @@
 		flex-direction: column;
 		align-items: center;
 		gap: var(--base-spacing);
-		max-width: 350px;
+		max-width: min(100%, 350px);
 		margin: auto;
+		padding: var(--base-spacing);
+		box-sizing: content-box;
 	}
 
 	:global(button.forgot-password) {
