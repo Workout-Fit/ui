@@ -13,15 +13,18 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { i18n } from '$lib/i18n';
 
 	const { data }: { data: PageServerData } = $props();
 
 	const form = superForm(data.form, {
 		validators: zodClient(resetFormSchema),
-		onError: ({ result }) => showToast('error', { text: result.error.message }),
-		onUpdated: ({ form }) => {
-			showToast('success', { text: form.message });
-			goto('/');
+		onResult: ({ result }) => {
+			if (result.type === 'error') showToast('error', { text: result.error.message });
+			else if (result.type === 'redirect') {
+				showToast('success', { text: 'Successfully reset your password' });
+				goto(result.location, { invalidateAll: true });
+			}
 		}
 	});
 

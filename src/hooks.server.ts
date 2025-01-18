@@ -53,8 +53,11 @@ const authGuard: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 
 	if (!event.locals.session && !PUBLIC_URLS.includes(event.route.id as string))
-		redirect(303, '/auth?redirect_uri=' + requestUrl.pathname.replace('__data.json', ''));
-	if (event.locals.session && event.url.pathname === '/auth') redirect(303, '/');
+		redirect(
+			303,
+			i18n.resolveRoute('/auth?redirect_uri=' + requestUrl.pathname.replace('__data.json', ''))
+		);
+	if (event.locals.session && event.url.pathname === '/auth') redirect(303, i18n.resolveRoute('/'));
 
 	return resolve(event);
 };

@@ -1,5 +1,6 @@
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
+import { i18n } from '$lib/i18n';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -50,7 +51,7 @@ export const actions = {
 			}
 		}
 
-		return redirect(302, `/workouts/${createWorkout.data.id}`);
+		return redirect(302, i18n.resolveRoute(`/workouts/${createWorkout.data.id}`));
 	},
 	exercise: async ({ request }) => {
 		debugger;

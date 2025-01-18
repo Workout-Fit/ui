@@ -49,7 +49,7 @@ export const actions = {
 			console.error(cloneError);
 			return error(500, 'Failed to clone workout');
 		}
-		return redirect(302, `/workouts/${workoutId}`);
+		return redirect(302, i18n.resolveRoute(`/workouts/${workoutId}`));
 	},
 	like: async ({ params: { id }, locals: { supabase, safeGetSession }, request }) => {
 		const formData = await request.formData();

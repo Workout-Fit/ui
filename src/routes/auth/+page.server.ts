@@ -9,6 +9,7 @@ import insertProfile from '$lib/supabase/queries/insertProfile';
 import pick from 'lodash/pick';
 import type { AuthError } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { i18n } from '$lib/i18n';
 
 export const load = async () => {
 	const nonce = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));
@@ -52,7 +53,7 @@ export const actions: Actions = {
 				(signUpError as AuthError).status ?? 500,
 				signUpError.message ?? 'Failed to sign-up'
 			);
-		} else redirect(303, redirectUri);
+		} else redirect(303, i18n.resolveRoute(redirectUri));
 	},
 	signin: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(
@@ -65,7 +66,7 @@ export const actions: Actions = {
 		const { error: signInError } = await supabase.auth.signInWithPassword(form.data);
 		if (signInError)
 			return error(signInError.status ?? 500, signInError.message ?? 'Failed to sign-in');
-		else redirect(303, redirectUri);
+		else redirect(303, i18n.resolveRoute(redirectUri));
 	},
 	forgot: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(authFormSchema));
