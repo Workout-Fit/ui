@@ -12,7 +12,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 		.select(
 			`
       id,
-      description,
+      notes,
       name,
       based_on,
       creation_date,

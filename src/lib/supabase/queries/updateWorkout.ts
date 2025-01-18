@@ -10,10 +10,7 @@ const updateWorkout = async (
 	Promise.all([
 		supabase
 			.from('workouts')
-			.update({
-				name: workout.name,
-				description: workout.description
-			})
+			.update({ name: workout.name, notes: workout.notes })
 			.eq('id', workout.id as string)
 			.single(),
 		supabase.rpc('update_workouts_exercises', {

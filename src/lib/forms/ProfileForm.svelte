@@ -1,6 +1,7 @@
 <script lang="ts" module>
 	import { z } from 'zod';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
+	import * as m from '$lib/paraglide/messages';
 
 	export const profileFormSchema = z.object({
 		full_name: z.string().nonempty().max(50),
@@ -54,14 +55,14 @@
 		</div>
 	</div>
 	<TextField
-		label="Full Name"
+		label={m.name()}
 		autocomplete="name"
 		placeholder="John Doe"
 		field="full_name"
 		form={formData}
 	/>
 	<TextField
-		label="Username"
+		label={m.username()}
 		autocomplete="username"
 		placeholder="johndoe"
 		field="username"
@@ -69,16 +70,16 @@
 	/>
 	<div style="display: flex; gap: var(--base-spacing); width: 100%;">
 		<TextField
-			label="Weight"
+			label={m.weight()}
 			placeholder="60.0"
 			step="0.1"
 			type="number"
 			field="weight"
 			form={formData}
 		/>
-		<TextField label="Height" placeholder="173" type="number" field="height" form={formData} />
+		<TextField label={m.height()} placeholder="173" type="number" field="height" form={formData} />
 	</div>
-	<TextField label="Bio" placeholder="Brazilian, 30yr" field="bio" form={formData} />
+	<TextField label={m.bio()} placeholder="Brazilian, 30yr" field="bio" form={formData} />
 </div>
 
 <style>

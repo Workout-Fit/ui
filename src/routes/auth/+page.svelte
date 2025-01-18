@@ -20,6 +20,7 @@
 	import { showToast } from '$lib/utils/toast';
 	import type { CredentialResponse } from 'google-one-tap';
 	import Button from '$lib/components/Button.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -86,7 +87,7 @@
 			{#if mode === 'signup'}
 				<AuthForm
 					action="?/signup"
-					submitLabel="Sign-up"
+					submitLabel={m.sign_up()}
 					data={data.signUpForm}
 					schema={signUpFormSchema}
 					passwordHTMLAutocomplete="new-password"
@@ -100,12 +101,12 @@
 				<AuthForm
 					action="?/signin"
 					id="sign-in"
-					submitLabel="Sign-in"
+					submitLabel={m.sign_in()}
 					data={data.signInForm}
 					disabled={ssoSignIn}
 				/>
 				<Button variant="text" form="sign-in" formaction="?/forgot" class="forgot-password">
-					Forgot your password?
+					{m.forgot_password()}
 				</Button>
 			{/if}
 		</div>
@@ -113,14 +114,14 @@
 	<hr style="width: 100%;" />
 	<div bind:this={googleSSOButton}></div>
 	<small>
-		{mode === 'signup' ? 'Already have an account?' : "Don't have an account?"}
+		{mode === 'signup' ? m.sign_in_label() : m.sign_up_label()}
 		<Button
 			style="display: inline;"
 			variant="text"
 			disabled={ssoSignIn}
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
 		>
-			{mode === 'signup' ? 'Log-in' : 'Sign-up'}
+			{mode === 'signup' ? m.sign_in() : m.sign_up()}
 		</Button>
 	</small>
 </div>

@@ -38,6 +38,7 @@
 	import TextField from '$lib/components/TextField.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { superForm } from 'sveltekit-superforms/client';
+	import * as m from '$lib/paraglide/messages';
 
 	let { form: formData, oncancel, action, ...rest }: ExerciseFormProps = $props();
 
@@ -64,7 +65,7 @@
 		id="exercise"
 		loadFunction={loadExercises}
 		name="exercise"
-		label="Exercise"
+		label={m.exercise()}
 		debounceValue={300}
 		searchThreshold={3}
 		disabled={$submitting}
@@ -77,14 +78,14 @@
 		<TextField
 			type="number"
 			disabled={$submitting}
-			label="Sets"
+			label={m.sets()}
 			field="sets"
 			placeholder="4"
 			{form}
 		/>
 		<TextField
 			type="number"
-			label="Repetitions"
+			label={m.repetitions()}
 			field="repetitions"
 			placeholder="12"
 			{form}
@@ -93,7 +94,7 @@
 		<TextField
 			disabled={$submitting}
 			type="number"
-			label="Rest"
+			label={m.rest()}
 			field="rest"
 			placeholder="60"
 			{form}
@@ -103,7 +104,7 @@
 		disabled={$submitting}
 		multiline
 		field="notes"
-		label="Notes"
+		label={m.notes()}
 		placeholder="Slow execution"
 		{form}
 	/>

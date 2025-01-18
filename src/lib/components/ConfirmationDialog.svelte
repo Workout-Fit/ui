@@ -14,12 +14,13 @@
 <script lang="ts">
 	import Dialog from '$lib/components/Dialog.svelte';
 	import Button from './Button.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let {
 		open,
 		title,
 		onconfirm,
-		cancelLabel = 'Cancel',
+		cancelLabel = m.cancel(),
 		confirmLabel,
 		message,
 		disabled,

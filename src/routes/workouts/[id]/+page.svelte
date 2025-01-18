@@ -12,8 +12,8 @@
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
 	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
 	import Link from '$lib/components/Link.svelte';
-	import ListItem from '$lib/components/ListItem.svelte';
 	import List from '$lib/components/List.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let { data }: { data: PageData } = $props();
 
@@ -40,22 +40,22 @@
 	<div class="workout__info">
 		{#if data.workout?.creation_date}
 			<small>
-				Created on {new Date(data.workout?.creation_date).toLocaleDateString()}
+				{m.created_on()}{' '}{new Date(data.workout?.creation_date).toLocaleDateString()}
 			</small>
 		{/if}
 		<h1>{data.workout?.name}</h1>
 		<small>
-			Created by <Link href={`/profile/${username}`}>{username}</Link>
+			{m.created_by()}{' '}<Link href={`/profile/${username}`}>{username}</Link>
 			{#if data.workout?.based_on}
 				<br />
-				Based on
+				{m.based_on()}{' '}
 				<Link href={`/workouts/${data.workout?.based_on?.id}`}>{data.workout?.based_on?.name}</Link>
 			{/if}
 		</small>
-		<p>{data.workout?.description}</p>
+		<p>{data.workout?.notes}</p>
 		<div class="workout__actions">
 			{#if data.editable}
-				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>Edit</Link>
+				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>{m.edit()}</Link>
 			{/if}
 			<form
 				method="POST"
@@ -72,13 +72,13 @@
 					};
 				}}
 			>
-				<Button variant="text" loading={cloning}>Clone</Button>
+				<Button variant="text" loading={cloning}>{m.clone()}</Button>
 			</form>
 			<Button
 				variant="text"
 				onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
 			>
-				Delete
+				{m.delete_action()}
 			</Button>
 		</div>
 		<form
@@ -99,13 +99,14 @@
 			<Button class="workout__like" variant="text" disabled={liking}>
 				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
 				<Icon style="fill: var(--color-primary);" width={16} height={16} />
-				{data.likes} Likes
+				{data.likes}
+				{m.likes()}
 			</Button>
 		</form>
 	</div>
 
 	<div class="workout__exercise-list">
-		<h2>Exercises</h2>
+		<h2>{m.exercises()}</h2>
 		<List items={data.workout?.exercises} emptyMessage="No exercises added">
 			{#snippet item(exercise)}
 				<ExerciseListItem exercise={exercise as WorkoutExercise} />
@@ -116,9 +117,9 @@
 
 <ConfirmationDialog
 	open={page.state.modalShown === 'confirm-delete-workout'}
-	title={`Are you sure you want to delete ${data.workout.name}?`}
-	message="This workout will be permanently removed and cannot be recovered."
-	confirmLabel="Delete"
+	title={m.delete_workout_confirmation_title({ workout: data.workout?.name })}
+	message={m.delete_workout_confirmation_message()}
+	confirmLabel={m.delete_action()}
 	oncancel={() => replaceState('', { modalShown: undefined })}
 	onconfirm={handleDeleteWorkout}
 />

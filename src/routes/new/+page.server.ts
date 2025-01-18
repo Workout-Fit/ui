@@ -22,7 +22,7 @@ export const actions = {
 			.from('workouts')
 			.insert({
 				name: form.data.name,
-				description: form.data.description
+				notes: form.data.notes
 			})
 			.select('id')
 			.single();

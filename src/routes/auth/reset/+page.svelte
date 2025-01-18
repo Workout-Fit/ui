@@ -12,6 +12,7 @@
 	import { showToast } from '$lib/utils/toast';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -28,18 +29,18 @@
 </script>
 
 <form method="POST" class="forgot-password" use:enhance>
-	<h1>Reset your password</h1>
+	<h1>{m.reset_password()}</h1>
 	<small>
-		You are resetting the password for <b>{page.url.searchParams.get('email') ?? ''}</b>
+		{m.reset_password_message({ email: page.url.searchParams.get('email') ?? '' })}
 	</small>
 	<PasswordField
-		label="Password"
+		label={m.password()}
 		placeholder="********"
 		autocomplete="new-password"
 		field={'password' as any}
 		{form}
 	/>
-	<Button disabled={$submitting} loading={$delayed}>Reset your password</Button>
+	<Button disabled={$submitting} loading={$delayed}>{m.reset_password()}</Button>
 </form>
 
 <style>

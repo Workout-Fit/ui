@@ -10,7 +10,7 @@
 
 	export const workoutFormSchema = z.object({
 		name: z.string().nonempty(),
-		description: z.string().nullable(),
+		notes: z.string().nullable(),
 		exercises: z.array(exerciseFormSchema)
 	});
 </script>
@@ -27,6 +27,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import Button from '$lib/components/Button.svelte';
 	import List from '$lib/components/List.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	const handleCloseModal = () => replaceState('', { modalShown: undefined });
 
@@ -44,36 +45,36 @@
 	<div class="workout-form__info">
 		<div class="workout-form__title">
 			<h2>{title}</h2>
-			<Button type="submit" disabled={$submitting} loading={$delayed}>Save</Button>
+			<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
 		</div>
 
 		<TextField
-			label="Name"
+			label={m.name()}
 			type="text"
 			{form}
 			disabled={$submitting}
 			field="name"
-			placeholder="Chest & Triceps"
+			placeholder={m.workout_name_placeholder()}
 		/>
 		<TextField
-			label="Description"
+			label={m.notes()}
 			{form}
 			disabled={$submitting}
 			multiline
-			field="description"
-			placeholder="Do it twice a week"
+			field="notes"
+			placeholder={m.workout_notes_placeholder()}
 		/>
 	</div>
 	<div class="workout-form__exercise-list">
 		<div class="workout-form__exercise-list-title">
-			<h2>Exercises</h2>
+			<h2>{m.exercises()}</h2>
 			<Button
 				variant="text"
 				type="button"
 				disabled={$submitting}
 				onclick={() => pushState('', { modalShown: 'add-exercise' })}
 			>
-				+ ADD EXERCISE
+				+ {m.add_exercise()}
 			</Button>
 		</div>
 		<List items={$data.exercises} emptyMessage="No exercises added">
@@ -87,7 +88,7 @@
 								($data.exercises = $data.exercises?.filter((item) => item !== exercise) ?? [])}
 							variant="text"
 						>
-							Remove
+							{m.remove()}
 						</Button>
 					{/snippet}
 				</ExerciseListItem>
@@ -98,7 +99,7 @@
 
 <Dialog open={page.state.modalShown === 'add-exercise'} onclose={handleCloseModal}>
 	<div class="exercise-dialog">
-		<h3>Add Exercise</h3>
+		<h3>{m.add_exercise()}</h3>
 		<ExerciseForm
 			oncancel={handleCloseModal}
 			form={exerciseForm}

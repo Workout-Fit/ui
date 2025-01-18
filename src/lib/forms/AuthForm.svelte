@@ -34,6 +34,7 @@
 	import { showToast } from '$lib/utils/toast';
 	import PasswordField from '$lib/components/PasswordField.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let {
 		data,
@@ -72,7 +73,7 @@
 	/>
 	<PasswordField
 		disabled={$submitting || disabled}
-		label="Password"
+		label={m.password()}
 		placeholder="********"
 		autocomplete={passwordHTMLAutocomplete}
 		field={'password' as any}

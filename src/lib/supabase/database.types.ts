@@ -157,26 +157,26 @@ export type Database = {
 				Row: {
 					based_on: string | null;
 					creation_date: string;
-					description: string | null;
 					id: string;
 					name: string;
+					notes: string | null;
 					user_id: string;
 					profile: unknown | null;
 				};
 				Insert: {
 					based_on?: string | null;
 					creation_date?: string;
-					description?: string | null;
 					id?: string;
 					name: string;
+					notes?: string | null;
 					user_id?: string;
 				};
 				Update: {
 					based_on?: string | null;
 					creation_date?: string;
-					description?: string | null;
 					id?: string;
 					name?: string;
+					notes?: string | null;
 					user_id?: string;
 				};
 				Relationships: [
@@ -306,9 +306,9 @@ export type Database = {
 				Returns: {
 					based_on: string | null;
 					creation_date: string;
-					description: string | null;
 					id: string;
 					name: string;
+					notes: string | null;
 					user_id: string;
 				}[];
 			};

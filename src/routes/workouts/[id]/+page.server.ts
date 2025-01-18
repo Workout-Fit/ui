@@ -8,7 +8,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params, depen
 		.select(
 			`
       id,
-      description,
+      notes,
       name,
       based_on(
         id,

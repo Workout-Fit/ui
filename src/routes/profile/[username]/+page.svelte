@@ -3,6 +3,7 @@
 	import type { PageServerData } from './$types';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 	import Link from '$lib/components/Link.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
@@ -13,7 +14,7 @@
 		<h2 class="profile__fullname">
 			{data.profile.full_name}
 			{#if data.editable}
-				<Link class="link" href={`/profile/${data.profile.username}/edit`}>Edit</Link>
+				<Link class="link" href={`/profile/${data.profile.username}/edit`}>{m.edit()}</Link>
 			{/if}
 		</h2>
 		<small>@{data.profile.username}</small>
@@ -27,13 +28,13 @@
 	{#if data.profile.bio}
 		<p>{data.profile.bio}</p>
 	{:else}
-		<i>No bio available</i>
+		<i>{m.empty_bio()}</i>
 	{/if}
 
 	<WorkoutList workouts={data.workouts}>
 		{#snippet action()}
 			{#if data.editable}
-				<Link href="/new" class="workouts__add link">+ Create Workout</Link>
+				<Link href="/new" class="workouts__add link">+ {m.create_workout()}</Link>
 			{/if}
 		{/snippet}
 	</WorkoutList>
