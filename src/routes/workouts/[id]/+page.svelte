@@ -12,6 +12,8 @@
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
 	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
 	import Link from '$lib/components/Link.svelte';
+	import ListItem from '$lib/components/ListItem.svelte';
+	import List from '$lib/components/List.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -104,9 +106,11 @@
 
 	<div class="workout__exercise-list">
 		<h2>Exercises</h2>
-		{#each data.workout?.exercises ?? [] as exercise}
-			<ExerciseListItem exercise={exercise as WorkoutExercise} />
-		{/each}
+		<List items={data.workout?.exercises} emptyMessage="No exercises added">
+			{#snippet item(exercise)}
+				<ExerciseListItem exercise={exercise as WorkoutExercise} />
+			{/snippet}
+		</List>
 	</div>
 </div>
 

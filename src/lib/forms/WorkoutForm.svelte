@@ -26,6 +26,7 @@
 	import Dialog from '$lib/components/Dialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Button from '$lib/components/Button.svelte';
+	import List from '$lib/components/List.svelte';
 
 	const handleCloseModal = () => replaceState('', { modalShown: undefined });
 
@@ -75,21 +76,23 @@
 				+ ADD EXERCISE
 			</Button>
 		</div>
-		{#each $data.exercises as exercise}
-			<ExerciseListItem exercise={exercise as WorkoutExercise}>
-				{#snippet decoration()}
-					<Button
-						type="button"
-						disabled={$submitting}
-						onclick={() =>
-							($data.exercises = $data.exercises?.filter((item) => item !== exercise) ?? [])}
-						variant="text"
-					>
-						Remove
-					</Button>
-				{/snippet}
-			</ExerciseListItem>
-		{/each}
+		<List items={$data.exercises} emptyMessage="No exercises added">
+			{#snippet item(exercise)}
+				<ExerciseListItem exercise={exercise as WorkoutExercise}>
+					{#snippet decoration()}
+						<Button
+							type="button"
+							disabled={$submitting}
+							onclick={() =>
+								($data.exercises = $data.exercises?.filter((item) => item !== exercise) ?? [])}
+							variant="text"
+						>
+							Remove
+						</Button>
+					{/snippet}
+				</ExerciseListItem>
+			{/snippet}
+		</List>
 	</div>
 </form>
 

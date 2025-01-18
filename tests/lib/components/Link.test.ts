@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/svelte';
 import { createRawSnippet, flushSync, tick } from 'svelte';
 import Link, { type LinkProps } from '$lib/components/Link.svelte';
 import { faker } from '@faker-js/faker';
-import { page } from '$app/state';
 import { goto } from '$app/navigation';
 
 const renderLink = (props?: Partial<LinkProps>) =>

@@ -2,6 +2,7 @@
 	import type getWorkouts from '$lib/supabase/queries/getWorkouts';
 	import type { Snippet } from 'svelte';
 	import ListItem from '../components/ListItem.svelte';
+	import List from '$lib/components/List.svelte';
 
 	type WorkoutListProps = {
 		workouts: Exclude<Awaited<ReturnType<typeof getWorkouts>>['data'], null>;
@@ -29,8 +30,8 @@
 		bind:value={searchTerm}
 		placeholder="Search..."
 	/>
-	<div class="workouts__list">
-		{#each filteredWorkouts as workout}
+	<List items={filteredWorkouts} emptyMessage="No workouts found">
+		{#snippet item(workout)}
 			<ListItem
 				title={workout.name}
 				secondLine={workout.description ?? undefined}
@@ -40,8 +41,8 @@
 					<small>{workout.exercises[0]?.count} exercises</small>
 				{/snippet}
 			</ListItem>
-		{/each}
-	</div>
+		{/snippet}
+	</List>
 </div>
 
 <style>
