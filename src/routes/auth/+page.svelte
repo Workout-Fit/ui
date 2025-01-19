@@ -76,7 +76,7 @@
 </script>
 
 <svelte:head>
-	<meta name="referrer" content="origin" />
+	<meta name="referrer" content="no-referrer-when-downgrade" />
 	<script src="https://accounts.google.com/gsi/client" async></script>
 </svelte:head>
 
