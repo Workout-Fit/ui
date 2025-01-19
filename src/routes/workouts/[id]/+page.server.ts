@@ -1,3 +1,4 @@
+import { languageTag } from '$lib/paraglide/runtime.js';
 import { error, redirect } from '@sveltejs/kit';
 import omit from 'lodash/omit';
 
@@ -16,17 +17,21 @@ export const load = async ({ locals: { supabase, safeGetSession }, params, depen
       ),
       creation_date,
       user_id,
-      profile(username),
       exercises:workouts_exercises(
         exercise_id,
-        exercise:exercises(id, name),
+        exercise:exercises(
+          id,
+          i18n:exercises_i18n(name)
+        ),
         sets,
         repetitions,
         rest,
         notes
-      )
+      ),
+      profile(username)
     `
 		)
+		.eq('exercises.exercise.i18n.language', languageTag())
 		.eq('id', params.id)
 		.single();
 

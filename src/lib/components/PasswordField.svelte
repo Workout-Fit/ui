@@ -28,7 +28,7 @@
 			onclick={() => (passwordFieldType = passwordFieldType === 'password' ? 'text' : 'password')}
 		>
 			<small>
-				{#if passwordFieldType === 'password'}Show{:else}Hide{/if}
+				{#if passwordFieldType === 'password'}{m.show()}{:else}{m.hide()}{/if}
 			</small>
 		</Button>
 	{/snippet}

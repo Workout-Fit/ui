@@ -13,7 +13,7 @@
 	"bio": "Biografia",
 	"reset_password_message": "Você está redefinindo a senha para {email}",
 	"sign_in": "Entrar",
-	"sign_up": "Cadastrar-se",
+	"sign_up": "Cadastre-se",
 	"sign_out": "Sair",
 	"forgot_password": "Esqueceu sua senha?",
 	"reset_password": "Redefinir sua Senha",
@@ -46,5 +46,7 @@
 	"cancel": "Cancelar",
 	"profile": "Perfil",
 	"dark": "Escuro",
-	"light": "Claro"
+	"light": "Claro",
+	"show": "Mostrar",
+	"hide": "Esconder"
 }

@@ -55,7 +55,6 @@ export type Database = {
 					exercise_type_id: number;
 					id: string;
 					muscle_group_id: number;
-					name: string;
 				};
 				Insert: {
 					difficulty_id: number;
@@ -63,7 +62,6 @@ export type Database = {
 					exercise_type_id: number;
 					id?: string;
 					muscle_group_id: number;
-					name: string;
 				};
 				Update: {
 					difficulty_id?: number;
@@ -71,7 +69,6 @@ export type Database = {
 					exercise_type_id?: number;
 					id?: string;
 					muscle_group_id?: number;
-					name?: string;
 				};
 				Relationships: [
 					{
@@ -100,6 +97,32 @@ export type Database = {
 						columns: ['muscle_group_id'];
 						isOneToOne: false;
 						referencedRelation: 'muscle_groups';
+						referencedColumns: ['id'];
+					}
+				];
+			};
+			exercises_i18n: {
+				Row: {
+					exercise_id: string;
+					language: string;
+					name: string;
+				};
+				Insert: {
+					exercise_id: string;
+					language: string;
+					name: string;
+				};
+				Update: {
+					exercise_id?: string;
+					language?: string;
+					name?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'exercises_i18n_exercise_id_fkey';
+						columns: ['exercise_id'];
+						isOneToOne: false;
+						referencedRelation: 'exercises';
 						referencedColumns: ['id'];
 					}
 				];

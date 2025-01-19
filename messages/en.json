@@ -46,5 +46,7 @@
 	"cancel": "Cancel",
 	"profile": "Profile",
 	"dark": "Dark",
-	"light": "Light"
+	"light": "Light",
+	"show": "Show",
+	"hide": "Hide"
 }

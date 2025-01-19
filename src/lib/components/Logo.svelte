@@ -6,6 +6,7 @@
 
 <svg
 	{...props}
+	class="logo"
 	class:active
 	viewBox="0 0 159 172"
 	fill="var(--color-background)"

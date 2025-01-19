@@ -7,8 +7,8 @@
 </script>
 
 <ListItem
-	title={exercise.exercise.name}
+	title={exercise.exercise.i18n[0].name}
 	secondLine={`${exercise.sets}×${exercise.repetitions}${exercise.rest !== undefined ? `, rest for ${exercise.rest}"` : ''}`}
-	thirdLine={exercise.notes}
+	thirdLine={exercise.notes ?? undefined}
 	rightDecoration={decoration}
 />
