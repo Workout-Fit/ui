@@ -8,6 +8,7 @@
 
 <script lang="ts">
 	import { page } from '$app/state';
+	import { i18n } from '$lib/i18n';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
 
@@ -16,7 +17,8 @@
 	let active = $state(false);
 
 	$effect(() => {
-		if (exact) active = page.url.pathname === href;
+		if (exact)
+			active = [page.url.pathname, `${page.url.pathname}/`].includes(i18n.resolveRoute(href));
 		else active = page.url.pathname.includes(href);
 	});
 </script>

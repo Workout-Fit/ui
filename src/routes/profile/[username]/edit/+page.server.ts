@@ -7,10 +7,12 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { SetNonNullable } from 'type-fest';
 import omit from 'lodash/omit';
+import { i18n } from '$lib/i18n';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
 	const profileResponse = await getProfileByUsername(supabase, params.username);
-	if (!profileResponse.data || profileResponse.data.user_id !== user?.id) return redirect(307, '/');
+	if (!profileResponse.data || profileResponse.data.user_id !== user?.id)
+		return redirect(307, i18n.resolveRoute('/'));
 
 	const form = await superValidate(
 		{
@@ -54,6 +56,6 @@ export const actions = {
 			return error(500, 'Failed to update Profile');
 		}
 
-		return redirect(302, `/profile/${form.data.username}`);
+		return redirect(302, i18n.resolveRoute(`/profile/${form.data.username}`));
 	}
 } satisfies Actions;

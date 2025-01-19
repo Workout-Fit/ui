@@ -1,10 +1,11 @@
 <script lang="ts">
 	import Button from './Button.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let {
 		oncancel,
-		saveLabel = 'Save',
-		cancelLabel = 'Cancel',
+		saveLabel = m.save(),
+		cancelLabel = m.cancel(),
 		loading = false,
 		disabled = false
 	}: {

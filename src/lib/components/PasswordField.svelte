@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts" generics="Form extends Record<string, unknown>">
+	import * as m from '$lib/paraglide/messages';
 	import Button from './Button.svelte';
 
 	import TextField, { type TextFieldProps } from './TextField.svelte';
@@ -13,7 +14,7 @@
 </script>
 
 <TextField
-	label="Password"
+	label={m.password()}
 	placeholder="********"
 	field={'password' as any}
 	type={passwordFieldType}
@@ -27,7 +28,7 @@
 			onclick={() => (passwordFieldType = passwordFieldType === 'password' ? 'text' : 'password')}
 		>
 			<small>
-				{#if passwordFieldType === 'password'}Show{:else}Hide{/if}
+				{#if passwordFieldType === 'password'}{m.show()}{:else}{m.hide()}{/if}
 			</small>
 		</Button>
 	{/snippet}

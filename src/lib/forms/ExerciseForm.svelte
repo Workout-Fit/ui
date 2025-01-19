@@ -10,23 +10,30 @@
 
 	export const exerciseFormSchema = z.object({
 		exercise: z
-			.object({ id: z.string(), name: z.string() }, { message: 'Exercise is required' })
-			.default(null as unknown as { id: string; name: string }),
+			.object({
+				id: z.string(),
+				difficulty_id: z.number(),
+				equipment_id: z.number(),
+				exercise_type_id: z.number(),
+				muscle_group_id: z.number(),
+				name: z.string()
+			})
+			.default(null as any),
 		sets: z
 			.number()
 			.int()
 			.min(1)
-			.default(null as unknown as number),
+			.default(null as any),
 		repetitions: z
 			.number()
 			.int()
 			.min(1)
-			.default(null as unknown as number),
+			.default(null as any),
 		rest: z
 			.number()
 			.int()
 			.min(0)
-			.default(null as unknown as number),
+			.default(null as any),
 		notes: z.string().nullable()
 	});
 </script>
@@ -34,16 +41,18 @@
 <script lang="ts">
 	import Autocomplete from '$lib/components/Autocomplete.svelte';
 	import FormActions from '$lib/components/FormActions.svelte';
-	import type { Database } from '$lib/supabase/database.types';
 	import TextField from '$lib/components/TextField.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { superForm } from 'sveltekit-superforms/client';
+	import * as m from '$lib/paraglide/messages';
+	import type { getExercises } from '$lib/supabase/queries/getExercises';
+	import { i18n } from '$lib/i18n';
 
 	let { form: formData, oncancel, action, ...rest }: ExerciseFormProps = $props();
 
 	const loadExercises = async (query: string) => {
-		const response = await fetch(`/api/exercises?query=${query}`);
-		return await response.json();
+		const response = await fetch(i18n.resolveRoute(`/api/exercises?query=${query}`));
+		return (await response.json()) as NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>;
 	};
 
 	const form = superForm(formData, {
@@ -55,7 +64,9 @@
 	const { form: data, submitting, errors, enhance, delayed } = form;
 </script>
 
-{#snippet exerciseAutocompleteEntry(item: Database['public']['Tables']['exercises']['Row'])}
+{#snippet exerciseAutocompleteEntry(
+	item: NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>[number]
+)}
 	{item.name}
 {/snippet}
 
@@ -64,12 +75,12 @@
 		id="exercise"
 		loadFunction={loadExercises}
 		name="exercise"
-		label="Exercise"
+		label={m.exercise()}
 		debounceValue={300}
 		searchThreshold={3}
 		disabled={$submitting}
 		renderValue={exerciseAutocompleteEntry}
-		bind:value={$data.exercise as Database['public']['Tables']['exercises']['Row']}
+		bind:value={$data.exercise}
 		error={$errors.exercise?._errors?.[0]}
 		renderItem={exerciseAutocompleteEntry}
 	/>
@@ -77,14 +88,14 @@
 		<TextField
 			type="number"
 			disabled={$submitting}
-			label="Sets"
+			label={m.sets()}
 			field="sets"
 			placeholder="4"
 			{form}
 		/>
 		<TextField
 			type="number"
-			label="Repetitions"
+			label={m.repetitions()}
 			field="repetitions"
 			placeholder="12"
 			{form}
@@ -93,7 +104,7 @@
 		<TextField
 			disabled={$submitting}
 			type="number"
-			label="Rest"
+			label={m.rest()}
 			field="rest"
 			placeholder="60"
 			{form}
@@ -103,7 +114,7 @@
 		disabled={$submitting}
 		multiline
 		field="notes"
-		label="Notes"
+		label={m.notes()}
 		placeholder="Slow execution"
 		{form}
 	/>

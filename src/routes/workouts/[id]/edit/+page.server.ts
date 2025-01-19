@@ -1,5 +1,6 @@
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
+import { i18n } from '$lib/i18n';
 import updateWorkout from '$lib/supabase/queries/updateWorkout.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
@@ -12,7 +13,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 		.select(
 			`
       id,
-      description,
+      notes,
       name,
       based_on,
       creation_date,
@@ -33,7 +34,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 	const exerciseForm = await superValidate(zod(exerciseFormSchema));
 
 	if (workout?.user_id === user?.id) return { form: workoutForm, exerciseForm };
-	return redirect(302, `/workouts/${params.id}`);
+	return redirect(302, i18n.resolveRoute(`/workouts/${params.id}`));
 };
 
 export const actions = {
@@ -53,7 +54,7 @@ export const actions = {
 			return error(500, 'Failed to update workout');
 		}
 
-		return redirect(302, `/workouts/${params.id}`);
+		return redirect(302, i18n.resolveRoute(`/workouts/${params.id}`));
 	},
 	exercise: async ({ request }) => {
 		const form = await superValidate(request, zod(exerciseFormSchema));

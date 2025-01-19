@@ -1,8 +1,8 @@
 <script lang="ts">
 	import localStore from '$lib/stores/localStore.svelte';
 	import Button from './Button.svelte';
+	import * as m from '$lib/paraglide/messages';
 
-	let { class: className = '' } = $props();
 	let theme = localStore<'light' | 'dark'>('theme', 'light');
 
 	const toggleTheme = () => theme?.set(theme.value === 'light' ? 'dark' : 'light');
@@ -16,5 +16,5 @@
 </script>
 
 <Button onclick={toggleTheme} variant="text">
-	{theme?.value === 'dark' ? 'DARK' : 'LIGHT'}
+	{theme?.value === 'dark' ? m.dark() : m.light()}
 </Button>

@@ -12,15 +12,19 @@
 	import { showToast } from '$lib/utils/toast';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
+	import * as m from '$lib/paraglide/messages';
+	import { i18n } from '$lib/i18n';
 
 	const { data }: { data: PageServerData } = $props();
 
 	const form = superForm(data.form, {
 		validators: zodClient(resetFormSchema),
-		onError: ({ result }) => showToast('error', { text: result.error.message }),
-		onUpdated: ({ form }) => {
-			showToast('success', { text: form.message });
-			goto('/');
+		onResult: ({ result }) => {
+			if (result.type === 'error') showToast('error', { text: result.error.message });
+			else if (result.type === 'redirect') {
+				showToast('success', { text: 'Successfully reset your password' });
+				goto(result.location, { invalidateAll: true });
+			}
 		}
 	});
 
@@ -28,18 +32,18 @@
 </script>
 
 <form method="POST" class="forgot-password" use:enhance>
-	<h1>Reset your password</h1>
+	<h1>{m.reset_password()}</h1>
 	<small>
-		You are resetting the password for <b>{page.url.searchParams.get('email') ?? ''}</b>
+		{m.reset_password_message({ email: page.url.searchParams.get('email') ?? '' })}
 	</small>
 	<PasswordField
-		label="Password"
+		label={m.password()}
 		placeholder="********"
 		autocomplete="new-password"
 		field={'password' as any}
 		{form}
 	/>
-	<Button disabled={$submitting} loading={$delayed}>Reset your password</Button>
+	<Button disabled={$submitting} loading={$delayed}>{m.reset_password()}</Button>
 </form>
 
 <style>

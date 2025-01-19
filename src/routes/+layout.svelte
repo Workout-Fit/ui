@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
+	import { i18n } from '$lib/i18n';
+
 	import '$lib/theme/index.css';
 
 	import { invalidate } from '$app/navigation';
@@ -45,10 +48,12 @@
 
 <ProgressBar color="var(--color-primary);" />
 
-<div>
-	<Header username={data.username} />
-	{@render children()}
-</div>
+<ParaglideJS {i18n}>
+	<div>
+		<Header username={data.username ?? undefined} />
+		{@render children()}
+	</div>
+</ParaglideJS>
 
 <style>
 	div {

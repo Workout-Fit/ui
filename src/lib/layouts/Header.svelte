@@ -4,6 +4,7 @@
 	import Link from '$lib/components/Link.svelte';
 	import Logo from '$lib/components/Logo.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import * as m from '$lib/paraglide/messages';
 
 	let { username }: { username?: string } = $props();
 </script>
@@ -17,12 +18,12 @@
 	<nav>
 		<ThemeToggle />
 		{#if username}
-			<Link class="link" exact={false} href={`/profile/${username}`}>Profile</Link>
+			<Link class="link" exact={false} href={`/profile/${username}`}>{m.profile()}</Link>
 			<form method="POST" action="/?/signout" use:enhance>
-				<Button variant="text">Sign-out</Button>
+				<Button variant="text">{m.sign_out()}</Button>
 			</form>
 		{:else}
-			<Link class="link" href="/auth">Sign-in</Link>
+			<Link class="link" href="/auth">{m.sign_in()}</Link>
 		{/if}
 	</nav>
 </header>

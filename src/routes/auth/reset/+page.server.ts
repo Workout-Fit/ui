@@ -1,9 +1,10 @@
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 
 import type { Actions } from './$types';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { resetFormSchema } from './+page.svelte';
+import { i18n } from '$lib/i18n';
 
 export const load = async () => ({
 	form: await superValidate(zod(resetFormSchema))
@@ -21,6 +22,6 @@ export const actions: Actions = {
 
 		if (resetError)
 			return error(resetError.status ?? 500, resetError.message ?? 'Failed to reset password');
-		else return message(form, 'Password reset successfully');
+		else return redirect(302, i18n.resolveRoute('/'));
 	}
 };

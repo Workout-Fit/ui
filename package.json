@@ -23,6 +23,8 @@
 		"@dotenvx/dotenvx": "^1.32.1",
 		"@faker-js/faker": "^9.3.0",
 		"@fontsource-variable/overpass": "^5.1.2",
+		"@inlang/paraglide-js": "1.11.8",
+		"@inlang/paraglide-sveltekit": "0.15.5",
 		"@material-symbols/svg-400": "^0.27.2",
 		"@playwright/test": "^1.49.1",
 		"@poppanator/sveltekit-svg": "^5.0.0",

@@ -1,5 +1,6 @@
 import { screen, render, fireEvent, waitFor } from '@testing-library/svelte';
 import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+import * as m from '$lib/paraglide/messages';
 
 vi.mock('localStorage');
 
@@ -18,10 +19,10 @@ describe('<ThemeToggle />', () => {
 		const button = screen.getByRole('button');
 
 		fireEvent.click(button);
-		await waitFor(() => expect(button).toHaveTextContent('DARK'));
+		await waitFor(() => expect(button).toHaveTextContent(m.dark()));
 
 		fireEvent.click(button);
-		await waitFor(() => expect(button).toHaveTextContent('LIGHT'));
+		await waitFor(() => expect(button).toHaveTextContent(m.light()));
 	});
 
 	it('applies theme class to document element', () => {

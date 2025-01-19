@@ -1,10 +1,17 @@
+import { i18n } from '$lib/i18n';
 import { createServerClient } from '@supabase/ssr';
 import { type Handle, redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 
-const PUBLIC_URLS = ['/auth', '/workouts/[id]', '/auth/reset', '/auth/sso', '/profile/[username]'];
+const PUBLIC_URLS = [
+	'/auth',
+	'/workouts/[id]',
+	'/auth/reset',
+	'/api/auth/sso',
+	'/profile/[username]'
+];
 
 const supabase: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
@@ -52,10 +59,13 @@ const authGuard: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 
 	if (!event.locals.session && !PUBLIC_URLS.includes(event.route.id as string))
-		redirect(303, '/auth?redirect_uri=' + requestUrl.pathname.replace('__data.json', ''));
-	if (event.locals.session && event.url.pathname === '/auth') redirect(303, '/');
+		redirect(
+			303,
+			i18n.resolveRoute('/auth?redirect_uri=' + requestUrl.pathname.replace('__data.json', ''))
+		);
+	if (event.locals.session && event.url.pathname === '/auth') redirect(303, i18n.resolveRoute('/'));
 
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(supabase, authGuard);
+export const handle: Handle = sequence(supabase, authGuard, i18n.handle());
