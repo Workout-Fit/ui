@@ -48,5 +48,6 @@
 	"dark": "Dark",
 	"light": "Light",
 	"show": "Show",
-	"hide": "Hide"
+	"hide": "Hide",
+	"rest_for": "Rest for {rest}s"
 }

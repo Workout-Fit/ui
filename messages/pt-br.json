@@ -48,5 +48,6 @@
 	"dark": "Escuro",
 	"light": "Claro",
 	"show": "Mostrar",
-	"hide": "Esconder"
+	"hide": "Esconder",
+	"rest_for": "Descansar por {rest}s"
 }
