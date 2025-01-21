@@ -5,13 +5,7 @@ import { sequence } from '@sveltejs/kit/hooks';
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 
-const PUBLIC_URLS = [
-	'/auth',
-	'/workouts/[id]',
-	'/auth/reset',
-	'/api/auth/sso',
-	'/profile/[username]'
-];
+const PUBLIC_URLS = ['/auth', '/workouts/[id]', '/auth/reset', '/auth/sso', '/profile/[username]'];
 
 const supabase: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
