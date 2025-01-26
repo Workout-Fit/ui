@@ -25,7 +25,7 @@
 	const username = (data.workout?.profile as unknown as { username: string }).username;
 
 	async function handleDeleteWorkout() {
-		const res = await fetch(`/workouts/${data.workout.id}`, { method: 'DELETE' });
+		const res = await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
 		if (res.ok) {
 			showToast('success', { text: 'Successfully deleted workout' });
 			goto('/');

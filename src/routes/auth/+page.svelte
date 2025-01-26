@@ -29,7 +29,7 @@
 
 	const handleSignInWithProvider = async (credentials: SignInWithIdTokenCredentials) => {
 		ssoSignIn = true;
-		const response = await fetch('/auth/sso', {
+		const response = await fetch('/api/auth/sso', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ ...credentials, nonce: data.nonce })
