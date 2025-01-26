@@ -14,9 +14,8 @@
 		border: none;
 		text-transform: uppercase;
 		font-size: 0.7rem;
-		font-weight: 600;
+		font-weight: 500;
 		color: var(--color-primary);
-		font-weight: normal;
 		padding: 0;
 	}
 </style>
