@@ -49,5 +49,6 @@
 	"light": "Light",
 	"show": "Show",
 	"hide": "Hide",
-	"rest_for": "Rest for {rest}s"
+	"rest_for": "Rest for {rest}s",
+	"exercise_list_empty": "No exercises added"
 }

@@ -16,7 +16,11 @@
 				equipment_id: z.number(),
 				exercise_type_id: z.number(),
 				muscle_group_id: z.number(),
-				name: z.string()
+				i18n: z.array(
+					z.object({
+						name: z.string()
+					})
+				)
 			})
 			.default(null as any),
 		sets: z

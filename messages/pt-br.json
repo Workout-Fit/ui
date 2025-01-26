@@ -49,5 +49,6 @@
 	"light": "Claro",
 	"show": "Mostrar",
 	"hide": "Esconder",
-	"rest_for": "Descansar por {rest}s"
+	"rest_for": "Descansar por {rest}s",
+	"exercise_list_empty": "Nenhum exercício adicionado"
 }

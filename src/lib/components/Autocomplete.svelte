@@ -159,6 +159,8 @@
 		gap: var(--base-spacing);
 		align-items: center;
 		justify-content: space-between;
+
+		height: 38px;
 	}
 
 	.autocomplete__input:focus,

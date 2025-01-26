@@ -107,7 +107,7 @@
 
 	<div class="workout__exercise-list">
 		<h2>{m.exercises()}</h2>
-		<List items={data.workout?.exercises} emptyMessage="No exercises added">
+		<List items={data.workout?.exercises} emptyMessage={m.exercise_list_empty()}>
 			{#snippet item(exercise)}
 				<ExerciseListItem exercise={exercise as WorkoutExercise} />
 			{/snippet}
