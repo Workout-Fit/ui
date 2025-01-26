@@ -2,25 +2,25 @@ import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
 import { i18n } from '$lib/i18n';
 import updateWorkout from '$lib/supabase/queries/updateWorkout.js';
+import { parseWorkoutExercises } from '$lib/utils/parser.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
 	const { user } = await safeGetSession();
-	const { data: workout } = await supabase
+	const { data: workout, error: workoutError } = await supabase
 		.from('workouts')
 		.select(
 			`
       id,
       notes,
       name,
-      based_on,
       creation_date,
       user_id,
       exercises:workouts_exercises(
         exercise_id,
-        exercise:exercises(id, name),
+        exercise:exercises(id, i18n:exercises_i18n(name)),
         sets,
         repetitions,
         rest,
@@ -30,7 +30,15 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 		)
 		.eq('id', params.id)
 		.single();
-	const workoutForm = await superValidate(workout, zod(workoutFormSchema));
+
+	if (workoutError) {
+		console.error(workoutError);
+		return error(500, 'Failed to load workout');
+	}
+
+	if (!workout) return error(404, 'Workout not found');
+
+	const workoutForm = await superValidate(parseWorkoutExercises(workout), zod(workoutFormSchema));
 	const exerciseForm = await superValidate(zod(exerciseFormSchema));
 
 	if (workout?.user_id === user?.id) return { form: workoutForm, exerciseForm };
