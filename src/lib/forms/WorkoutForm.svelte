@@ -79,7 +79,7 @@
 		</div>
 		<List items={$data.exercises} emptyMessage="No exercises added">
 			{#snippet item(exercise)}
-				<ExerciseListItem exercise={exercise as WorkoutExercise}>
+				<ExerciseListItem {exercise}>
 					{#snippet decoration()}
 						<Button
 							type="button"

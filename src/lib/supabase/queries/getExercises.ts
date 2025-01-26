@@ -8,7 +8,7 @@ export const getExercises = async (
 ) =>
 	supabase
 		.from('exercises_i18n')
-		.select('name, ...exercises(*)')
+		.select('name, ...exercises(id)')
 		.eq('language', language)
 		.textSearch('name', query.trim().toLowerCase(), { type: 'websearch' })
 		.limit(20);

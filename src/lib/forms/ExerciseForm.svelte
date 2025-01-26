@@ -12,15 +12,7 @@
 		exercise: z
 			.object({
 				id: z.string(),
-				difficulty_id: z.number(),
-				equipment_id: z.number(),
-				exercise_type_id: z.number(),
-				muscle_group_id: z.number(),
-				i18n: z.array(
-					z.object({
-						name: z.string()
-					})
-				)
+				name: z.string()
 			})
 			.default(null as any),
 		sets: z

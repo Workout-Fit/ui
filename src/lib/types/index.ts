@@ -4,9 +4,8 @@ export type WorkoutExercise = Omit<
 	Database['public']['Tables']['workouts_exercises']['Row'],
 	'workout_id' | 'exercise_id'
 > & {
-	exercise: Pick<Database['public']['Tables']['exercises']['Row'], 'id'> & {
-		i18n: Pick<Database['public']['Tables']['exercises_i18n']['Row'], 'name'>[];
-	};
+	exercise: Pick<Database['public']['Tables']['exercises']['Row'], 'id'> &
+		Pick<Database['public']['Tables']['exercises_i18n']['Row'], 'name'>;
 };
 
 export type Profile = Omit<
