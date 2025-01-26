@@ -1,5 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"email": "E-mail",
 	"password": "Senha",
 	"sets": "Séries",
 	"exercise": "Exercício",

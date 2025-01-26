@@ -63,7 +63,7 @@
 
 <form method="POST" {id} {action} {enctype} use:enhance>
 	<TextField
-		label="E-mail"
+		label={m.email()}
 		field={'email' as any}
 		placeholder="johndoe@email.com"
 		autocomplete="email"

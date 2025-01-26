@@ -1,7 +1,7 @@
 import { type Page } from '@playwright/test';
 import * as m from '$lib/paraglide/messages';
 
-export class AuthPage {
+export default class AuthPage {
 	constructor(readonly page: Page) {}
 
 	async goto() {
