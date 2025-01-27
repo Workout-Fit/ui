@@ -63,7 +63,8 @@ const authGuard: Handle = async ({ event, resolve }) => {
 			303,
 			i18n.resolveRoute('/auth?redirect_uri=' + requestUrl.pathname.replace('__data.json', ''))
 		);
-	if (event.locals.session && event.url.pathname === '/auth') redirect(303, i18n.resolveRoute('/'));
+	if (event.locals.session && event.url.pathname.includes('/auth'))
+		redirect(303, i18n.resolveRoute('/'));
 
 	return resolve(event);
 };

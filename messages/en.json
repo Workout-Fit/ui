@@ -31,7 +31,7 @@
 	"likes": "Likes",
 	"exercises": "Exercises",
 	"delete_workout_confirmation_title": "Are you sure you want to delete the workout {workout}?",
-	"delete_workout_confirmation_message": "This workout will be permanently removed and cannot be recovered.",
+	"delete_workout_confirmation_message": "This workout will be permanently deleted and cannot be recovered.",
 	"delete_action": "Delete",
 	"save": "Save",
 	"workout_name_placeholder": "Chest & Triceps",

@@ -31,7 +31,7 @@
 	"likes": "Curtidas",
 	"exercises": "Exercícios",
 	"delete_workout_confirmation_title": "Tem certeza de que deseja excluir o treino {workout}?",
-	"delete_workout_confirmation_message": "Este treino será removido permanentemente e não poderá ser recuperado.",
+	"delete_workout_confirmation_message": "Este treino será excluído permanentemente e não poderá ser recuperado.",
 	"delete_action": "Excluir",
 	"save": "Salvar",
 	"workout_name_placeholder": "Peito & Tríceps",

@@ -2,7 +2,7 @@ import { test as setup, expect } from '@playwright/test';
 
 import * as m from '$lib/paraglide/messages';
 import path from 'path';
-import { AuthPage } from './page/Auth';
+import AuthPage from './pages/auth.page';
 
 setup('authenticate', async ({ page }) => {
 	const authPage = new AuthPage(page);
@@ -12,5 +12,5 @@ setup('authenticate', async ({ page }) => {
 
 	await page
 		.context()
-		.storageState({ path: path.join(__dirname, '../../playwright/.auth/user.json') });
+		.storageState({ path: path.join(import.meta.dirname, '../../playwright/.auth/user.json') });
 });
