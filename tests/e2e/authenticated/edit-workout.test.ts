@@ -4,7 +4,7 @@ import * as m from '$lib/paraglide/messages';
 import { faker } from '@faker-js/faker';
 import { test } from '../fixtures';
 
-test.describe('Clone Workout', () => {
+test.describe('Edit Workout', () => {
 	let workoutPage: WorkoutPage;
 	let workoutId: string;
 
@@ -19,16 +19,18 @@ test.describe('Clone Workout', () => {
 
 		workoutId = workout!.id;
 		await workoutPage.goto(workoutId);
-		await page.getByRole('button', { name: m.clone() }).click();
+		await page.getByRole('link', { name: m.edit() }).click();
 	});
 
-	test('allows cloning workout', async ({ page }) => {
-		await page.getByRole('button', { name: m.clone() }).click();
-		await expect(page.getByText(m.workout_clone_success())).toBeVisible();
-		await expect(page.getByText(m.based_on())).toBeVisible();
+	test('allows editing workout', async ({ page }) => {
+		const name = faker.lorem.sentence();
+		await page.getByLabel(m.name()).fill(name);
+		await page.getByRole('button', { name: m.save() }).click();
+		await expect(page.getByText(m.edit_workout_success())).toBeVisible();
+		await expect(page.getByText(name, { exact: true })).toBeVisible();
 	});
 
-	test.afterEach(async ({ supabase, user }) => {
-		if (user) await supabase.from('workouts').delete().eq('user_id', user?.id);
+	test.afterEach(async ({ supabase }) => {
+		await supabase.from('workouts').delete().eq('id', workoutId);
 	});
 });

@@ -72,7 +72,7 @@
 					};
 				}}
 			>
-				<Button variant="text" loading={cloning}>{m.clone()}</Button>
+				<Button variant="text" disabled={cloning}>{m.clone()}</Button>
 			</form>
 			<Button
 				variant="text"
