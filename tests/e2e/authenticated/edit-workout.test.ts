@@ -29,8 +29,4 @@ test.describe('Edit Workout', () => {
 		await expect(page.getByText(m.edit_workout_success())).toBeVisible();
 		await expect(page.getByText(name, { exact: true })).toBeVisible();
 	});
-
-	test.afterEach(async ({ supabase }) => {
-		await supabase.from('workouts').delete().eq('id', workoutId);
-	});
 });

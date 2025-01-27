@@ -23,7 +23,13 @@ export default defineConfig({
 			manifest: {
 				name: 'Workout',
 				short_name: 'Workout',
-				description: 'Workout'
+				description: 'Workout',
+				theme_color: '#ffffff',
+				background_color: '#6200ee',
+				display: 'standalone',
+				orientation: 'portrait',
+				scope: '/',
+				start_url: '/'
 			},
 
 			workbox: {

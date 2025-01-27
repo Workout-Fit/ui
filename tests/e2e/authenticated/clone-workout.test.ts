@@ -27,8 +27,4 @@ test.describe('Clone Workout', () => {
 		await expect(page.getByText(m.workout_clone_success())).toBeVisible();
 		await expect(page.getByText(m.based_on())).toBeVisible();
 	});
-
-	test.afterEach(async ({ supabase, user }) => {
-		if (user) await supabase.from('workouts').delete().eq('user_id', user?.id);
-	});
 });

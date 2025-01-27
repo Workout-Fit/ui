@@ -44,8 +44,4 @@ test.describe('Delete Workout', () => {
 		await page.getByRole('dialog').getByRole('button', { name: m.delete_action() }).click();
 		await expect(page.getByText(m.workout_delete_success())).toBeVisible();
 	});
-
-	test.afterEach(async ({ supabase }) => {
-		await supabase.from('workouts').delete().eq('id', workoutId);
-	});
 });

@@ -9,25 +9,32 @@ export default defineConfig({
 	testDir: 'tests/e2e',
 	projects: [
 		// Setup project
-		{ name: 'setup', testMatch: /.*\.setup\.ts/ },
 		{
-			name: 'chromium',
+			name: 'workout teardown',
+			use: { storageState: 'playwright/.auth/user.json' },
+			testMatch: /workout\.teardown\.ts/
+		},
+		{ name: 'auth setup', testMatch: /auth\.setup\.ts/, teardown: 'workout teardown' },
+		{
+			name: 'authenticated chromium',
+			testDir: 'tests/e2e/authenticated',
 			use: {
 				...devices['Desktop Chrome'],
 				// Use prepared auth state.
 				storageState: 'playwright/.auth/user.json'
 			},
-			dependencies: ['setup']
+			dependencies: ['auth setup']
 		},
 
 		{
-			name: 'firefox',
+			name: 'authenticated firefox',
+			testDir: 'tests/e2e/authenticated',
 			use: {
 				...devices['Desktop Firefox'],
 				// Use prepared auth state.
 				storageState: 'playwright/.auth/user.json'
 			},
-			dependencies: ['setup']
+			dependencies: ['auth setup']
 		}
 	]
 });

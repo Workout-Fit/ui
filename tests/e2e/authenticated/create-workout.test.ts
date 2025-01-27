@@ -62,9 +62,4 @@ test.describe('Create Workout', () => {
 		await expect(page.getByRole('heading', { name: workoutName })).toBeVisible();
 		await expect(page.getByText(workoutNotes)).toBeVisible();
 	});
-
-	test.afterEach(async ({ user, supabase }) => {
-		if (!user) return;
-		await supabase.from('workouts').delete().eq('user_id', user?.id);
-	});
 });
