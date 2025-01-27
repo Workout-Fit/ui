@@ -6,6 +6,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { showToast } from '$lib/utils/toast';
 	import { goto } from '$app/navigation';
+	import * as m from '$lib/paraglide/messages';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -14,7 +15,7 @@
 		onResult: ({ result }) => {
 			if (result.type === 'error') showToast('error', { text: result.error.message });
 			else if (result.type === 'redirect') {
-				showToast('success', { text: 'Successfully edited your profile' });
+				showToast('success', { text: m.profile_edit_success() });
 				goto(result.location, { invalidateAll: true });
 			}
 		}

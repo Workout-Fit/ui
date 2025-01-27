@@ -22,7 +22,7 @@
 		onResult: ({ result }) => {
 			if (result.type === 'error') showToast('error', { text: result.error.message });
 			else if (result.type === 'redirect') {
-				showToast('success', { text: 'Successfully reset your password' });
+				showToast('success', { text: m.password_reset_success() });
 				goto(result.location, { invalidateAll: true });
 			}
 		}

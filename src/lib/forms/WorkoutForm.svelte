@@ -1,10 +1,10 @@
 <script module lang="ts">
 	import { z } from 'zod';
-	import { type SuperValidated } from 'sveltekit-superforms';
+	import type { SuperForm, SuperValidated } from 'sveltekit-superforms';
 
 	type WorkoutFormProps = {
 		title: string;
-		form: SuperValidated<z.infer<typeof workoutFormSchema>>;
+		form: SuperForm<z.infer<typeof workoutFormSchema>>;
 		exerciseForm: SuperValidated<z.infer<typeof exerciseFormSchema>>;
 	};
 
@@ -19,24 +19,16 @@
 	import { pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
-	import type { WorkoutExercise } from '$lib/types';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
-	import { zodClient } from 'sveltekit-superforms/adapters';
 	import TextField from '$lib/components/TextField.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
-	import { superForm } from 'sveltekit-superforms/client';
 	import Button from '$lib/components/Button.svelte';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
 
 	const handleCloseModal = () => replaceState('', { modalShown: undefined });
 
-	let { title, form: formData, exerciseForm }: WorkoutFormProps = $props();
-
-	const form = superForm(formData, {
-		validators: zodClient(workoutFormSchema),
-		dataType: 'json'
-	});
+	let { title, form, exerciseForm }: WorkoutFormProps = $props();
 
 	const { form: data, enhance, submitting, delayed } = form;
 </script>

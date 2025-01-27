@@ -54,5 +54,10 @@
 	"remove": "Remover",
 	"workout_delete_success": "Treino deletado com sucesso",
 	"workout_delete_error": "Falha ao deletar treino",
-	"exercise_notes_placeholder": "Execução lenta"
+	"exercise_notes_placeholder": "Execução lenta",
+	"password_reset_success": "Senha redefinida com sucesso",
+	"workout_clone_success": "Treino clonado com sucesso",
+	"profile_edit_success": "Perfil editado com sucesso",
+	"edit_workout_success": "Treino editado com sucesso",
+	"create_workout_success": "Treino criado com sucesso"
 }

@@ -66,7 +66,7 @@
 						cloning = false;
 						if (result.type === 'error') return showToast('error', { text: result.error });
 						else if (result.type === 'redirect') {
-							showToast('success', { text: 'Successfully cloned workout' });
+							showToast('success', { text: m.workout_clone_success() });
 							goto(result.location);
 						}
 					};
