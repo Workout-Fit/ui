@@ -1,6 +1,5 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"email": "E-mail",
 	"password": "Senha",
 	"sets": "Séries",
 	"exercise": "Exercício",
@@ -37,7 +36,6 @@
 	"workout_name_placeholder": "Peito & Tríceps",
 	"workout_notes_placeholder": "Faça duas vezes por semana",
 	"add_exercise": "Adicionar exercício",
-	"remove": "Remover",
 	"sign_in_label": "Já tem uma conta?",
 	"sign_up_label": "Não tem uma conta?",
 	"empty_workout_list": "Nenhum treino encontrado",
@@ -51,5 +49,10 @@
 	"show": "Mostrar",
 	"hide": "Esconder",
 	"rest_for": "Descansar por {rest}s",
-	"exercise_list_empty": "Nenhum exercício adicionado"
+	"exercise_list_empty": "Nenhum exercício adicionado",
+	"email": "E-mail",
+	"remove": "Remover",
+	"workout_delete_success": "Treino deletado com sucesso",
+	"workout_delete_error": "Falha ao deletar treino",
+	"exercise_notes_placeholder": "Execução lenta"
 }

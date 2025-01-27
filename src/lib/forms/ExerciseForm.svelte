@@ -110,8 +110,9 @@
 		disabled={$submitting}
 		multiline
 		field="notes"
+		id="exercise-notes"
 		label={m.notes()}
-		placeholder="Slow execution"
+		placeholder={m.exercise_notes_placeholder()}
 		{form}
 	/>
 	<FormActions disabled={$submitting} loading={$delayed} {oncancel} />

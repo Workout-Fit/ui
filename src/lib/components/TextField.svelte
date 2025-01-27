@@ -35,7 +35,7 @@
 </script>
 
 <div class="text-field">
-	<label for={field}>{label}</label>
+	<label for={id}>{label}</label>
 	<div class="text-field__input">
 		{#if decoration && decorationPosition === 'before'}{@render decoration()}{/if}
 		{#if multiline}

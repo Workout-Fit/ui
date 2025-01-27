@@ -27,9 +27,9 @@
 	async function handleDeleteWorkout() {
 		const res = await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
 		if (res.ok) {
-			showToast('success', { text: 'Successfully deleted workout' });
+			showToast('success', { text: m.workout_delete_success() });
 			goto('/');
-		} else showToast('error', { text: 'Failed to delete workout' });
+		} else showToast('error', { text: m.workout_delete_error() });
 	}
 
 	let cloning = $state(false);

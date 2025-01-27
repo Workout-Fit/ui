@@ -1,4 +1,4 @@
-import { error, text } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 export const DELETE = async ({ params, locals: { supabase } }) => {
 	const { error: deleteWorkoutError } = await supabase
@@ -8,8 +8,8 @@ export const DELETE = async ({ params, locals: { supabase } }) => {
 
 	if (deleteWorkoutError) {
 		console.error(deleteWorkoutError);
-		return error(500, 'Error when deleting Workout');
+		return error(500);
 	}
 
-	return text('Successfully deleted Workout');
+	return new Response();
 };

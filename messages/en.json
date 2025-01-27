@@ -1,6 +1,5 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"email": "E-mail",
 	"password": "Password",
 	"sets": "Sets",
 	"exercise": "Exercise",
@@ -37,7 +36,6 @@
 	"workout_name_placeholder": "Chest & Triceps",
 	"workout_notes_placeholder": "Do it twice a week",
 	"add_exercise": "Add exercise",
-	"remove": "Remove",
 	"sign_in_label": "Already have an account?",
 	"sign_up_label": "Don't have an account?",
 	"empty_workout_list": "No workouts found",
@@ -51,5 +49,10 @@
 	"show": "Show",
 	"hide": "Hide",
 	"rest_for": "Rest for {rest}s",
-	"exercise_list_empty": "No exercises added"
+	"exercise_list_empty": "No exercises added",
+	"email": "E-mail",
+	"remove": "Remove",
+	"workout_delete_success": "Successfully deleted workout",
+	"workout_delete_error": "Failed to delete workout",
+	"exercise_notes_placeholder": "Slow execution"
 }

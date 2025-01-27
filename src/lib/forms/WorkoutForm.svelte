@@ -100,22 +100,24 @@
 <Dialog open={page.state.modalShown === 'add-exercise'} onclose={handleCloseModal}>
 	<div class="exercise-dialog">
 		<h3>{m.add_exercise()}</h3>
-		<ExerciseForm
-			oncancel={handleCloseModal}
-			form={exerciseForm}
-			action="?/exercise"
-			onUpdate={({ result, formElement, cancel }) => {
-				if (result.type === 'success') {
-					$data.exercises = [
-						...$data.exercises,
-						result.data.form.data as z.infer<typeof exerciseFormSchema>
-					];
-					handleCloseModal();
-					formElement.reset();
-					cancel();
-				}
-			}}
-		/>
+		{#key $data.exercises.length}
+			<ExerciseForm
+				oncancel={handleCloseModal}
+				form={exerciseForm}
+				action="?/exercise"
+				onUpdate={({ result, formElement, cancel }) => {
+					if (result.type === 'success') {
+						$data.exercises = [
+							...$data.exercises,
+							result.data.form.data as z.infer<typeof exerciseFormSchema>
+						];
+						handleCloseModal();
+						formElement.reset();
+						cancel();
+					}
+				}}
+			/>
+		{/key}
 	</div>
 </Dialog>
 
