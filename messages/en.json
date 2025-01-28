@@ -59,5 +59,6 @@
 	"workout_clone_success": "Successfully cloned workout",
 	"profile_edit_success": "Successfully edited your profile",
 	"edit_workout_success": "Successfully edited workout",
-	"create_workout_success": "Successfully created workout"
+	"create_workout_success": "Successfully created workout",
+	"avatar": "Avatar"
 }

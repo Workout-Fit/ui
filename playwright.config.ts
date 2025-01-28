@@ -14,27 +14,36 @@ export default defineConfig({
 			use: { storageState: 'playwright/.auth/user.json' },
 			testMatch: /workout\.teardown\.ts/
 		},
-		{ name: 'auth setup', testMatch: /auth\.setup\.ts/, teardown: 'workout teardown' },
+		{ name: 'workout setup', testMatch: /auth\.setup\.ts/, teardown: 'workout teardown' },
 		{
-			name: 'authenticated chromium',
-			testDir: 'tests/e2e/authenticated',
+			name: 'workout chromium',
+			testDir: 'tests/e2e/workout',
 			use: {
 				...devices['Desktop Chrome'],
 				// Use prepared auth state.
 				storageState: 'playwright/.auth/user.json'
 			},
-			dependencies: ['auth setup']
+			dependencies: ['workout setup']
 		},
-
 		{
-			name: 'authenticated firefox',
-			testDir: 'tests/e2e/authenticated',
+			name: 'workout firefox',
+			testDir: 'tests/e2e/workout',
 			use: {
 				...devices['Desktop Firefox'],
 				// Use prepared auth state.
 				storageState: 'playwright/.auth/user.json'
 			},
-			dependencies: ['auth setup']
+			dependencies: ['workout setup']
+		},
+		{
+			name: 'profile chromium',
+			testDir: 'tests/e2e/profile',
+			use: devices['Desktop Chrome']
+		},
+		{
+			name: 'profile firefox',
+			testDir: 'tests/e2e/profile',
+			use: devices['Desktop Firefox']
 		}
 	]
 });

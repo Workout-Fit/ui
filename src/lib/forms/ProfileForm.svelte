@@ -41,7 +41,7 @@
 
 <div class="profile-fields">
 	<div class="profile-fields__avatar">
-		<label for="avatar"><small>Avatar</small></label>
+		<label for="avatar"><small>{m.avatar()}</small></label>
 		<div>
 			<img bind:this={avatarPreview} src={$form.avatarUrl ?? emptyProfilePicture} alt="" />
 			<input
