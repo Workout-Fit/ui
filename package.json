@@ -58,7 +58,6 @@
 		"prettier-plugin-svelte": "^3.3.3",
 		"sharp": "^0.33.5",
 		"supabase": "^2.6.8",
-		"supawright": "^0.3.0",
 		"svelte": "^5.19.3",
 		"svelte-check": "^4.1.4",
 		"sveltekit-superforms": "^2.23.1",

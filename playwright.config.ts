@@ -20,7 +20,6 @@ export default defineConfig({
 			testDir: 'tests/e2e/workout',
 			use: {
 				...devices['Desktop Chrome'],
-				// Use prepared auth state.
 				storageState: 'playwright/.auth/user.json'
 			},
 			dependencies: ['workout setup']
@@ -30,7 +29,6 @@ export default defineConfig({
 			testDir: 'tests/e2e/workout',
 			use: {
 				...devices['Desktop Firefox'],
-				// Use prepared auth state.
 				storageState: 'playwright/.auth/user.json'
 			},
 			dependencies: ['workout setup']
