@@ -8,10 +8,11 @@
 		username: z.string().nonempty(),
 		weight: z.number().nullable(),
 		height: z.number().int().nullable(),
-		avatarUrl: z.string().nullable(),
+		avatarUrl: z.string().optional(),
 		avatar: z.custom<FileList | File>().refine((file) => {
 			if (!file) return true;
 			if (file instanceof File) return file.type.startsWith('image/');
+			if (file instanceof FileList && file.length === 0) return true;
 			return file[0].type.startsWith('image/');
 		}, 'Please upload an image file.'),
 		bio: z.string().nullable()
@@ -28,7 +29,7 @@
 	let avatarPreview: HTMLImageElement;
 
 	$effect(() => {
-		if ($form.avatar) {
+		if ($form.avatar instanceof FileList && $form.avatar[0]) {
 			const reader = new FileReader();
 			reader.addEventListener('load', () => {
 				avatarPreview.src = reader.result as string;
