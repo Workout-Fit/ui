@@ -8,6 +8,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import type { SetNonNullable } from 'type-fest';
 import omit from 'lodash/omit';
 import { i18n } from '$lib/i18n';
+import getAvatar from '$lib/supabase/queries/getAvatar';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
 	const profileResponse = await getProfileByUsername(supabase, params.username);
@@ -17,8 +18,7 @@ export const load = async ({ locals: { supabase, user }, params }) => {
 	const form = await superValidate(
 		{
 			...(profileResponse.data as SetNonNullable<typeof profileResponse.data>),
-			avatarUrl: supabase.storage.from('avatars').getPublicUrl(`${user.id}/avatar.webp`).data
-				?.publicUrl
+			avatarUrl: await getAvatar(supabase, user.id)
 		},
 		zod(profileFormSchema)
 	);
@@ -37,10 +37,7 @@ export const actions = {
 					...form,
 					data: {
 						...form.data,
-						avatarUrl:
-							form.data.avatar ??
-							supabase.storage.from('avatars').getPublicUrl(`${user.id}/avatar.webp`).data
-								?.publicUrl
+						avatarUrl: form.data.avatar ?? (await getAvatar(supabase, user.id))
 					}
 				}
 			});
