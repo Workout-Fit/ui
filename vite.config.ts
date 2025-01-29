@@ -24,7 +24,7 @@ export default defineConfig({
 				name: 'Workout',
 				short_name: 'Workout',
 				description: 'Workout',
-				theme_color: '#ffffff',
+				theme_color: '#000000',
 				background_color: '#6200ee',
 				display: 'standalone',
 				orientation: 'portrait',

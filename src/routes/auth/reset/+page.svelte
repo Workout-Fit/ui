@@ -9,20 +9,19 @@
 	import { signUpFormSchema } from '../+page.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { PageServerData } from './$types';
-	import { showToast } from '$lib/utils/toast';
+	import { toast } from 'svelte-french-toast';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages';
-	import { i18n } from '$lib/i18n';
 
 	const { data }: { data: PageServerData } = $props();
 
 	const form = superForm(data.form, {
 		validators: zodClient(resetFormSchema),
 		onResult: ({ result }) => {
-			if (result.type === 'error') showToast('error', { text: result.error.message });
+			if (result.type === 'error') toast.error(result.error.message);
 			else if (result.type === 'redirect') {
-				showToast('success', { text: m.password_reset_success() });
+				toast.success(m.password_reset_success());
 				goto(result.location, { invalidateAll: true });
 			}
 		}

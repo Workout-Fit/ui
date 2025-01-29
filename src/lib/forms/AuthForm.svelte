@@ -31,7 +31,7 @@
 		type SuperValidated
 	} from 'sveltekit-superforms/client';
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
-	import { showToast } from '$lib/utils/toast';
+	import { toast } from 'svelte-french-toast';
 	import PasswordField from '$lib/components/PasswordField.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages';
@@ -51,9 +51,9 @@
 
 	const form = superForm(data, {
 		validators: zodClient(schema ?? authFormSchema),
-		onError: ({ result }) => showToast('error', { text: result.error.message }),
+		onError: ({ result }) => toast.error(result.error.message),
 		onUpdated: ({ form }) => {
-			if (form.message) showToast('success', { text: form.message });
+			if (form.message) toast.success(form.message);
 		},
 		...rest
 	});

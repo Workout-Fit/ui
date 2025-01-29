@@ -3,6 +3,7 @@
 
 	export type ButtonProps = HTMLButtonAttributes & {
 		variant?: 'primary' | 'text';
+		size?: 'small' | 'medium' | 'large';
 		loading?: boolean;
 	};
 </script>
@@ -15,6 +16,7 @@
 		disabled,
 		children,
 		loading = false,
+		size = 'medium',
 		...rest
 	}: ButtonProps = $props();
 </script>
@@ -23,6 +25,9 @@
 	disabled={disabled ?? loading}
 	class:button--text={variant === 'text'}
 	class:button--primary={variant === 'primary'}
+	class:button--small={size === 'small'}
+	class:button--medium={size === 'medium'}
+	class:button--large={size === 'large'}
 	{...rest}
 >
 	{#if loading}
@@ -72,5 +77,14 @@
 
 	button.button--text:focus {
 		color: var(--color-primary-darker);
+	}
+
+	button.button--small {
+		height: 24px;
+		font-size: 0.6rem;
+	}
+
+	button.button--large {
+		height: 40px;
 	}
 </style>

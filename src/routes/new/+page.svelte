@@ -3,7 +3,7 @@
 	import type { PageServerData } from './$types';
 	import * as m from '$lib/paraglide/messages';
 	import { goto } from '$app/navigation';
-	import { showToast } from '$lib/utils/toast';
+	import { toast } from 'svelte-french-toast';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 
@@ -12,9 +12,9 @@
 		validators: zodClient(workoutFormSchema),
 		dataType: 'json',
 		onResult: ({ result }) => {
-			if (result.type === 'error') showToast('error', { text: result.error.message });
+			if (result.type === 'error') toast.error(result.error.message);
 			else if (result.type === 'redirect') {
-				showToast('success', { text: m.create_workout_success() });
+				toast.success(m.create_workout_success());
 				goto(result.location, { invalidateAll: true });
 			}
 		}

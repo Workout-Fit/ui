@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
-	import { showToast } from '$lib/utils/toast';
+	import { toast } from 'svelte-french-toast';
 	import Button from '$lib/components/Button.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
 	import { goto, invalidate, replaceState } from '$app/navigation';
@@ -19,7 +19,7 @@
 
 	onMount(() => {
 		if (page.url.searchParams.get('showToast') === 'clone-success')
-			showToast('success', { text: 'Successfully cloned workout' });
+			toast.success('Successfully cloned workout');
 	});
 
 	const username = (data.workout?.profile as unknown as { username: string }).username;
@@ -27,9 +27,9 @@
 	async function handleDeleteWorkout() {
 		const res = await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
 		if (res.ok) {
-			showToast('success', { text: m.workout_delete_success() });
+			toast.success(m.workout_delete_success());
 			goto('/');
-		} else showToast('error', { text: m.workout_delete_error() });
+		} else toast.error(m.workout_delete_error());
 	}
 
 	let cloning = $state(false);
@@ -64,9 +64,9 @@
 					cloning = true;
 					return async ({ result }) => {
 						cloning = false;
-						if (result.type === 'error') return showToast('error', { text: result.error });
+						if (result.type === 'error') return toast.error(result.error);
 						else if (result.type === 'redirect') {
-							showToast('success', { text: m.workout_clone_success() });
+							toast.success(m.workout_clone_success());
 							goto(result.location);
 						}
 					};
@@ -88,7 +88,7 @@
 				liking = true;
 				return async ({ result }) => {
 					liking = false;
-					if (result.type === 'error') return showToast('error', { text: result.error });
+					if (result.type === 'error') return toast.error(result.error);
 					invalidate('supabase:likes');
 					data.liked = !data.liked;
 					data.likes += data.liked ? 1 : -1;
