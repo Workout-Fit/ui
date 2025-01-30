@@ -51,7 +51,7 @@
 
 	let googleSSOButton: HTMLDivElement;
 
-	onMount(() => {
+	const initializeGoogleSSO = () => {
 		google.accounts.id.initialize({
 			client_id: '38946104540-ds46as4ipuuhe2a57i5t34gmp60baolg.apps.googleusercontent.com',
 			context: 'signin',
@@ -72,12 +72,12 @@
 			size: 'large',
 			logo_alignment: 'left'
 		});
-	});
+	};
 </script>
 
 <svelte:head>
 	<meta name="referrer" content="no-referrer-when-downgrade" />
-	<script src="https://accounts.google.com/gsi/client" async></script>
+	<script src="https://accounts.google.com/gsi/client" async onload={initializeGoogleSSO}></script>
 </svelte:head>
 
 <div class="auth">

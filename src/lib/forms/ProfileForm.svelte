@@ -4,8 +4,8 @@
 	import * as m from '$lib/paraglide/messages';
 
 	export const profileFormSchema = z.object({
-		full_name: z.string().nonempty().max(50),
 		username: z.string().nonempty(),
+		full_name: z.string().nonempty().max(50),
 		weight: z.number().nullable(),
 		height: z.number().int().nullable(),
 		avatarUrl: z.string().optional(),
