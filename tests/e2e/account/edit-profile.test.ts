@@ -61,7 +61,7 @@ test.describe('Edit Profile', () => {
 		await expect(page.getByText(profile.full_name)).toBeVisible();
 		await expect(page.getByText(profile.username)).toBeVisible();
 		await expect(page.getByText(profile.weight.toString())).toBeVisible();
-		await expect(page.getByText(profile.height.toString())).toBeVisible();
+		await expect(page.getByText((profile.height / 100).toString())).toBeVisible();
 		await expect(page.getByText(profile.bio)).toBeVisible();
 	});
 

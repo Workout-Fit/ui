@@ -34,13 +34,13 @@ export default defineConfig({
 			dependencies: ['workout setup']
 		},
 		{
-			name: 'profile chromium',
-			testDir: 'tests/e2e/profile',
+			name: 'account chromium',
+			testDir: 'tests/e2e/account',
 			use: devices['Desktop Chrome']
 		},
 		{
-			name: 'profile firefox',
-			testDir: 'tests/e2e/profile',
+			name: 'account firefox',
+			testDir: 'tests/e2e/account',
 			use: devices['Desktop Firefox']
 		}
 	]

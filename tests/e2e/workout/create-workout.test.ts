@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import * as m from '$lib/paraglide/messages';
 
 import { test } from '../fixtures';
+import { createExercise } from '../factories';
 
 test.describe('Create Workout', () => {
 	let workoutPage: WorkoutPage;
@@ -28,13 +29,7 @@ test.describe('Create Workout', () => {
 	});
 
 	test('allows removing exercises', async ({ page }) => {
-		const exercise = {
-			exercise: { id: '1', name: 'Barbell Front Raise' },
-			sets: faker.number.int({ min: 2, max: 4 }),
-			repetitions: faker.number.int({ min: 8, max: 15 }),
-			rest: faker.number.int({ min: 60, max: 120 }),
-			notes: faker.lorem.sentence()
-		};
+		const exercise = createExercise({ exercise: { id: '1', name: 'Barbell Front Raise' } });
 
 		await workoutPage.addExercise(exercise);
 		await expect(page.getByText(exercise.exercise.name)).toBeVisible();
@@ -43,13 +38,9 @@ test.describe('Create Workout', () => {
 	});
 
 	test('creates workout successfully', async ({ page }) => {
-		const exercise = ['Barbell Front Raise', 'Barbell Full Squat'].map((name) => ({
-			exercise: { id: '1', name },
-			sets: faker.number.int({ min: 2, max: 4 }),
-			repetitions: faker.number.int({ min: 8, max: 15 }),
-			rest: faker.number.int({ min: 60, max: 120 }),
-			notes: faker.lorem.sentence()
-		}));
+		const exercise = ['Barbell Front Raise', 'Barbell Full Squat'].map((name) =>
+			createExercise({ exercise: { id: '1', name } })
+		);
 
 		await workoutPage.fillWorkoutDetails({ name: workoutName, notes: workoutNotes });
 
