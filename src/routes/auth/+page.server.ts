@@ -39,7 +39,7 @@ export const actions: Actions = {
 		const [userResponse, avatarResponse] = await insertProfile(
 			supabase,
 			{
-				...pick(form.data, ['username', 'full_name', 'bio']),
+				...pick(form.data, ['username', 'full_name', 'bio', 'height', 'weight']),
 				user_id: data.user?.id as string
 			},
 			form.data.avatar as File | undefined

@@ -22,7 +22,7 @@
 	{#if data.profile.weight || data.profile.height}
 		<div class="profile__body-composition">
 			{#if data.profile.weight}<span>{data.profile.weight} <small>kg</small></span>{/if}
-			{#if data.profile.height}<span>{data.profile.height} <small>cm</small></span>{/if}
+			{#if data.profile.height}<span>{data.profile.height / 100} <small>m</small></span>{/if}
 		</div>
 	{/if}
 	{#if data.profile.bio}
