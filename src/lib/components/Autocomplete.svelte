@@ -3,6 +3,7 @@
 	import debounce from 'lodash/debounce';
 	import Button from './Button.svelte';
 	import { on } from 'svelte/events';
+	import CircularProgress from './CircularProgress.svelte';
 
 	type AutocompleteProps = {
 		loadFunction: (query: string) => Promise<Item[]>;
@@ -119,7 +120,7 @@
 				readonly={value != null}
 			/>
 		{/if}
-		{#if loading}o{/if}
+		{#if loading}<CircularProgress color="primary" />{/if}
 	</div>
 	{#if error}<span class="autocomplete__error">{error}</span>{/if}
 	<ul
@@ -161,11 +162,6 @@
 		justify-content: space-between;
 
 		height: 38px;
-	}
-
-	.autocomplete__input:focus,
-	.autocomplete__input--focused {
-		outline: black inset 2px;
 	}
 
 	input {
