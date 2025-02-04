@@ -2,7 +2,7 @@ import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
 import { i18n } from '$lib/i18n';
 import updateWorkout from '$lib/supabase/queries/updateWorkout.js';
-import { parseWorkoutExercises } from '$lib/utils/parser.js';
+import { parseWorkoutExercises } from '$lib/utils/parser';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';

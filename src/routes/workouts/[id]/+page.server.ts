@@ -1,6 +1,6 @@
 import { i18n } from '$lib/i18n';
 import { languageTag } from '$lib/paraglide/runtime.js';
-import { parseWorkoutExercises } from '$lib/utils/parser.js';
+import { parseWorkoutExercises } from '$lib/utils/parser';
 import { error, redirect } from '@sveltejs/kit';
 import omit from 'lodash/omit';
 
