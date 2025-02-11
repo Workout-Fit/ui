@@ -19,6 +19,10 @@
 			}
 		}
 	});
+
+	const { capture, restore } = form;
+
+	export const snapshot = { capture, restore };
 </script>
 
 <WorkoutForm title={m.edit_workout()} {form} exerciseForm={data.exerciseForm} />
