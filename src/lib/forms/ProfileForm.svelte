@@ -8,49 +8,33 @@
 		full_name: z.string().nonempty().max(50),
 		weight: z.number().nullable(),
 		height: z.number().int().nullable(),
-		avatarUrl: z.string().optional(),
-		avatar: z.custom<FileList | File>().refine((file) => {
-			if (!file) return true;
-			if (file instanceof File) return file.type.startsWith('image/');
-			if (file instanceof FileList && file.length === 0) return true;
-			return file[0].type.startsWith('image/');
-		}, 'Please upload an image file.'),
+		avatar: z.instanceof(File, { message: 'Please upload a file.' }).optional(),
 		bio: z.string().nullable()
 	});
 </script>
 
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
-	import type { SuperForm } from 'sveltekit-superforms/client';
+	import { fileProxy, type SuperForm } from 'sveltekit-superforms/client';
 
-	let { form: formData }: { form: SuperForm<z.infer<typeof profileFormSchema>> } = $props();
+	const { form: formData }: { form: SuperForm<z.infer<typeof profileFormSchema>> } = $props();
 
-	let { form, errors } = formData;
-	let avatarPreview: HTMLImageElement;
+	const { form, errors } = formData;
 
-	$effect(() => {
-		if ($form.avatar instanceof FileList && $form.avatar[0]) {
-			const reader = new FileReader();
-			reader.addEventListener('load', () => {
-				avatarPreview.src = reader.result as string;
-			});
-
-			reader.readAsDataURL(($form.avatar as FileList)[0]);
-		}
-	});
+	const avatar = fileProxy(form, 'avatar');
 </script>
 
 <div class="profile-fields">
 	<div class="profile-fields__avatar">
 		<label for="avatar"><small>{m.avatar()}</small></label>
 		<div>
-			<img bind:this={avatarPreview} src={$form.avatarUrl ?? emptyProfilePicture} alt="" />
+			<img src={$form.avatar ? URL.createObjectURL($form.avatar) : emptyProfilePicture} alt="" />
 			<input
 				name="avatar"
 				id="avatar"
 				type="file"
 				accept="image/jpeg,image/jpg,image/png,image/webp"
-				bind:files={$form.avatar as FileList}
+				bind:files={$avatar}
 			/>
 			<span>{$errors.avatar}</span>
 		</div>

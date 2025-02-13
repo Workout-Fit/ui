@@ -9,7 +9,7 @@
 </script>
 
 <div class="profile">
-	<img class="profile__avatar" src={data.profile.avatar_url ?? emptyProfilePicture} alt="" />
+	<img class="profile__avatar" src={data.profile.avatar ?? emptyProfilePicture} alt="" />
 	<div class="profile__info">
 		<h2 class="profile__fullname">
 			{data.profile.full_name}

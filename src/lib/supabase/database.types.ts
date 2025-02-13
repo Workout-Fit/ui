@@ -215,26 +215,29 @@ export type Database = {
 			workouts_exercises: {
 				Row: {
 					exercise_id: string;
+					id: number;
 					notes: string | null;
-					repetitions: number;
-					rest: number;
-					sets: number;
+					repetitions: number[];
+					rests: number[] | null;
+					sets: number[];
 					workout_id: string;
 				};
 				Insert: {
 					exercise_id: string;
+					id?: number;
 					notes?: string | null;
-					repetitions: number;
-					rest: number;
-					sets: number;
+					repetitions: number[];
+					rests?: number[] | null;
+					sets: number[];
 					workout_id: string;
 				};
 				Update: {
 					exercise_id?: string;
+					id?: number;
 					notes?: string | null;
-					repetitions?: number;
-					rest?: number;
-					sets?: number;
+					repetitions?: number[];
+					rests?: number[] | null;
+					sets?: number[];
 					workout_id?: string;
 				};
 				Relationships: [

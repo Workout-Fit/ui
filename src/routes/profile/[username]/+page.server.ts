@@ -8,8 +8,7 @@ import getAvatar from '$lib/supabase/queries/getAvatar';
 
 export const load: PageServerLoad = async ({
 	locals: { supabase, safeGetSession },
-	params: { username },
-	depends
+	params: { username }
 }) => {
 	const { user } = await safeGetSession();
 
@@ -20,9 +19,9 @@ export const load: PageServerLoad = async ({
 	return {
 		editable: profileResponse.data.user_id === user?.id,
 		workouts: (await getWorkouts(supabase, profileResponse.data.user_id as string)).data ?? [],
-		profile: <Partial<Profile>>{
+		profile: {
 			...omit(profileResponse.data, 'created_at', 'user_id'),
-			avatar_url: await getAvatar(supabase, profileResponse.data?.user_id as string)
+			avatar: await getAvatar(supabase, profileResponse.data?.user_id as string)
 		}
 	};
 };

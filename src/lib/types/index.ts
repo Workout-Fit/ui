@@ -11,6 +11,4 @@ export type WorkoutExercise = Omit<
 export type Profile = Omit<
 	Database['public']['Tables']['profiles']['Row'],
 	'user_id' | 'created_at'
-> & {
-	avatar_url?: string;
-};
+>;
