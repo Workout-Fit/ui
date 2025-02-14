@@ -19,6 +19,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
       creation_date,
       user_id,
       exercises:workouts_exercises(
+        id,
         exercise_id,
         exercise:exercises(id, i18n:exercises_i18n(name)),
         sets,

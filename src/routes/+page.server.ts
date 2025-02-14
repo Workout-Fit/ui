@@ -7,7 +7,13 @@ export const load = async ({ locals: { supabase, safeGetSession } }) => {
 	const { user } = await safeGetSession();
 	if (!user) return error(403, 'Forbidden');
 
-	const { data: workouts } = await getWorkouts(supabase, user.id);
+	const { data: workouts, error: workoutsError } = await getWorkouts(supabase, user.id);
+
+	if (workoutsError) {
+		console.error(workoutsError);
+		return error(500, `Failed to fetch Workouts`);
+	}
+
 	return { workouts: workouts ?? [] };
 };
 

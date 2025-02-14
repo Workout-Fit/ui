@@ -69,8 +69,6 @@
 		openDropdown = result.length > 0 && !value;
 	});
 
-	$inspect(value);
-
 	onMount(() => {
 		if (input.form) {
 			const inputHandlerRemove = on(

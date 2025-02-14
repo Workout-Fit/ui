@@ -10,6 +10,7 @@
 	} & Omit<FormOptions<z.infer<typeof exerciseFormSchema>>, 'validators' | 'dataType'>;
 
 	export const exerciseFormSchema = z.object({
+		id: z.number().optional(),
 		exercise: z
 			.object({
 				id: z.string(),

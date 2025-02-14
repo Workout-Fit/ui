@@ -1,7 +1,5 @@
 <script lang="ts">
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
-	import type { WorkoutExercise } from '$lib/types';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
 	import { toast } from 'svelte-french-toast';
@@ -16,11 +14,6 @@
 	import * as m from '$lib/paraglide/messages';
 
 	let { data }: { data: PageData } = $props();
-
-	onMount(() => {
-		if (page.url.searchParams.get('showToast') === 'clone-success')
-			toast.success('Successfully cloned workout');
-	});
 
 	const username = (data.workout?.profile as unknown as { username: string }).username;
 
@@ -62,7 +55,8 @@
 				action="?/clone"
 				use:enhance={() => {
 					cloning = true;
-					return async ({ result }) => {
+					return async ({ result, update }) => {
+						await update();
 						cloning = false;
 						if (result.type === 'error') return toast.error(result.error);
 						else if (result.type === 'redirect') {

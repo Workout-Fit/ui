@@ -14,8 +14,10 @@ const updateWorkout = async (
 			.eq('id', workout.id as string)
 			.single(),
 		supabase.rpc('update_workouts_exercises', {
-			exercises: workout.exercises.map(({ exercise, ...rest }) => ({
+			exercises: workout.exercises.map(({ exercise, id, rests, ...rest }) => ({
 				...rest,
+				id: id as number,
+				rests: rests as number[],
 				workout_id: workout.id,
 				exercise_id: exercise.id
 			}))
