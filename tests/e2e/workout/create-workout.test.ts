@@ -25,14 +25,25 @@ test.describe('Create Workout', () => {
 		await page.getByRole('button', { name: m.add_exercise() }).click();
 		await page.getByRole('dialog').getByRole('button', { name: m.save() }).click();
 		await expect(page.getByText('Expected object, received null')).toBeVisible();
-		await expect(page.getByText('Expected number, received null')).toHaveCount(3);
+		await expect(page.getByText('Expected number, received null')).toHaveCount(2);
+	});
+
+	test('allows editing exercises', async ({ page }) => {
+		const exercise = createExercise({ exercise: { id: '1', name: 'Barbell Front Raise' } });
+		const editExerciseData = createExercise({ exercise: { id: '1', name: 'Barbell Full Squat' } });
+
+		await workoutPage.addExercise(exercise);
+		await workoutPage.editExercise(0, editExerciseData);
+		await expect(page.getByRole('button', { name: m.edit() })).toHaveCount(1);
+		await expect(page.getByText(exercise.exercise.name)).not.toBeVisible();
+		await expect(page.locator('span').getByText(editExerciseData.exercise.name)).toBeVisible();
 	});
 
 	test('allows removing exercises', async ({ page }) => {
 		const exercise = createExercise({ exercise: { id: '1', name: 'Barbell Front Raise' } });
 
 		await workoutPage.addExercise(exercise);
-		await expect(page.getByText(exercise.exercise.name)).toBeVisible();
+		await expect(page.locator('span').getByText(exercise.exercise.name)).toBeVisible();
 		await page.getByRole('button', { name: m.remove() }).click();
 		await expect(page.getByText(exercise.exercise.name)).not.toBeVisible();
 	});

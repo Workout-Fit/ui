@@ -33,7 +33,8 @@
 	import * as m from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 
-	const handleCloseModal = () => replaceState('', { modalShown: undefined });
+	const handleCloseModal = () =>
+		replaceState('', { modalShown: undefined, exerciseIndex: undefined });
 
 	let { title, data, form = $bindable(), exerciseFormData, ...rest }: WorkoutFormProps = $props();
 
@@ -93,24 +94,31 @@
 		</div>
 		<List items={$formData.exercises} emptyMessage="No exercises added">
 			{#snippet item(exercise, index)}
-				<ExerciseListItem
-					onclick={() => {
-						pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
-						exerciseForm?.reset({ data: exercise });
-					}}
-					{exercise}
-				>
+				<ExerciseListItem {exercise}>
 					{#snippet decoration()}
-						<Button
-							type="button"
-							disabled={$submitting}
-							onclick={() =>
-								($formData.exercises =
-									$formData.exercises?.filter((item) => item !== exercise) ?? [])}
-							variant="text"
-						>
-							{m.remove()}
-						</Button>
+						<div class="workout-form__exercise-list-item-actions">
+							<Button
+								type="button"
+								disabled={$submitting}
+								onclick={() => {
+									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
+									exerciseForm?.reset({ data: exercise });
+								}}
+								variant="text"
+							>
+								{m.edit()}
+							</Button>
+							<Button
+								type="button"
+								disabled={$submitting}
+								onclick={() =>
+									($formData.exercises =
+										$formData.exercises?.filter((item) => item !== exercise) ?? [])}
+								variant="text"
+							>
+								{m.remove()}
+							</Button>
+						</div>
 					{/snippet}
 				</ExerciseListItem>
 			{/snippet}
@@ -126,17 +134,20 @@
 			data={exerciseFormData}
 			bind:form={exerciseForm}
 			action="?/exercise"
-			onUpdate={({ result, formElement, cancel }) => {
+			onUpdate={({ result, cancel, form }) => {
 				if (result.type === 'success') {
-					$formData.exercises = page.state.exerciseIndex
-						? [
-								...$formData.exercises.slice(0, page.state.exerciseIndex),
-								result.data.form.data as z.infer<typeof exerciseFormSchema>,
-								...$formData.exercises.slice(page.state.exerciseIndex + 1)
-							]
-						: [...$formData.exercises, result.data.form.data as z.infer<typeof exerciseFormSchema>];
+					$formData.exercises =
+						page.state.exerciseIndex !== undefined
+							? [
+									...$formData.exercises.slice(0, page.state.exerciseIndex),
+									result.data.form.data as z.infer<typeof exerciseFormSchema>,
+									...$formData.exercises.slice(page.state.exerciseIndex + 1)
+								]
+							: [
+									...$formData.exercises,
+									result.data.form.data as z.infer<typeof exerciseFormSchema>
+								];
 					handleCloseModal();
-					formElement.reset();
 					cancel();
 				}
 			}}
@@ -180,5 +191,10 @@
 
 	h3 {
 		margin-top: 0;
+	}
+
+	.workout-form__exercise-list-item-actions {
+		display: flex;
+		gap: var(--base-spacing);
 	}
 </style>

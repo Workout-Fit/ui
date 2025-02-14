@@ -19,9 +19,9 @@ export const createUser = (
 });
 
 export const createExercise = (overrides?: Partial<z.infer<typeof exerciseFormSchema>>) => ({
-	sets: faker.number.int({ min: 2, max: 4 }),
-	repetitions: faker.number.int({ min: 8, max: 15 }),
-	rest: faker.number.int({ min: 60, max: 120 }),
+	sets: [faker.number.int({ min: 2, max: 4 })],
+	repetitions: [faker.number.int({ min: 8, max: 15 })],
+	rests: [faker.number.int({ min: 60, max: 120 })],
 	notes: faker.lorem.sentence(),
 	exercise: { id: faker.string.numeric(10), name: faker.word.words(2) },
 	...overrides

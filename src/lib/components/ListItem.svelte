@@ -28,6 +28,7 @@
 <svelte:element
 	this={elementType}
 	class="list-item"
+	class:list-item--clickable={href || onclick}
 	{...elementType === 'a' ? { href } : {}}
 	{onclick}
 >
@@ -52,8 +53,9 @@
 		transition: background-color 0.3s ease-in-out;
 	}
 
-	.list-item:is(:hover, :focus) {
+	.list-item--clickable:is(:hover, :focus) {
 		background-color: var(--text-low);
+		cursor: pointer;
 	}
 
 	a.list-item {
