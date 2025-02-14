@@ -24,6 +24,8 @@ const supabase: Handle = async ({ event, resolve }) => {
 			}
 		}
 	});
+	// @ts-expect-error ...
+	event.locals.supabase.auth.suppressGetSessionWarning = true;
 
 	event.locals.safeGetSession = async () => {
 		const {
