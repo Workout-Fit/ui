@@ -23,7 +23,8 @@ declare global {
 			session: Session | null;
 		}
 		interface PageState {
-			modalShown?: 'add-exercise' | 'confirm-delete-workout';
+			modalShown?: 'save-exercise' | 'confirm-delete-workout';
+			exerciseIndex?: number;
 		}
 		// interface Platform {}
 	}

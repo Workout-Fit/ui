@@ -23,7 +23,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
         exercise:exercises(id, i18n:exercises_i18n(name)),
         sets,
         repetitions,
-        rest,
+        rests,
         notes
       )
     `
@@ -41,7 +41,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 	const workoutForm = await superValidate(parseWorkoutExercises(workout), zod(workoutFormSchema));
 	const exerciseForm = await superValidate(zod(exerciseFormSchema));
 
-	if (workout?.user_id === user?.id) return { form: workoutForm, exerciseForm };
+	if (workout?.user_id === user?.id) return { form: workoutForm, exerciseFormData: exerciseForm };
 	return redirect(302, i18n.resolveRoute(`/workouts/${params.id}`));
 };
 

@@ -9,7 +9,7 @@ export const load = async () => {
 	const workoutForm = await superValidate(zod(workoutFormSchema));
 	const exerciseForm = await superValidate(zod(exerciseFormSchema));
 
-	return { form: workoutForm, exerciseForm };
+	return { form: workoutForm, exerciseFormData: exerciseForm };
 };
 
 export const actions = {
@@ -40,7 +40,7 @@ export const actions = {
 					workout_id: createWorkout.data.id,
 					sets: exercise.sets,
 					repetitions: exercise.repetitions,
-					rest: exercise.rest,
+					rests: exercise.rests,
 					notes: exercise.notes
 				}))
 			);

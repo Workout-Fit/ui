@@ -4,7 +4,7 @@
 	export type ListProps<T> = {
 		items?: T[];
 		emptyMessage?: string;
-		item: Snippet<[item: T]>;
+		item: Snippet<[item: T, index: number]>;
 	};
 </script>
 
@@ -20,8 +20,8 @@
 	{#if items.length === 0}
 		<i class="list__empty-message">{emptyMessage}</i>
 	{:else}
-		{#each items as item}
-			{@render itemSnippet(item)}
+		{#each items as item, index}
+			{@render itemSnippet(item, index)}
 		{/each}
 	{/if}
 </div>

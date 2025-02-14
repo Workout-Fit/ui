@@ -2,8 +2,9 @@ import type { Database } from '$lib/supabase/database.types';
 
 export type WorkoutExercise = Omit<
 	Database['public']['Tables']['workouts_exercises']['Row'],
-	'workout_id' | 'exercise_id'
+	'workout_id' | 'exercise_id' | 'id' | 'rests'
 > & {
+	rests: (number | null)[];
 	exercise: Pick<Database['public']['Tables']['exercises']['Row'], 'id'> &
 		Pick<Database['public']['Tables']['exercises_i18n']['Row'], 'name'>;
 };

@@ -45,12 +45,15 @@
 
 	const clear = () => {
 		inputValue = '';
-		result = [];
 		value = undefined;
 	};
 
 	$effect(() => {
 		updateQuery(inputValue);
+	});
+
+	$effect(() => {
+		if (inputValue === '') result = [];
 	});
 
 	$effect(() => {
@@ -65,6 +68,8 @@
 	$effect(() => {
 		openDropdown = result.length > 0 && !value;
 	});
+
+	$inspect(value);
 
 	onMount(() => {
 		if (input.form) {
@@ -135,6 +140,7 @@
 				aria-selected={value === item}
 				onmousedown={(e) => {
 					e.stopPropagation();
+					inputValue = '';
 					value = item;
 				}}
 			>

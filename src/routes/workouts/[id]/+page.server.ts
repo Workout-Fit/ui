@@ -27,7 +27,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
         ),
         sets,
         repetitions,
-        rest,
+        rests,
         notes
       ),
       profile(username)

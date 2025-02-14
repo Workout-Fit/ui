@@ -75,6 +75,7 @@
 
 	.list-item__second-line,
 	.list-item__third-line {
+		white-space: pre-line;
 		color: var(--text-medium);
 	}
 </style>

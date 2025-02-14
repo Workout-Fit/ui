@@ -1,12 +1,18 @@
 <script module lang="ts">
 	import { z } from 'zod';
-	import type { SuperForm, SuperValidated } from 'sveltekit-superforms';
+	import {
+		superForm,
+		type FormOptions,
+		type SuperForm,
+		type SuperValidated
+	} from 'sveltekit-superforms';
 
 	type WorkoutFormProps = {
 		title: string;
-		form: SuperForm<z.infer<typeof workoutFormSchema>>;
-		exerciseForm: SuperValidated<z.infer<typeof exerciseFormSchema>>;
-	};
+		data: SuperValidated<z.infer<typeof workoutFormSchema>>;
+		form?: SuperForm<z.infer<typeof workoutFormSchema>>;
+		exerciseFormData: SuperValidated<z.infer<typeof exerciseFormSchema>>;
+	} & Omit<FormOptions<z.infer<typeof workoutFormSchema>>, 'validators' | 'dataType'>;
 
 	export const workoutFormSchema = z.object({
 		name: z.string().nonempty(),
@@ -25,12 +31,25 @@
 	import Button from '$lib/components/Button.svelte';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { zodClient } from 'sveltekit-superforms/adapters';
 
 	const handleCloseModal = () => replaceState('', { modalShown: undefined });
 
-	let { title, form, exerciseForm }: WorkoutFormProps = $props();
+	let { title, data, form = $bindable(), exerciseFormData, ...rest }: WorkoutFormProps = $props();
 
-	const { form: data, enhance, submitting, delayed } = form;
+	if (form === undefined)
+		form = superForm(data, {
+			validators: zodClient(workoutFormSchema),
+			dataType: 'json',
+			...rest
+		});
+	const {
+		form: formData,
+		enhance,
+		submitting,
+		delayed
+	} = form as SuperForm<z.infer<typeof workoutFormSchema>>;
+	let exerciseForm: SuperForm<z.infer<typeof exerciseFormSchema>> | undefined = $state();
 </script>
 
 <form class="workout-form" action="?/workout" method="POST" use:enhance>
@@ -64,20 +83,30 @@
 				variant="text"
 				type="button"
 				disabled={$submitting}
-				onclick={() => pushState('', { modalShown: 'add-exercise' })}
+				onclick={() => {
+					exerciseForm?.reset();
+					pushState('', { modalShown: 'save-exercise' });
+				}}
 			>
 				+ {m.add_exercise()}
 			</Button>
 		</div>
-		<List items={$data.exercises} emptyMessage="No exercises added">
-			{#snippet item(exercise)}
-				<ExerciseListItem {exercise}>
+		<List items={$formData.exercises} emptyMessage="No exercises added">
+			{#snippet item(exercise, index)}
+				<ExerciseListItem
+					onclick={() => {
+						pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
+						exerciseForm?.reset({ data: exercise });
+					}}
+					{exercise}
+				>
 					{#snippet decoration()}
 						<Button
 							type="button"
 							disabled={$submitting}
 							onclick={() =>
-								($data.exercises = $data.exercises?.filter((item) => item !== exercise) ?? [])}
+								($formData.exercises =
+									$formData.exercises?.filter((item) => item !== exercise) ?? [])}
 							variant="text"
 						>
 							{m.remove()}
@@ -89,27 +118,29 @@
 	</div>
 </form>
 
-<Dialog open={page.state.modalShown === 'add-exercise'} onclose={handleCloseModal}>
+<Dialog open={page.state.modalShown === 'save-exercise'} onclose={handleCloseModal}>
 	<div class="exercise-dialog">
 		<h3>{m.add_exercise()}</h3>
-		{#key $data.exercises.length}
-			<ExerciseForm
-				oncancel={handleCloseModal}
-				form={exerciseForm}
-				action="?/exercise"
-				onUpdate={({ result, formElement, cancel }) => {
-					if (result.type === 'success') {
-						$data.exercises = [
-							...$data.exercises,
-							result.data.form.data as z.infer<typeof exerciseFormSchema>
-						];
-						handleCloseModal();
-						formElement.reset();
-						cancel();
-					}
-				}}
-			/>
-		{/key}
+		<ExerciseForm
+			oncancel={handleCloseModal}
+			data={exerciseFormData}
+			bind:form={exerciseForm}
+			action="?/exercise"
+			onUpdate={({ result, formElement, cancel }) => {
+				if (result.type === 'success') {
+					$formData.exercises = page.state.exerciseIndex
+						? [
+								...$formData.exercises.slice(0, page.state.exerciseIndex),
+								result.data.form.data as z.infer<typeof exerciseFormSchema>,
+								...$formData.exercises.slice(page.state.exerciseIndex + 1)
+							]
+						: [...$formData.exercises, result.data.form.data as z.infer<typeof exerciseFormSchema>];
+					handleCloseModal();
+					formElement.reset();
+					cancel();
+				}
+			}}
+		/>
 	</div>
 </Dialog>
 

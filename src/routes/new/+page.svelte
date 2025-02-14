@@ -4,25 +4,28 @@
 	import * as m from '$lib/paraglide/messages';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-french-toast';
-	import { superForm } from 'sveltekit-superforms';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { type SuperForm } from 'sveltekit-superforms';
+	import type { z } from 'zod';
 
 	const { data }: { data: PageServerData } = $props();
-	const form = superForm(data.form, {
-		validators: zodClient(workoutFormSchema),
-		dataType: 'json',
-		onResult: ({ result }) => {
-			if (result.type === 'error') toast.error(result.error.message);
-			else if (result.type === 'redirect') {
-				toast.success(m.create_workout_success());
-				goto(result.location, { invalidateAll: true });
-			}
-		}
-	});
+	let form: SuperForm<z.infer<typeof workoutFormSchema>> | undefined = $state();
 
-	const { capture, restore } = form;
-
-	export const snapshot = { capture, restore };
+	export const snapshot = {
+		capture: () => form?.capture(),
+		restore: (snapshot) => form?.restore(snapshot)
+	};
 </script>
 
-<WorkoutForm title={m.edit_workout()} {form} exerciseForm={data.exerciseForm} />
+<WorkoutForm
+	title={m.create_workout()}
+	onResult={({ result }) => {
+		if (result.type === 'error') toast.error(result.error.message);
+		else if (result.type === 'redirect') {
+			toast.success(m.create_workout_success());
+			goto(result.location, { invalidateAll: true });
+		}
+	}}
+	bind:form
+	data={data.form}
+	exerciseFormData={data.exerciseFormData}
+/>
