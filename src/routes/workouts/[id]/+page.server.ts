@@ -35,9 +35,10 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 		)
 		.eq('exercises.exercise.i18n.language', languageTag())
 		.eq('id', params.id)
-		.single();
+		.maybeSingle();
 
 	if (workoutError) console.error(workoutError);
+	if (!workout) return error(404, 'Workout not found');
 
 	return {
 		workout: parseWorkoutExercises(omit(workout, 'user_id')),
