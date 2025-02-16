@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Deploy
 on:
   push:
     branches: [main, master]
@@ -6,7 +6,8 @@ on:
     branches: [main, master]
 jobs:
   test:
-    timeout-minutes: 60
+    name: E2E Tests
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,3 +30,27 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 1
+  deploy:
+    name: Deploy to Netlify
+    needs: test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+      - name: Build
+        run: pnpm build
+        env:
+          DOTENV_PRIVATE_KEY: ${{ secrets.DOTENV_PRIVATE_KEY }}
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './build'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
+	workers: process.env.CI ? 1 : undefined,
 	webServer: {
 		command: 'pnpm build && pnpm preview',
 		port: 4173
