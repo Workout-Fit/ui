@@ -191,6 +191,8 @@
 		max-height: 7rem;
 		overflow-y: auto;
 		margin-top: var(--base-spacing);
+		touch-action: pan-y;
+		pointer-events: all;
 		width: 100%;
 		z-index: 1;
 		border-radius: 4px;
