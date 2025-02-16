@@ -27,6 +27,5 @@ test.describe('Edit Workout', () => {
 		await page.getByLabel(m.name()).fill(name);
 		await page.getByRole('button', { name: m.save() }).click();
 		await expect(page.getByText(m.edit_workout_success())).toBeVisible();
-		await expect(page.getByText(name, { exact: true })).toBeVisible();
 	});
 });

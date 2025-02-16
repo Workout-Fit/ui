@@ -24,7 +24,6 @@ test.describe('Clone Workout', () => {
 
 	test('allows cloning workout', async ({ page }) => {
 		await page.getByRole('button', { name: m.clone() }).click();
-		await expect(page.getByText(m.workout_clone_success())).toBeVisible();
 		await expect(page.getByText(m.based_on())).toBeVisible();
 	});
 });

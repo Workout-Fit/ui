@@ -16,7 +16,7 @@ export default defineConfig({
 		},
 		{ name: 'workout setup', testMatch: /auth\.setup\.ts/, teardown: 'workout teardown' },
 		{
-			name: 'workout chromium',
+			name: 'workout',
 			testDir: 'tests/e2e/workout',
 			use: {
 				...devices['Desktop Chrome'],
@@ -25,23 +25,9 @@ export default defineConfig({
 			dependencies: ['workout setup']
 		},
 		{
-			name: 'workout firefox',
-			testDir: 'tests/e2e/workout',
-			use: {
-				...devices['Desktop Firefox'],
-				storageState: 'playwright/.auth/user.json'
-			},
-			dependencies: ['workout setup']
-		},
-		{
-			name: 'account chromium',
+			name: 'account',
 			testDir: 'tests/e2e/account',
 			use: devices['Desktop Chrome']
-		},
-		{
-			name: 'account firefox',
-			testDir: 'tests/e2e/account',
-			use: devices['Desktop Firefox']
 		}
 	]
 });

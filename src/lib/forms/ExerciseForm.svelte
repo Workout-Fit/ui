@@ -34,6 +34,7 @@
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
 	import { i18n } from '$lib/i18n';
 	import Button from '$lib/components/Button.svelte';
+	import { languageTag } from '$lib/paraglide/runtime';
 
 	let { data, oncancel, form = $bindable(), action, ...rest }: ExerciseFormProps = $props();
 	form = superForm(data, {
@@ -43,7 +44,8 @@
 	});
 
 	const loadExercises = async (query: string) => {
-		const response = await fetch(i18n.resolveRoute(`/api/exercises?query=${query}`));
+		const searchParams = new URLSearchParams({ query, language: languageTag() });
+		const response = await fetch(i18n.resolveRoute('/api/exercises?' + searchParams.toString()));
 		return (await response.json()) as NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>;
 	};
 
