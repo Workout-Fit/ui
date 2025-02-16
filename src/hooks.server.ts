@@ -56,14 +56,15 @@ const supabase: Handle = async ({ event, resolve }) => {
 
 const authGuard: Handle = async ({ event, resolve }) => {
 	const { session, user } = await event.locals.safeGetSession();
-	const requestUrl = new URL(event.request.url);
 	event.locals.session = session;
 	event.locals.user = user;
 
 	if (!event.locals.session && !PUBLIC_URLS.includes(event.route.id as string))
 		redirect(
 			303,
-			i18n.resolveRoute('/auth?redirect_uri=' + requestUrl.pathname.replace('__data.json', ''))
+			i18n.resolveRoute(
+				'/auth?redirect_uri=' + i18n.route(event.url.pathname.replace('__data.json', ''))
+			)
 		);
 	if (event.locals.session && event.url.pathname.includes('/auth'))
 		redirect(303, i18n.resolveRoute('/'));

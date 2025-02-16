@@ -1,4 +1,4 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 
 import type { Actions } from './$types';
 import { authFormSchema } from '$lib/forms/AuthForm.svelte';
@@ -9,7 +9,7 @@ import insertProfile from '$lib/supabase/queries/insertProfile';
 import pick from 'lodash/pick';
 import type { AuthError } from '@supabase/supabase-js';
 import { z } from 'zod';
-import { i18n } from '$lib/i18n';
+import * as m from '$lib/paraglide/messages';
 
 export const load = async () => {
 	const nonce = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));
@@ -29,7 +29,6 @@ export const load = async () => {
 export const actions: Actions = {
 	signup: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(signUpFormSchema));
-		const redirectUri = url.searchParams.get('redirect_uri') ?? '/';
 		if (!form.valid) return fail(400, { form });
 
 		const { error: accountError, data } = await supabase.auth.signUp(
@@ -54,20 +53,19 @@ export const actions: Actions = {
 				signUpError.message ?? 'Failed to sign-up'
 			);
 		}
-		return redirect(303, i18n.resolveRoute(redirectUri));
+		return message(form, m.sign_up_success());
 	},
-	signin: async ({ request, locals: { supabase }, url }) => {
+	signin: async ({ request, locals: { supabase } }) => {
 		const form = await superValidate(
 			request,
 			zod(z.object({ ...authFormSchema.shape, password: z.string().nonempty() }))
 		);
-		const redirectUri = url.searchParams.get('redirect_uri') ?? '/';
 		if (!form.valid) return fail(400, { form });
 
 		const { error: signInError } = await supabase.auth.signInWithPassword(form.data);
 		if (signInError)
 			return error(signInError.status ?? 500, signInError.message ?? 'Failed to sign-in');
-		return redirect(303, i18n.resolveRoute(redirectUri));
+		return { form };
 	},
 	forgot: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(authFormSchema));
@@ -80,6 +78,6 @@ export const actions: Actions = {
 			console.error(forgotError);
 			return error(forgotError.status ?? 500, forgotError.message ?? 'Failed to send reset email');
 		}
-		return message(form, 'Email sent');
+		return message(form, m.email_sent());
 	}
 };

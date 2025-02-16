@@ -43,7 +43,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 	const exerciseForm = await superValidate(zod(exerciseFormSchema));
 
 	if (workout?.user_id === user?.id) return { form: workoutForm, exerciseFormData: exerciseForm };
-	return redirect(302, i18n.resolveRoute(`/workouts/${params.id}`));
+	return redirect(303, i18n.resolveRoute(`/workouts/${params.id}`));
 };
 
 export const actions = {
@@ -63,7 +63,7 @@ export const actions = {
 			return error(500, 'Failed to update workout');
 		}
 
-		return redirect(302, i18n.resolveRoute(`/workouts/${params.id}`));
+		return redirect(303, i18n.resolveRoute(`/workouts/${params.id}`));
 	},
 	exercise: async ({ request }) => {
 		const form = await superValidate(request, zod(exerciseFormSchema));

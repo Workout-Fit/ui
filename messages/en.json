@@ -61,5 +61,7 @@
 	"edit_workout_success": "Successfully edited workout",
 	"create_workout_success": "Successfully created workout",
 	"demand_sign_in": "You need to be signed-in to {action}",
-	"avatar": "Avatar"
+	"avatar": "Avatar",
+	"email_sent": "Email sent",
+	"sign_up_success": "Account created"
 }

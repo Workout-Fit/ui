@@ -1,7 +1,8 @@
 import { i18n } from '$lib/i18n';
 import { languageTag } from '$lib/paraglide/runtime.js';
 import { parseWorkoutExercises } from '$lib/utils/parser';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import { error } from 'console';
 import omit from 'lodash/omit';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
@@ -50,11 +51,7 @@ export const actions = {
 	clone: async ({ params: { id }, locals: { supabase, safeGetSession }, url }) => {
 		const { user } = await safeGetSession();
 
-		if (!user)
-			return redirect(
-				307,
-				i18n.resolveRoute('/auth?redirect_uri=' + url.pathname + url.searchParams)
-			);
+		if (!user) return redirect(307, i18n.resolveRoute('/auth?redirect_uri=' + url.pathname));
 
 		const { data: workoutId, error: cloneError } = await supabase.rpc('clone_workout', {
 			source_workout_id: id,
@@ -65,17 +62,13 @@ export const actions = {
 			console.error(cloneError);
 			return error(500, 'Failed to clone workout');
 		}
-		return redirect(302, i18n.resolveRoute(`/workouts/${workoutId}`));
+		return redirect(303, i18n.resolveRoute(`/workouts/${workoutId}`));
 	},
 	like: async ({ params: { id }, locals: { supabase, safeGetSession }, request, url }) => {
 		const formData = await request.formData();
 		const { user } = await safeGetSession();
 
-		if (!user)
-			return redirect(
-				307,
-				i18n.resolveRoute('/auth?redirect_uri=' + url.pathname + url.searchParams)
-			);
+		if (!user) return redirect(307, i18n.resolveRoute('/auth?redirect_uri=' + url.pathname));
 
 		const { error: likeError } =
 			formData.get('liked') === 'true'

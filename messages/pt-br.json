@@ -61,5 +61,7 @@
 	"edit_workout_success": "Treino editado com sucesso",
 	"create_workout_success": "Treino criado com sucesso",
 	"demand_sign_in": "Você precisa estar autenticado para {action}",
-	"avatar": "Avatar"
+	"avatar": "Avatar",
+	"email_sent": "E-mail enviado",
+	"sign_up_success": "Conta criada com sucesso."
 }

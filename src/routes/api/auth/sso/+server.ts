@@ -39,7 +39,6 @@ const createProfileFromSSO = async (
 
 export const POST = async ({ request, locals: { supabase }, url }) => {
 	const data: SignInWithIdTokenCredentials = await request.json();
-	const redirectUri = url.searchParams.get('redirect_uri') ?? '/';
 	const { data: signInData, error: signInError } = await supabase.auth.signInWithIdToken(data);
 
 	if (signInError) {
@@ -59,5 +58,5 @@ export const POST = async ({ request, locals: { supabase }, url }) => {
 
 	if (profile.count === 0) await createProfileFromSSO(data.provider, signInData.user, supabase);
 
-	return json({ redirect: redirectUri });
+	return json({ success: true });
 };

@@ -45,6 +45,6 @@ export const actions = {
 			return error(500, 'Failed to update Profile');
 		}
 
-		return redirect(302, i18n.resolveRoute(`/profile/${form.data.username}`));
+		return redirect(303, i18n.resolveRoute(`/profile/${form.data.username}`));
 	}
 } satisfies Actions;

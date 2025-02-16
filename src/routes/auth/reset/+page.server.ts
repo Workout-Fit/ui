@@ -22,6 +22,6 @@ export const actions: Actions = {
 
 		if (resetError)
 			return error(resetError.status ?? 500, resetError.message ?? 'Failed to reset password');
-		else return redirect(302, i18n.resolveRoute('/'));
+		else return redirect(303, i18n.resolveRoute('/'));
 	}
 };

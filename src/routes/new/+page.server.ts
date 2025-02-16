@@ -51,7 +51,7 @@ export const actions = {
 			}
 		}
 
-		return redirect(302, i18n.resolveRoute(`/workouts/${createWorkout.data.id}`));
+		return redirect(303, i18n.resolveRoute(`/workouts/${createWorkout.data.id}`));
 	},
 	exercise: async ({ request }) => {
 		const form = await superValidate(request, zod(exerciseFormSchema));

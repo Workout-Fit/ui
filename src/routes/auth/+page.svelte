@@ -9,7 +9,7 @@
 <script lang="ts">
 	import AuthForm, { authFormSchema } from '$lib/forms/AuthForm.svelte';
 	import ProfileForm, { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
-	import type { SuperForm } from 'sveltekit-superforms/client';
+	import type { FormOptions, SuperForm } from 'sveltekit-superforms/client';
 	import type { PageServerData } from './$types';
 	import { z } from 'zod';
 	import { fly } from 'svelte/transition';
@@ -20,6 +20,8 @@
 	import type { CredentialResponse } from 'google-one-tap';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { page } from '$app/state';
+	import { i18n } from '$lib/i18n';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -34,11 +36,9 @@
 			body: JSON.stringify({ ...credentials, nonce: data.nonce })
 		});
 
-		if (response.ok) {
-			const { redirect } = await response.json();
-			// https://github.com/sveltejs/kit/pull/13256
-			goto(redirect, { invalidateAll: true });
-		} else {
+		if (response.ok)
+			goto(page.url.searchParams.get('redirect_uri') ?? '/', { invalidateAll: true });
+		else {
 			const { message } = await response.json();
 			toast.error(message);
 		}
@@ -72,6 +72,16 @@
 			logo_alignment: 'left'
 		});
 	};
+
+	const onAuthUpdate: FormOptions<z.infer<typeof authFormSchema>>['onUpdate'] = ({
+		result,
+		form
+	}) => {
+		const redirectUri = page.url.searchParams.get('redirect_uri') ?? '/';
+		if (result.type === 'failure') return;
+		if (form.message) toast.success(form.message);
+		goto(i18n.resolveRoute(redirectUri), { invalidateAll: true });
+	};
 </script>
 
 <svelte:head>
@@ -90,6 +100,7 @@
 					data={data.signUpForm}
 					schema={signUpFormSchema}
 					passwordHTMLAutocomplete="new-password"
+					onUpdate={onAuthUpdate}
 					enctype="multipart/form-data"
 				>
 					{#snippet extraFields(form)}
@@ -103,6 +114,7 @@
 					submitLabel={m.sign_in()}
 					data={data.signInForm}
 					disabled={ssoSignIn}
+					onUpdate={onAuthUpdate as any}
 				/>
 				<Button variant="text" form="sign-in" formaction="?/forgot" class="forgot-password">
 					{m.forgot_password()}
