@@ -12,6 +12,7 @@
 	import Link from '$lib/components/Link.svelte';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { languageTag } from '$lib/paraglide/runtime';
 
 	let { data }: { data: PageData } = $props();
 
@@ -58,10 +59,19 @@
 					return async ({ result, update }) => {
 						await update();
 						cloning = false;
-						if (result.type === 'error') return toast.error(result.error);
+						if (result.type === 'error') toast.error(result.error);
 						else if (result.type === 'redirect') {
-							toast.success(m.workout_clone_success());
-							goto(result.location);
+							if (result.status === 307) {
+								toast.error(
+									m.demand_sign_in({
+										action: languageTag() === 'en' ? 'clone a workout' : 'clonar uma ficha'
+									})
+								);
+								goto(result.location);
+							} else {
+								toast.success(m.workout_clone_success());
+								goto(result.location);
+							}
 						}
 					};
 				}}
@@ -82,10 +92,20 @@
 				liking = true;
 				return async ({ result }) => {
 					liking = false;
-					if (result.type === 'error') return toast.error(result.error);
-					invalidate('supabase:likes');
-					data.liked = !data.liked;
-					data.likes += data.liked ? 1 : -1;
+					if (result.type === 'redirect') {
+						toast.error(
+							m.demand_sign_in({
+								action: languageTag() === 'en' ? 'like a workout' : 'curtir uma ficha'
+							})
+						);
+						console.log(result);
+						return goto(result.location);
+					} else if (result.type === 'error') toast.error(result.error);
+					else {
+						invalidate('supabase:likes');
+						data.liked = !data.liked;
+						data.likes += data.liked ? 1 : -1;
+					}
 				};
 			}}
 		>

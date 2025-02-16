@@ -10,5 +10,6 @@ export const getExercises = async (
 		.from('exercises_i18n')
 		.select('name, ...exercises(id)')
 		.eq('language', language)
-		.ilike('name', `%${query.trim()}%`)
-		.limit(20);
+		.textSearch('name', query.trim().toLowerCase(), { type: 'phrase' })
+		.limit(20)
+		.order('name');

@@ -60,5 +60,6 @@
 	"profile_edit_success": "Perfil editado com sucesso",
 	"edit_workout_success": "Treino editado com sucesso",
 	"create_workout_success": "Treino criado com sucesso",
+	"demand_sign_in": "Você precisa estar autenticado para {action}",
 	"avatar": "Avatar"
 }

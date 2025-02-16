@@ -46,9 +46,14 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 };
 
 export const actions = {
-	clone: async ({ params: { id }, locals: { supabase, safeGetSession } }) => {
+	clone: async ({ params: { id }, locals: { supabase, safeGetSession }, url }) => {
 		const { user } = await safeGetSession();
-		if (!user) return error(403, 'Forbidden');
+
+		if (!user)
+			return redirect(
+				307,
+				i18n.resolveRoute('/auth?redirect_uri=' + url.pathname + url.searchParams)
+			);
 
 		const { data: workoutId, error: cloneError } = await supabase.rpc('clone_workout', {
 			source_workout_id: id,
@@ -61,11 +66,15 @@ export const actions = {
 		}
 		return redirect(302, i18n.resolveRoute(`/workouts/${workoutId}`));
 	},
-	like: async ({ params: { id }, locals: { supabase, safeGetSession }, request }) => {
+	like: async ({ params: { id }, locals: { supabase, safeGetSession }, request, url }) => {
 		const formData = await request.formData();
 		const { user } = await safeGetSession();
 
-		if (!user) return error(403, 'Forbidden');
+		if (!user)
+			return redirect(
+				307,
+				i18n.resolveRoute('/auth?redirect_uri=' + url.pathname + url.searchParams)
+			);
 
 		const { error: likeError } =
 			formData.get('liked') === 'true'

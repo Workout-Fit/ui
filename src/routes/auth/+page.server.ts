@@ -53,7 +53,8 @@ export const actions: Actions = {
 				(signUpError as AuthError).status ?? 500,
 				signUpError.message ?? 'Failed to sign-up'
 			);
-		} else redirect(303, i18n.resolveRoute(redirectUri));
+		}
+		return redirect(303, i18n.resolveRoute(redirectUri));
 	},
 	signin: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(
@@ -66,7 +67,7 @@ export const actions: Actions = {
 		const { error: signInError } = await supabase.auth.signInWithPassword(form.data);
 		if (signInError)
 			return error(signInError.status ?? 500, signInError.message ?? 'Failed to sign-in');
-		else redirect(303, i18n.resolveRoute(redirectUri));
+		return redirect(303, i18n.resolveRoute(redirectUri));
 	},
 	forgot: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(authFormSchema));
@@ -78,6 +79,7 @@ export const actions: Actions = {
 		if (forgotError) {
 			console.error(forgotError);
 			return error(forgotError.status ?? 500, forgotError.message ?? 'Failed to send reset email');
-		} else return message(form, 'Email sent');
+		}
+		return message(form, 'Email sent');
 	}
 };
