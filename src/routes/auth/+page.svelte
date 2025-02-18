@@ -28,6 +28,11 @@
 	let mode: 'signup' | 'signin' = $state('signin');
 	let ssoSignIn = $state(false);
 
+	const redirectToPreviousURL = () =>
+		goto(i18n.resolveRoute(page.url.searchParams.get('redirect_uri') ?? '/'), {
+			invalidateAll: true
+		});
+
 	const handleSignInWithProvider = async (credentials: SignInWithIdTokenCredentials) => {
 		ssoSignIn = true;
 		const response = await fetch('/api/auth/sso', {
@@ -36,8 +41,7 @@
 			body: JSON.stringify({ ...credentials, nonce: data.nonce })
 		});
 
-		if (response.ok)
-			goto(page.url.searchParams.get('redirect_uri') ?? '/', { invalidateAll: true });
+		if (response.ok) redirectToPreviousURL();
 		else {
 			const { message } = await response.json();
 			toast.error(message);
@@ -77,10 +81,9 @@
 		result,
 		form
 	}) => {
-		const redirectUri = page.url.searchParams.get('redirect_uri') ?? '/';
 		if (result.type === 'failure') return;
 		if (form.message) toast.success(form.message);
-		goto(i18n.resolveRoute(redirectUri), { invalidateAll: true });
+		redirectToPreviousURL();
 	};
 </script>
 

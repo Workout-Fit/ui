@@ -1,8 +1,7 @@
 import { i18n } from '$lib/i18n';
 import { languageTag } from '$lib/paraglide/runtime.js';
 import { parseWorkoutExercises } from '$lib/utils/parser';
-import { redirect } from '@sveltejs/kit';
-import { error } from 'console';
+import { redirect, error } from '@sveltejs/kit';
 import omit from 'lodash/omit';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
@@ -38,7 +37,10 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 		.eq('id', params.id)
 		.maybeSingle();
 
-	if (workoutError) console.error(workoutError);
+	if (workoutError) {
+		console.error(workoutError);
+		return error(500, 'Error when retrieving workout');
+	}
 	if (!workout) return error(404, 'Workout not found');
 
 	return {

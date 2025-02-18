@@ -16,7 +16,7 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const username = (data.workout?.profile as unknown as { username: string }).username;
+	const username = (data.workout.profile as unknown as { username: string }).username;
 
 	async function handleDeleteWorkout() {
 		const res = await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
@@ -48,9 +48,6 @@
 		</small>
 		<p>{data.workout?.notes}</p>
 		<div class="workout__actions">
-			{#if data.editable}
-				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>{m.edit()}</Link>
-			{/if}
 			<form
 				method="POST"
 				action="?/clone"
@@ -78,12 +75,15 @@
 			>
 				<Button variant="text" disabled={cloning}>{m.clone()}</Button>
 			</form>
-			<Button
-				variant="text"
-				onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
-			>
-				{m.delete_action()}
-			</Button>
+			{#if data.editable}
+				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>{m.edit()}</Link>
+				<Button
+					variant="text"
+					onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
+				>
+					{m.delete_action()}
+				</Button>
+			{/if}
 		</div>
 		<form
 			method="POST"
