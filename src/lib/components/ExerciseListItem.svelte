@@ -14,12 +14,14 @@
 		onclick?: () => void;
 	} = $props();
 
-	const formatSets = exercise.sets
-		?.map(
-			(set, index) =>
-				`${set} × ${exercise.repetitions[index]}${exercise.rests?.[index] != null ? ` - ${m.rest_for({ rest: exercise.rests[index] })}` : ''}`
-		)
-		.join('\n');
+	let formatSets = $derived(
+		exercise.sets
+			?.map(
+				(set, index) =>
+					`${set} × ${exercise.repetitions[index]}${exercise.rests?.[index] != null ? ` - ${m.rest_for({ rest: exercise.rests[index] })}` : ''}`
+			)
+			.join('\n')
+	);
 </script>
 
 <ListItem

@@ -134,7 +134,7 @@
 			data={exerciseFormData}
 			bind:form={exerciseForm}
 			action="?/exercise"
-			onUpdate={({ result, cancel, form }) => {
+			onUpdate={({ result, cancel }) => {
 				if (result.type === 'success') {
 					$formData.exercises =
 						page.state.exerciseIndex !== undefined
