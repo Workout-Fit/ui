@@ -25,7 +25,7 @@
 </script>
 
 <script lang="ts">
-	import Autocomplete from '$lib/components/Autocomplete.svelte';
+	import { Combobox } from '$lib/components/ui/combobox';
 	import FormActions from '$lib/components/FormActions.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -35,6 +35,8 @@
 	import { i18n } from '$lib/i18n';
 	import Button from '$lib/components/Button.svelte';
 	import { languageTag } from '$lib/paraglide/runtime';
+	import FormField from '$lib/components/ui/form/form-field.svelte';
+	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/ui/form';
 
 	let { data, oncancel, form = $bindable(), action, ...rest }: ExerciseFormProps = $props();
 	form = superForm(data, {
@@ -67,26 +69,25 @@
 	};
 </script>
 
-{#snippet exerciseAutocompleteEntry(
-	item: NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>[number]
-)}
-	{item.name}
-{/snippet}
-
 <form class="exercise-form" {action} method="POST" use:enhance>
-	<Autocomplete
-		id="exercise"
-		loadFunction={loadExercises}
-		name="exercise"
-		label={m.exercise()}
-		debounceValue={300}
-		searchThreshold={3}
-		disabled={$submitting}
-		renderValue={exerciseAutocompleteEntry}
-		bind:value={$formData.exercise}
-		error={$errors.exercise?._errors?.[0]}
-		renderItem={exerciseAutocompleteEntry}
-	/>
+	<FormField {form} name="exercise">
+		<FormControl>
+			<Combobox
+				id="exercise"
+				loadFunction={loadExercises}
+				name="exercise"
+				label={m.exercise()}
+				debounceValue={300}
+				searchThreshold={3}
+				placeholder={m.exercise_search()}
+				disabled={$submitting}
+				getItemValue={(exercise) => exercise.name}
+				bind:value={$formData.exercise}
+			/>
+		</FormControl>
+		<FormDescription />
+		<FormFieldErrors />
+	</FormField>
 	{#each $formData.sets as _, index}
 		<div>
 			<TextField

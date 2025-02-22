@@ -1,5 +1,3 @@
-import type { Database } from '$lib/supabase/database.types';
-import type { WorkoutExercise } from '$lib/types';
 import { parseWorkoutExercises } from '$lib/utils/parser';
 import { faker } from '@faker-js/faker';
 

@@ -9,7 +9,7 @@ const supabase = createClient<Database>(
 
 // Extend basic test by providing a "todoPage" fixture.
 export const test = base.extend<{ supabase: SupabaseClient<Database>; user: User | null }>({
-	supabase: async ({ page }, use) => use(supabase),
+	supabase: async (_, use) => use(supabase),
 	user: async ({ context }, use) => {
 		const cookies = await context.cookies();
 		const encodedToken = cookies

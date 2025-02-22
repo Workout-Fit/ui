@@ -63,5 +63,6 @@
 	"demand_sign_in": "You need to be signed-in to {action}",
 	"avatar": "Avatar",
 	"email_sent": "Email sent",
-	"sign_up_success": "Account created"
+	"sign_up_success": "Account created",
+	"exercise_search": "Search for an exercise"
 }

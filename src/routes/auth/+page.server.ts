@@ -27,7 +27,7 @@ export const load = async () => {
 };
 
 export const actions: Actions = {
-	signup: async ({ request, locals: { supabase }, url }) => {
+	signup: async ({ request, locals: { supabase } }) => {
 		const form = await superValidate(request, zod(signUpFormSchema));
 		if (!form.valid) return fail(400, { form });
 
