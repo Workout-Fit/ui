@@ -27,7 +27,7 @@
 <script lang="ts">
 	import { Combobox } from '$lib/components/ui/combobox';
 	import FormActions from '$lib/components/FormActions.svelte';
-	import TextField from '$lib/components/TextField.svelte';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { superForm } from 'sveltekit-superforms/client';
 	import * as m from '$lib/paraglide/messages';
@@ -90,7 +90,7 @@
 	</FormField>
 	{#each $formData.sets as _, index}
 		<div>
-			<TextField
+			<FormInput
 				type="number"
 				disabled={$submitting}
 				label={m.sets()}
@@ -98,7 +98,7 @@
 				placeholder="4"
 				{form}
 			/>
-			<TextField
+			<FormInput
 				type="number"
 				label={m.repetitions()}
 				field="repetitions[{index}]"
@@ -106,7 +106,7 @@
 				{form}
 				disabled={$submitting}
 			/>
-			<TextField
+			<FormInput
 				disabled={$submitting}
 				type="number"
 				label={m.rest()}
@@ -123,9 +123,9 @@
 			{/if}
 		</div>
 	{/each}
-	<TextField
+	<FormInput
 		disabled={$submitting}
-		multiline
+		type=""
 		field="notes"
 		id="exercise-notes"
 		label={m.notes()}

@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-	import TextField from '$lib/components/TextField.svelte';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import { fileProxy, type SuperForm } from 'sveltekit-superforms/client';
 
 	const { form: formData }: { form: SuperForm<z.infer<typeof profileFormSchema>> } = $props();
@@ -39,14 +39,14 @@
 			<span>{$errors.avatar}</span>
 		</div>
 	</div>
-	<TextField
+	<FormInput
 		label={m.name()}
 		autocomplete="name"
 		placeholder="John Doe"
 		field="full_name"
 		form={formData}
 	/>
-	<TextField
+	<FormInput
 		label={m.username()}
 		autocomplete="username"
 		placeholder="johndoe"
@@ -54,7 +54,7 @@
 		form={formData}
 	/>
 	<div style="display: flex; gap: var(--base-spacing); width: 100%;">
-		<TextField
+		<FormInput
 			label={m.weight()}
 			placeholder="60.0"
 			step="0.1"
@@ -62,9 +62,9 @@
 			field="weight"
 			form={formData}
 		/>
-		<TextField label={m.height()} placeholder="173" type="number" field="height" form={formData} />
+		<FormInput label={m.height()} placeholder="173" type="number" field="height" form={formData} />
 	</div>
-	<TextField label={m.bio()} placeholder="Brazilian, 30yr" field="bio" form={formData} />
+	<FormInput label={m.bio()} placeholder="Brazilian, 30yr" field="bio" form={formData} />
 </div>
 
 <style>

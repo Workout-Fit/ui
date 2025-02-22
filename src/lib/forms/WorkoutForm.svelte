@@ -26,7 +26,7 @@
 	import { page } from '$app/state';
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
-	import TextField from '$lib/components/TextField.svelte';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import List from '$lib/components/List.svelte';
@@ -60,7 +60,7 @@
 			<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
 		</div>
 
-		<TextField
+		<FormInput
 			label={m.name()}
 			type="text"
 			{form}
@@ -68,7 +68,7 @@
 			field="name"
 			placeholder={m.workout_name_placeholder()}
 		/>
-		<TextField
+		<FormInput
 			label={m.notes()}
 			{form}
 			disabled={$submitting}

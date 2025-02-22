@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { FormInput } from '$lib/components/ui/form-input';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -35,10 +36,11 @@
 	<small>
 		{m.reset_password_message({ email: page.url.searchParams.get('email') ?? '' })}
 	</small>
-	<PasswordField
+	<FormInput
 		label={m.password()}
 		placeholder="********"
 		autocomplete="new-password"
+		type="password"
 		field={'password' as any}
 		{form}
 	/>
