@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import toast, { Toaster } from 'svelte-french-toast';
 	import { i18n } from '$lib/i18n';
