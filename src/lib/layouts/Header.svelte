@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 	import Link from '$lib/components/Link.svelte';
-	import Logo from '$lib/components/Logo.svelte';
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import { Logo } from '$lib/components/ui/logo';
 	import * as m from '$lib/paraglide/messages';
 
 	let { username }: { username?: string } = $props();
@@ -18,11 +17,10 @@
 	</Link>
 	<nav>
 		<LanguageSwitcher />
-		<ThemeToggle />
 		{#if username}
 			<Link class="link" exact={false} href={`/profile/${username}`}>{m.profile()}</Link>
 			<form method="POST" action="/?/signout" use:enhance>
-				<Button variant="text">{m.sign_out()}</Button>
+				<Button variant="link">{m.sign_out()}</Button>
 			</form>
 		{:else}
 			<Link class="link" href="/auth">{m.sign_in()}</Link>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from './Button.svelte';
+	import { Button } from './ui/button';
 	import * as m from '$lib/paraglide/messages';
 
 	let {
@@ -18,7 +18,7 @@
 </script>
 
 <div class="form-actions">
-	<Button {disabled} type="button" onclick={oncancel} variant="text">{cancelLabel}</Button>
+	<Button {disabled} type="button" onclick={oncancel} variant="link">{cancelLabel}</Button>
 	<Button {disabled} {loading} type="submit">{saveLabel}</Button>
 </div>
 

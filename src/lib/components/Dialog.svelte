@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Snippet } from 'svelte';
-	import Button from './Button.svelte';
+	import { Button } from './ui/button';
 	import * as m from '$lib/paraglide/messages';
 
 	let {
@@ -9,7 +9,6 @@
 		onclose
 	}: { open: boolean; children?: Snippet; onclose?: () => void } = $props();
 
-	// svelte-ignore non_reactive_update
 	let dialog: HTMLDialogElement;
 
 	const handleClose = () => {
@@ -31,7 +30,7 @@
 	}}
 >
 	<div class="dialog__content">
-		<Button type="button" style="margin-left: auto;" onclick={handleClose} variant="text">
+		<Button type="button" style="margin-left: auto;" onclick={handleClose} variant="link">
 			{m.close()}
 		</Button>
 		{@render children?.()}

@@ -28,7 +28,7 @@
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
 	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
@@ -81,7 +81,7 @@
 		<div class="workout-form__exercise-list-title">
 			<h2>{m.exercises()}</h2>
 			<Button
-				variant="text"
+				variant="link"
 				type="button"
 				disabled={$submitting}
 				onclick={() => {
@@ -104,7 +104,7 @@
 									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
 									exerciseForm?.reset({ data: exercise });
 								}}
-								variant="text"
+								variant="link"
 							>
 								{m.edit()}
 							</Button>
@@ -114,7 +114,7 @@
 								onclick={() =>
 									($formData.exercises =
 										$formData.exercises?.filter((item) => item !== exercise) ?? [])}
-								variant="text"
+								variant="link"
 							>
 								{m.remove()}
 							</Button>

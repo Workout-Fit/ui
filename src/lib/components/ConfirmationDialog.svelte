@@ -13,7 +13,7 @@
 
 <script lang="ts">
 	import Dialog from '$lib/components/Dialog.svelte';
-	import Button from './Button.svelte';
+	import { Button } from './ui/button';
 	import * as m from '$lib/paraglide/messages';
 
 	let {
@@ -33,7 +33,7 @@
 		<h4>{title}</h4>
 		<p>{message}</p>
 		<div class="confirmation-dialog__actions">
-			<Button type="button" {disabled} onclick={oncancel} variant="text">{cancelLabel}</Button>
+			<Button type="button" {disabled} onclick={oncancel} variant="link">{cancelLabel}</Button>
 			<Button type="button" {disabled} onclick={onconfirm}>{confirmLabel}</Button>
 		</div>
 	</div>

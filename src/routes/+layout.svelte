@@ -4,8 +4,6 @@
 	import toast, { Toaster } from 'svelte-french-toast';
 	import { i18n } from '$lib/i18n';
 
-	import '$lib/theme/index.css';
-
 	import { invalidate } from '$app/navigation';
 	import { onMount, setContext, type Snippet } from 'svelte';
 	import type { LayoutData } from './$types';

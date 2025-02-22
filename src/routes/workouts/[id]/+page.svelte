@@ -3,7 +3,7 @@
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
 	import { toast } from 'svelte-french-toast';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
 	import { goto, invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
@@ -73,12 +73,12 @@
 					};
 				}}
 			>
-				<Button variant="text" disabled={cloning}>{m.clone()}</Button>
+				<Button variant="link" disabled={cloning}>{m.clone()}</Button>
 			</form>
 			{#if data.editable}
 				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>{m.edit()}</Link>
 				<Button
-					variant="text"
+					variant="link"
 					onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
 				>
 					{m.delete_action()}
@@ -110,7 +110,7 @@
 			}}
 		>
 			<input type="hidden" name="liked" value={data.liked} />
-			<Button class="workout__like" variant="text" disabled={liking}>
+			<Button class="workout__like" variant="link" disabled={liking}>
 				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
 				<Icon style="fill: var(--color-primary);" width={16} height={16} />
 				{data.likes}

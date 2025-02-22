@@ -11,7 +11,7 @@
 	import type { PageServerData } from './$types';
 	import { toast } from 'svelte-french-toast';
 	import { goto } from '$app/navigation';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 	import { FormInput } from '$lib/components/ui/form-input';
 

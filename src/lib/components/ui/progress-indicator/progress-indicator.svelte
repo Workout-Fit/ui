@@ -1,12 +1,12 @@
 <script lang="ts">
-	let { color = 'white' }: { color?: 'white' | 'black' | 'primary' } = $props();
+	let { class: className = '' } = $props();
 </script>
 
 <svg
 	width="24"
 	height="24"
 	viewBox="0 0 24 24"
-	class={`progress--${color}`}
+	class={className}
 	role="progressbar"
 	xmlns="http://www.w3.org/2000/svg"
 >
@@ -38,17 +38,5 @@
 		100% {
 			transform: translate(0);
 		}
-	}
-
-	.progress--white {
-		fill: white;
-	}
-
-	.progress--black {
-		fill: black;
-	}
-
-	.progress--primary {
-		fill: var(--color-primary);
 	}
 </style>

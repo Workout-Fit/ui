@@ -33,7 +33,7 @@
 	import * as m from '$lib/paraglide/messages';
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
 	import { i18n } from '$lib/i18n';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import { languageTag } from '$lib/paraglide/runtime';
 	import FormField from '$lib/components/ui/form/form-field.svelte';
 	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/ui/form';
@@ -115,9 +115,9 @@
 				{form}
 			/>
 			{#if index + 1 === $formData.sets.length}
-				<Button size="large" type="button" variant="text" onclick={addSetGroup}>+</Button>
+				<Button size="large" type="button" variant="link" onclick={addSetGroup}>+</Button>
 			{:else}
-				<Button size="large" type="button" variant="text" onclick={() => removeSetGroup(index)}>
+				<Button size="large" type="button" variant="link" onclick={() => removeSetGroup(index)}>
 					-
 				</Button>
 			{/if}

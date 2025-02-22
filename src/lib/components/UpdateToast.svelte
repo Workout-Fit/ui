@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
-	import Button from './Button.svelte';
+	import { Button } from './ui/button';
 	import { getContext } from 'svelte';
 
 	const { needRefresh, updateServiceWorker } =
@@ -13,7 +13,7 @@
 		<Button
 			type="button"
 			size="small"
-			variant="text"
+			variant="link"
 			onclick={() => {
 				needRefresh.set(false);
 			}}

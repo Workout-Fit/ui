@@ -31,7 +31,7 @@
 		type SuperValidated
 	} from 'sveltekit-superforms/client';
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 
 	let {
