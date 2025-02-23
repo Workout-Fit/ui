@@ -11,6 +11,7 @@
 	import { i18n } from '$lib/i18n';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
+	import { buttonVariants } from './ui/button';
 
 	const { href, children, exact = true, ...rest }: LinkProps = $props();
 
@@ -23,7 +24,7 @@
 	});
 </script>
 
-<a {href} {...rest} class:active>
+<a {href} {...rest} class={buttonVariants({ variant: 'link' })} class:active>
 	{@render children?.(active)}
 </a>
 

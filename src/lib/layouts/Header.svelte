@@ -15,7 +15,7 @@
 			<Logo width={32} {active} />
 		{/snippet}
 	</Link>
-	<nav>
+	<nav class="flex justify-between">
 		<LanguageSwitcher />
 		{#if username}
 			<Link class="link" exact={false} href={`/profile/${username}`}>{m.profile()}</Link>
