@@ -8,7 +8,7 @@
 	{...props}
 	class:active
 	viewBox="0 0 159 172"
-	class="fill-background stroke-white"
+	class="fill-black stroke-white"
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<path

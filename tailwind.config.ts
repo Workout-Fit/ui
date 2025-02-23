@@ -1,5 +1,5 @@
-import { fontFamily } from 'tailwindcss/defaultTheme';
 import type { Config } from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 const config: Config = {
@@ -67,7 +67,8 @@ const config: Config = {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				sans: [...fontFamily.sans]
+				// fontaine will populate fallback into a css variable, defined in `global.css`
+				sans: ['var(--sans-font-family)', ...fontFamily.sans]
 			},
 			keyframes: {
 				'accordion-down': {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import clsx from 'clsx';
+	import { cn } from '$lib/utils';
 
 	let { class: className = '' } = $props();
 </script>
@@ -7,7 +7,7 @@
 <svg
 	width="24"
 	height="24"
-	class={clsx('circular-progress', className)}
+	class={cn('circular-progress', className)}
 	viewBox="0 0 24 24"
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"

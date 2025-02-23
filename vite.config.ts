@@ -3,10 +3,16 @@ import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { svelteTesting } from '@testing-library/svelte/vite';
+import { FontaineTransform } from 'fontaine';
+import path from 'node:path';
 import svg from '@poppanator/sveltekit-svg';
 
 export default defineConfig({
 	plugins: [
+		FontaineTransform.vite({
+			fallbacks: ['Segoe UI'],
+			resolvePath: (id) => new URL(path.join(path.dirname(import.meta.url), 'node_modules', id))
+		}),
 		paraglide({ project: './project.inlang', outdir: './src/lib/paraglide' }),
 		sveltekit(),
 		svelteTesting(),

@@ -1,20 +1,22 @@
 <script lang="ts" module>
-	export type TextFieldProps<Form extends Record<string, unknown>> = {
+	export type FormInputProps<Form extends Record<string, unknown>> = {
 		label: string;
 		form: SuperForm<Form>;
 		field: FormPathLeaves<Form>;
-		multiline?: boolean;
-	} & Omit<SvelteHTMLElements['input'], 'form' | 'name'>;
+	} & (
+		| ({ multiline?: false } & Omit<HTMLInputAttributes, 'form' | 'name'>)
+		| ({ multiline: true } & Omit<HTMLTextareaAttributes, 'form' | 'name'>)
+	);
 </script>
 
 <script lang="ts" generics="Form extends Record<string, unknown>">
-	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { HTMLInputAttributes, HTMLTextareaAttributes } from 'svelte/elements';
 	import { formFieldProxy, type FormPathLeaves, type SuperForm } from 'sveltekit-superforms/client';
 	import { FormField, FormControl, FormLabel, FormDescription, FormFieldErrors } from '../form';
 	import { Input } from '../input';
 	import { Textarea } from '../textarea';
 
-	let { label, form, field: name, type, multiline }: TextFieldProps<Form> = $props();
+	let { label, form, field: name, multiline, ...rest }: FormInputProps<Form> = $props();
 
 	const { value } = formFieldProxy<Form, FormPathLeaves<Form>>(form, name);
 </script>
@@ -23,9 +25,9 @@
 	<FormControl let:attrs>
 		<FormLabel>{label}</FormLabel>
 		{#if multiline}
-			<Textarea {...attrs} bind:value={$value as string} />
+			<Textarea {...rest as HTMLTextareaAttributes} {...attrs} bind:value={$value as string} />
 		{:else}
-			<Input {type} {...attrs} bind:value={$value} />
+			<Input {...rest as any} {...attrs} bind:value={$value} />
 		{/if}
 	</FormControl>
 	<FormDescription />

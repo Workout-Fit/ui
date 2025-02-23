@@ -92,10 +92,10 @@
 	<script src="https://accounts.google.com/gsi/client" async onload={initializeGoogleSSO}></script>
 </svelte:head>
 
-<div class="auth">
+<div class="m-auto flex min-w-[250px] flex-col items-center gap-2">
 	<Logo width={100} />
 	{#key mode}
-		<div style="width: 100%;" in:fly={{ x: 50, duration: 300 }}>
+		<div class="w-full" in:fly={{ x: 50, duration: 300 }}>
 			{#if mode === 'signup'}
 				<AuthForm
 					action="?/signup"
@@ -119,13 +119,13 @@
 					disabled={ssoSignIn}
 					onUpdate={onAuthUpdate as any}
 				/>
-				<Button variant="link" form="sign-in" formaction="?/forgot" class="forgot-password">
+				<Button variant="link" form="sign-in" formaction="?/forgot" class="mt-2 text-right">
 					{m.forgot_password()}
 				</Button>
 			{/if}
 		</div>
 	{/key}
-	<hr style="width: 100%;" />
+	<hr class="w-full" />
 	<div bind:this={googleSSOButton}></div>
 	<small>
 		{mode === 'signup' ? m.sign_in_label() : m.sign_up_label()}
@@ -139,34 +139,3 @@
 		</Button>
 	</small>
 </div>
-
-<style>
-	.auth {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--base-spacing);
-		max-width: min(100%, 350px);
-		margin: auto;
-		padding: var(--base-spacing);
-		box-sizing: content-box;
-	}
-
-	:global(button.forgot-password) {
-		margin-top: var(--base-spacing);
-		text-align: right;
-		font-size: 0.6rem;
-		height: auto;
-		margin-left: auto;
-	}
-
-	hr {
-		border: none;
-		margin: calc(0.5 * var(--base-spacing)) 0;
-		border-bottom: 1px dashed var(--text-medium);
-	}
-
-	:global(svg.logo:hover) {
-		filter: none;
-	}
-</style>

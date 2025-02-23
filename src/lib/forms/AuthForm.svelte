@@ -55,7 +55,7 @@
 	const { enhance, submitting } = form;
 </script>
 
-<form method="POST" {id} {action} {enctype} use:enhance>
+<form method="POST" class="flex flex-col gap-2" {id} {action} {enctype} use:enhance>
 	<FormInput
 		label={m.email()}
 		field={'email' as any}
@@ -77,11 +77,3 @@
 	{#if extraFields}{@render extraFields(form)}{/if}
 	<Button loading={$submitting || disabled}>{submitLabel}</Button>
 </form>
-
-<style>
-	form {
-		display: flex;
-		gap: var(--base-spacing);
-		flex-direction: column;
-	}
-</style>

@@ -9,7 +9,7 @@
 	let { username }: { username?: string } = $props();
 </script>
 
-<header>
+<header class="flex items-center justify-between p-4">
 	<Link class="logo" href="/">
 		{#snippet children(active)}
 			<Logo width={32} {active} />
@@ -29,21 +29,4 @@
 </header>
 
 <style>
-	header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: calc(var(--base-spacing) * 2) 0;
-	}
-
-	nav {
-		color: var(--color-primary);
-		display: flex;
-		gap: 1rem;
-		align-items: center;
-	}
-
-	:global(.logo:focus) {
-		background: none;
-	}
 </style>
