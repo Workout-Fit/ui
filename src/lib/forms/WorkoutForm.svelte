@@ -27,7 +27,7 @@
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
 	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
-	import Dialog from '$lib/components/Dialog.svelte';
+	import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
@@ -53,9 +53,14 @@
 	let exerciseForm: SuperForm<z.infer<typeof exerciseFormSchema>> | undefined = $state();
 </script>
 
-<form class="workout-form" action="?/workout" method="POST" use:enhance>
-	<div class="workout-form__info">
-		<div class="workout-form__title">
+<form
+	class="grid-rows-[auto 1fr auto] grid h-full grid-cols-1 gap-2"
+	action="?/workout"
+	method="POST"
+	use:enhance
+>
+	<div class="flex flex-col gap-2">
+		<div class="flex items-center justify-between">
 			<h2>{title}</h2>
 			<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
 		</div>
@@ -77,8 +82,8 @@
 			placeholder={m.workout_notes_placeholder()}
 		/>
 	</div>
-	<div class="workout-form__exercise-list">
-		<div class="workout-form__exercise-list-title">
+	<div class="h-full">
+		<div class="flex items-center gap-2">
 			<h2>{m.exercises()}</h2>
 			<Button
 				variant="link"
@@ -96,7 +101,7 @@
 			{#snippet item(exercise, index)}
 				<ExerciseListItem {exercise}>
 					{#snippet decoration()}
-						<div class="workout-form__exercise-list-item-actions">
+						<div class="flex gap-2">
 							<Button
 								type="button"
 								disabled={$submitting}
@@ -126,9 +131,17 @@
 	</div>
 </form>
 
-<Dialog open={page.state.modalShown === 'save-exercise'} onclose={handleCloseModal}>
-	<div class="exercise-dialog">
-		<h3>{m.add_exercise()}</h3>
+<Dialog
+	open={page.state.modalShown === 'save-exercise'}
+	closeOnOutsideClick
+	onOpenChange={(open) => {
+		if (!open) handleCloseModal();
+	}}
+>
+	<DialogContent>
+		<DialogHeader>
+			<DialogTitle>{m.add_exercise()}</DialogTitle>
+		</DialogHeader>
 		<ExerciseForm
 			oncancel={handleCloseModal}
 			data={exerciseFormData}
@@ -152,49 +165,5 @@
 				}
 			}}
 		/>
-	</div>
+	</DialogContent>
 </Dialog>
-
-<style>
-	.workout-form {
-		display: grid;
-		grid-template: auto 1fr auto / 1fr;
-		gap: var(--base-spacing);
-		height: 100%;
-	}
-
-	.workout-form__info {
-		display: flex;
-		gap: var(--base-spacing);
-		flex-direction: column;
-	}
-
-	.workout-form__exercise-list {
-		height: 100%;
-	}
-
-	.workout-form__title {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.workout-form__exercise-list-title {
-		display: flex;
-		align-items: center;
-		gap: var(--base-spacing);
-	}
-
-	.exercise-dialog {
-		padding: calc(var(--base-spacing) * 2);
-	}
-
-	h3 {
-		margin-top: 0;
-	}
-
-	.workout-form__exercise-list-item-actions {
-		display: flex;
-		gap: var(--base-spacing);
-	}
-</style>

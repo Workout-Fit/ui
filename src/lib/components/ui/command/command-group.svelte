@@ -3,7 +3,6 @@
 	import { cn } from '$lib/utils.js';
 
 	let {
-		ref = $bindable(null),
 		class: className,
 		children,
 		heading,
@@ -13,11 +12,7 @@
 	} = $props();
 </script>
 
-<CommandPrimitive.Group
-	class={cn('overflow-hidden p-1 text-foreground', className)}
-	bind:ref
-	{...restProps}
->
+<CommandPrimitive.Group class={cn('overflow-hidden p-1 text-foreground', className)} {...restProps}>
 	{#if heading}
 		<CommandPrimitive.GroupHeading class="px-2 py-1.5 text-xs font-medium text-muted-foreground">
 			{heading}

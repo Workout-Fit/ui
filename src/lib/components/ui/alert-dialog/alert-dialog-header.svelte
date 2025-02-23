@@ -7,13 +7,13 @@
 		class: className,
 		children,
 		...restProps
-	}: WithElementRef<HTMLAttributes<HTMLSpanElement>> = $props();
+	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
 </script>
 
-<span
-	class={cn('ml-auto text-xs tracking-widest text-muted-foreground', className)}
-	{...restProps}
+<div
 	bind:this={ref}
+	class={cn('flex flex-col space-y-2 text-center sm:text-left', className)}
+	{...restProps}
 >
 	{@render children?.()}
-</span>
+</div>

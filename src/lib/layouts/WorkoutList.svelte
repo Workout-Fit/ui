@@ -4,6 +4,7 @@
 	import ListItem from '../components/ListItem.svelte';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { Input } from '$lib/components/ui/input';
 
 	type WorkoutListProps = {
 		workouts: Exclude<Awaited<ReturnType<typeof getWorkouts>>['data'], null>;
@@ -20,17 +21,12 @@
 	);
 </script>
 
-<div class="workouts">
-	<div class="workouts__title">
-		<h2>{m.workouts()} <small>{workouts.length}</small></h2>
+<div class="flex w-full flex-col gap-4">
+	<div class="flex items-center justify-between">
+		<h2 class="m-0">{m.workouts()} <small>{workouts.length}</small></h2>
 		{#if action}{@render action()}{/if}
 	</div>
-	<input
-		class="input workouts__search"
-		type="text"
-		bind:value={searchTerm}
-		placeholder={`${m.search()}...`}
-	/>
+	<Input bind:value={searchTerm} placeholder={`${m.search()}...`} />
 	<List items={filteredWorkouts} emptyMessage={m.empty_workout_list()}>
 		{#snippet item(workout)}
 			<ListItem
@@ -45,22 +41,3 @@
 		{/snippet}
 	</List>
 </div>
-
-<style>
-	.workouts {
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--base-spacing) * 2);
-		width: 100%;
-	}
-
-	.workouts__title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.workouts__title h2 {
-		margin: 0;
-	}
-</style>

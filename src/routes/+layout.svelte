@@ -72,20 +72,8 @@
 />
 
 <ParaglideJS {i18n}>
-	<div>
+	<div class="m-auto box-border flex min-h-screen max-w-5xl flex-col p-4">
 		<Header username={data.username ?? undefined} />
 		{@render children()}
 	</div>
 </ParaglideJS>
-
-<style>
-	div {
-		padding: calc(var(--base-spacing) * 2);
-		max-width: 960px;
-		margin: auto;
-		min-height: 100vh;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-	}
-</style>

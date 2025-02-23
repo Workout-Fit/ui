@@ -4,7 +4,6 @@
 	import { cn } from '$lib/utils.js';
 
 	let {
-		ref = $bindable(null),
 		class: className,
 		value = $bindable(''),
 		...restProps
@@ -18,7 +17,6 @@
 			'flex h-10 w-full rounded-md bg-transparent py-3 text-base outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
 			className
 		)}
-		bind:ref
 		bind:value
 		{...restProps}
 	/>

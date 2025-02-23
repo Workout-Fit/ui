@@ -5,7 +5,7 @@
 	let {
 		class: className,
 		// @ts-expect-error: ref actually exists.
-		ref = $bindable(null),
+
 		loadingStatus = $bindable('loading'),
 		children,
 		...restProps
@@ -14,7 +14,6 @@
 
 <AvatarPrimitive.Root
 	bind:loadingStatus
-	bind:ref
 	class={cn('relative flex size-10 shrink-0 overflow-hidden rounded-full', className)}
 	{...restProps as any}
 >

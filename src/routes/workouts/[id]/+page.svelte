@@ -4,7 +4,16 @@
 	import { page } from '$app/state';
 	import { toast } from 'svelte-french-toast';
 	import { Button } from '$lib/components/ui/button';
-	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
+	import {
+		AlertDialog,
+		AlertDialogContent,
+		AlertDialogHeader,
+		AlertDialogTitle,
+		AlertDialogDescription,
+		AlertDialogFooter,
+		AlertDialogCancel,
+		AlertDialogAction
+	} from '$lib/components/ui/alert-dialog';
 	import { goto, invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
@@ -129,14 +138,26 @@
 	</div>
 </div>
 
-<ConfirmationDialog
+<AlertDialog
 	open={page.state.modalShown === 'confirm-delete-workout'}
-	title={m.delete_workout_confirmation_title({ workout: data.workout?.name })}
-	message={m.delete_workout_confirmation_message()}
-	confirmLabel={m.delete_action()}
-	oncancel={() => replaceState('', { modalShown: undefined })}
-	onconfirm={handleDeleteWorkout}
-/>
+	closeOnOutsideClick
+	onOpenChange={(open) => {
+		if (!open) replaceState('', { modalShown: undefined });
+	}}
+>
+	<AlertDialogContent>
+		<AlertDialogHeader>
+			<AlertDialogTitle>
+				{m.delete_workout_confirmation_title({ workout: data.workout?.name })}
+			</AlertDialogTitle>
+			<AlertDialogDescription>{m.delete_workout_confirmation_message()}</AlertDialogDescription>
+		</AlertDialogHeader>
+		<AlertDialogFooter>
+			<AlertDialogCancel>Cancel</AlertDialogCancel>
+			<AlertDialogAction onclick={handleDeleteWorkout}>{m.delete_action()}</AlertDialogAction>
+		</AlertDialogFooter>
+	</AlertDialogContent>
+</AlertDialog>
 
 <style>
 	h1 {

@@ -3,7 +3,6 @@
 	import { Popover as PopoverPrimitive } from 'bits-ui';
 
 	let {
-		ref = $bindable(null),
 		class: className,
 		align = 'center',
 		sideOffset = 4,
@@ -16,7 +15,6 @@
 
 <PopoverPrimitive.Portal {...portalProps}>
 	<PopoverPrimitive.Content
-		bind:ref
 		{align}
 		{sideOffset}
 		class={cn(

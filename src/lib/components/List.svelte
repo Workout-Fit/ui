@@ -16,28 +16,12 @@
 	}: ListProps<T> = $props();
 </script>
 
-<div class="list">
+<div class="flex flex-col gap-2">
 	{#if items.length === 0}
-		<i class="list__empty-message">{emptyMessage}</i>
+		<i class="mx-auto my-2 block text-center text-sm opacity-70">{emptyMessage}</i>
 	{:else}
 		{#each items as item, index}
 			{@render itemSnippet(item, index)}
 		{/each}
 	{/if}
 </div>
-
-<style>
-	.list__empty-message {
-		color: var(--text-medium);
-		font-size: 0.8rem;
-		text-align: center;
-		display: block;
-		margin: var(--base-spacing) auto;
-	}
-
-	.list {
-		display: flex;
-		flex-direction: column;
-		gap: var(--base-spacing);
-	}
-</style>

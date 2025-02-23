@@ -7,13 +7,12 @@
 		src,
 		alt,
 		// @ts-expect-error: ref actually exists.
-		ref = $bindable(null),
+
 		...restProps
 	}: AvatarPrimitive.ImageProps = $props();
 </script>
 
 <AvatarPrimitive.Image
-	bind:ref
 	{src}
 	{alt}
 	class={cn('aspect-square size-full', className)}

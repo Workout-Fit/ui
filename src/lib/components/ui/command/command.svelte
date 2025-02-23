@@ -4,7 +4,7 @@
 
 	let {
 		value = $bindable(''),
-		ref = $bindable(null),
+
 		class: className,
 		...restProps
 	}: CommandPrimitive.RootProps = $props();
@@ -15,7 +15,6 @@
 		'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
 		className
 	)}
-	bind:ref
 	bind:value
 	{...restProps}
 />

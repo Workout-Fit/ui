@@ -11,14 +11,14 @@
 	let className: $$Props['class'] = undefined;
 	export let loading: $$Props['loading'] = false;
 	export let variant: $$Props['variant'] = 'default';
-	export let size: $$Props['size'] = 'default';
+	export let size: $$Props['size'] = variant === 'default' ? 'default' : 'auto';
 	export let builders: $$Props['builders'] = [];
 	export { className as class };
 </script>
 
 <ButtonPrimitive.Root
 	{builders}
-	class={cn(buttonVariants({ variant, size, className }))}
+	class={cn(buttonVariants({ variant, size: size, className }))}
 	{...$$restProps}
 	on:click
 	on:keydown

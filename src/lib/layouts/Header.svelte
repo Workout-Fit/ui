@@ -9,24 +9,21 @@
 	let { username }: { username?: string } = $props();
 </script>
 
-<header class="flex items-center justify-between p-4">
-	<Link class="logo" href="/">
+<header class="flex items-center justify-between py-4">
+	<Link class="bg-transparent" href="/">
 		{#snippet children(active)}
 			<Logo width={32} {active} />
 		{/snippet}
 	</Link>
-	<nav class="flex justify-between">
+	<nav class="flex justify-between gap-4">
 		<LanguageSwitcher />
 		{#if username}
 			<Link class="link" exact={false} href={`/profile/${username}`}>{m.profile()}</Link>
-			<form method="POST" action="/?/signout" use:enhance>
-				<Button variant="link">{m.sign_out()}</Button>
+			<form method="POST" class="inline-flex" action="/?/signout" use:enhance>
+				<Button variant="link" class="p-0">{m.sign_out()}</Button>
 			</form>
 		{:else}
 			<Link class="link" href="/auth">{m.sign_in()}</Link>
 		{/if}
 	</nav>
 </header>
-
-<style>
-</style>
