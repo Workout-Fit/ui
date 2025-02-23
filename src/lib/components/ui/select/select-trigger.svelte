@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { Select as SelectPrimitive, type WithoutChild } from 'bits-ui';
-	import ChevronDown from 'lucide-svelte/icons/chevron-down';
+	import { Select as SelectPrimitive } from 'bits-ui';
+	import ChevronDown from '@material-symbols/svg-400/sharp/keyboard_arrow_down.svg?component';
 	import { cn } from '$lib/utils.js';
 
-	let {
-		class: className,
-		children,
-		...restProps
-	}: WithoutChild<SelectPrimitive.TriggerProps> = $props();
+	let { class: className, children, ...restProps }: SelectPrimitive.TriggerProps = $props();
 </script>
 
 <SelectPrimitive.Trigger

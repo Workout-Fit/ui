@@ -22,13 +22,15 @@
 </script>
 
 <FormField {form} {name}>
-	<FormControl let:attrs>
-		<FormLabel>{label}</FormLabel>
-		{#if multiline}
-			<Textarea {...rest as HTMLTextareaAttributes} {...attrs} bind:value={$value as string} />
-		{:else}
-			<Input {...rest as any} {...attrs} bind:value={$value} />
-		{/if}
+	<FormControl>
+		{#snippet children({ props })}
+			<FormLabel>{label}</FormLabel>
+			{#if multiline}
+				<Textarea {...rest as HTMLTextareaAttributes} {...props} bind:value={$value as string} />
+			{:else}
+				<Input {...rest as any} {...props} bind:value={$value} />
+			{/if}
+		{/snippet}
 	</FormControl>
 	<FormDescription />
 	<FormFieldErrors />

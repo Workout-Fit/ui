@@ -12,7 +12,7 @@
 <header class="flex items-center justify-between py-4">
 	<Link class="bg-transparent" href="/">
 		{#snippet children(active)}
-			<Logo width={32} {active} />
+			<Logo width={56} {active} />
 		{/snippet}
 	</Link>
 	<nav class="flex justify-between gap-4">

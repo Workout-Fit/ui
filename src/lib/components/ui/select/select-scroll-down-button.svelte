@@ -1,12 +1,9 @@
 <script lang="ts">
-	import ChevronDown from 'lucide-svelte/icons/chevron-down';
-	import { Select as SelectPrimitive, type WithoutChildrenOrChild } from 'bits-ui';
+	import ChevronDown from '@material-symbols/svg-400/sharp/keyboard_arrow_down.svg?component';
+	import { Select as SelectPrimitive } from 'bits-ui';
 	import { cn } from '$lib/utils.js';
 
-	let {
-		class: className,
-		...restProps
-	}: WithoutChildrenOrChild<SelectPrimitive.ScrollDownButtonProps> = $props();
+	let { class: className, ...restProps }: SelectPrimitive.ScrollDownButtonProps = $props();
 </script>
 
 <SelectPrimitive.ScrollDownButton

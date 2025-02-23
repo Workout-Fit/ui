@@ -1,7 +1,7 @@
 <script lang="ts" generics="Item">
-	import Check from 'lucide-svelte/icons/check';
-	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
-	import ChevronsUp from 'lucide-svelte/icons/chevrons-up';
+	import Check from '@material-symbols/svg-400/sharp/check.svg?component';
+	import ChevronsUpDown from '@material-symbols/svg-400/sharp/expand_all.svg?component';
+	import ChevronsUp from '@material-symbols/svg-400/sharp/keyboard_arrow_up.svg?component';
 	import { Combobox } from 'bits-ui';
 	import debounce from 'lodash/debounce';
 	import CircularProgress from '$lib/components/CircularProgress.svelte';
@@ -72,19 +72,23 @@
 	}}
 >
 	<FormLabel for={id}>{label}</FormLabel>
-	<div class="flex justify-between border border-r-2">
+	<div
+		class="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+	>
 		<Combobox.Input
 			{id}
 			autocomplete="off"
-			class="rounded-9px placeholder:text-foreground-alt/50 inline-flex h-10 w-full truncate border-none bg-background px-3 text-base outline-none transition-colors focus:outline-none sm:text-sm"
+			class="inline-flex w-full text-base outline-none transition-colors placeholder:text-muted-foreground focus:outline-none sm:text-sm"
 			oninput={(e) => (inputValue = e.currentTarget.value)}
 			{placeholder}
 			aria-label={placeholder}
 		/>
 		<Combobox.Trigger>
-			{#if loading}<CircularProgress class="stroke-primary opacity-50" />{:else}<ChevronsUpDown
-					class="opacity-50"
-				/>{/if}
+			{#if loading}
+				<CircularProgress class="stroke-primary opacity-50" />
+			{:else}
+				<ChevronsUpDown width={16} class="opacity-50" />
+			{/if}
 		</Combobox.Trigger>
 	</div>
 	<Combobox.Content
@@ -92,7 +96,7 @@
 		sideOffset={10}
 	>
 		<Combobox.ScrollUpButton class="flex w-full items-center justify-center">
-			<ChevronsUp class="size-3" />
+			<ChevronsUp width={16} class="size-3" />
 		</Combobox.ScrollUpButton>
 		<Combobox.Viewport class="p-1">
 			{#if loading}<span>Loading...</span>{:else}
@@ -104,7 +108,7 @@
 					>
 						{#snippet children({ selected })}
 							{getItemLabel(result)}
-							{#if selected}<div class="ml-auto"><Check /></div>{/if}
+							{#if selected}<div class="ml-auto"><Check width={16} /></div>{/if}
 						{/snippet}
 					</Combobox.Item>
 				{:else}
@@ -115,7 +119,7 @@
 			{/if}
 		</Combobox.Viewport>
 		<Combobox.ScrollDownButton class="flex w-full items-center justify-center">
-			<ChevronsUpDown class="opacity-50" />
+			<ChevronsUpDown width={16} class="opacity-50" />
 		</Combobox.ScrollDownButton>
 	</Combobox.Content>
 </Combobox.Root>

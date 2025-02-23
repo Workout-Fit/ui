@@ -1,14 +1,22 @@
 <script lang="ts">
+	import { cn } from '$lib/utils';
 	import type { SvelteHTMLElements } from 'svelte/elements';
 
-	let { active = false, ...props }: { active?: boolean } & SvelteHTMLElements['svg'] = $props();
+	let {
+		active = false,
+		class: className,
+		...props
+	}: { active?: boolean } & SvelteHTMLElements['svg'] = $props();
 </script>
 
 <svg
 	{...props}
-	class:active
 	viewBox="0 0 159 172"
-	class="fill-black stroke-white"
+	class:invert={active}
+	class={cn(
+		'fill-black stroke-white invert-0 transition-transform duration-300 ease-in-out hover:invert focus:invert',
+		className
+	)}
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<path
@@ -140,14 +148,3 @@
 		stroke-miterlimit="10"
 	/>
 </svg>
-
-<style>
-	svg:is(:hover, .active, :focus) {
-		filter: invert(1);
-	}
-
-	svg {
-		filter: invert(0);
-		transition: all 0.3s ease-in-out;
-	}
-</style>

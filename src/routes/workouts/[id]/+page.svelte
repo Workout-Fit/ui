@@ -12,7 +12,8 @@
 		AlertDialogDescription,
 		AlertDialogFooter,
 		AlertDialogCancel,
-		AlertDialogAction
+		AlertDialogAction,
+		AlertDialogPortal
 	} from '$lib/components/ui/alert-dialog';
 	import { goto, invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
@@ -22,6 +23,7 @@
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { languageTag } from '$lib/paraglide/runtime';
+	import AlertDialogOverlay from '$lib/components/ui/alert-dialog/alert-dialog-overlay.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -56,9 +58,10 @@
 			{/if}
 		</small>
 		<p>{data.workout?.notes}</p>
-		<div class="workout__actions">
+		<div class="flex items-center gap-4">
 			<form
 				method="POST"
+				class="inline-flex"
 				action="?/clone"
 				use:enhance={() => {
 					cloning = true;
@@ -119,16 +122,16 @@
 			}}
 		>
 			<input type="hidden" name="liked" value={data.liked} />
-			<Button class="workout__like" variant="link" disabled={liking}>
+			<Button variant="link" disabled={liking}>
 				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
-				<Icon style="fill: var(--color-primary);" width={16} height={16} />
+				<Icon class="fill-primary" width={16} height={16} />
 				{data.likes}
 				{m.likes()}
 			</Button>
 		</form>
 	</div>
 
-	<div class="workout__exercise-list">
+	<div class="mt-8">
 		<h2>{m.exercises()}</h2>
 		<List items={data.workout?.exercises} emptyMessage={m.exercise_list_empty()}>
 			{#snippet item(exercise)}
@@ -140,7 +143,6 @@
 
 <AlertDialog
 	open={page.state.modalShown === 'confirm-delete-workout'}
-	closeOnOutsideClick
 	onOpenChange={(open) => {
 		if (!open) replaceState('', { modalShown: undefined });
 	}}
@@ -158,28 +160,3 @@
 		</AlertDialogFooter>
 	</AlertDialogContent>
 </AlertDialog>
-
-<style>
-	h1 {
-		margin: 0;
-	}
-
-	h2 {
-		margin: var(--base-spacing) 0;
-	}
-
-	.workout__exercise-list {
-		margin-top: calc(var(--base-spacing) * 4);
-	}
-
-	.workout__actions {
-		display: flex;
-		gap: calc(var(--base-spacing) * 2);
-		align-items: center;
-	}
-
-	:global(.workout__like) {
-		display: flex;
-		gap: var(--base-spacing);
-	}
-</style>

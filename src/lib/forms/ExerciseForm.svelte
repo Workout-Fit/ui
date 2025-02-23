@@ -30,6 +30,8 @@
 	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { superForm } from 'sveltekit-superforms/client';
+	import Add from '@material-symbols/svg-400/sharp/add.svg?component';
+	import Remove from '@material-symbols/svg-400/sharp/remove.svg?component';
 	import * as m from '$lib/paraglide/messages';
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
 	import { i18n } from '$lib/i18n';
@@ -51,7 +53,7 @@
 		return (await response.json()) as NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>;
 	};
 
-	const { form: formData, submitting, errors, enhance, delayed } = form;
+	const { form: formData, submitting, enhance, delayed } = form;
 
 	const addSetGroup = () => {
 		$formData.sets = [...($formData.sets ?? []), null as any];
@@ -69,7 +71,7 @@
 	};
 </script>
 
-<form class="exercise-form" {action} method="POST" use:enhance>
+<form class="flex flex-col" {action} method="POST" use:enhance>
 	<FormField {form} name="exercise">
 		<FormControl>
 			<Combobox
@@ -81,7 +83,8 @@
 				searchThreshold={3}
 				placeholder={m.exercise_search()}
 				disabled={$submitting}
-				getItemValue={(exercise) => exercise.name}
+				getItemValue={({ id }) => id}
+				getItemLabel={({ name }) => name}
 				bind:value={$formData.exercise}
 			/>
 		</FormControl>
@@ -89,7 +92,7 @@
 		<FormFieldErrors />
 	</FormField>
 	{#each $formData.sets as _, index}
-		<div>
+		<div class="flex gap-2">
 			<FormInput
 				type="number"
 				disabled={$submitting}
@@ -115,10 +118,18 @@
 				{form}
 			/>
 			{#if index + 1 === $formData.sets.length}
-				<Button size="large" type="button" variant="link" onclick={addSetGroup}>+</Button>
+				<Button size="icon" type="button" variant="link" onclick={() => addSetGroup()} class="mt-8">
+					<Add width={16} height={16} class="fill-primary" />
+				</Button>
 			{:else}
-				<Button size="large" type="button" variant="link" onclick={() => removeSetGroup(index)}>
-					-
+				<Button
+					size="icon"
+					type="button"
+					variant="link"
+					onclick={() => removeSetGroup(index)}
+					class="mt-8"
+				>
+					<Remove width={16} height={16} class="fill-primary" />
 				</Button>
 			{/if}
 		</div>
@@ -132,28 +143,5 @@
 		placeholder={m.exercise_notes_placeholder()}
 		{form}
 	/>
-	<FormActions disabled={$submitting} loading={$delayed} {oncancel} />
+	<FormActions disabled={$submitting} class="ml-auto" loading={$delayed} {oncancel} />
 </form>
-
-<style>
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: var(--base-spacing);
-		min-width: 300px;
-	}
-
-	form > div {
-		display: flex;
-		width: 100%;
-		gap: var(--base-spacing);
-	}
-
-	:global(form > div > button) {
-		align-self: center;
-	}
-
-	.exercise-form :global(.form-actions) {
-		margin-left: auto;
-	}
-</style>

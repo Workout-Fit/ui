@@ -8,7 +8,7 @@
 		sideOffset = 4,
 		children,
 		...restProps
-	}: SelectPrimitive.ContentProps & { ref?: HTMLSelectElement | null } = $props();
+	}: SelectPrimitive.ContentProps = $props();
 </script>
 
 <SelectPrimitive.Content

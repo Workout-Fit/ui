@@ -61,7 +61,7 @@
 >
 	<div class="flex flex-col gap-2">
 		<div class="flex items-center justify-between">
-			<h2>{title}</h2>
+			<h2 class="text-2xl">{title}</h2>
 			<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
 		</div>
 
@@ -133,7 +133,6 @@
 
 <Dialog
 	open={page.state.modalShown === 'save-exercise'}
-	closeOnOutsideClick
 	onOpenChange={(open) => {
 		if (!open) handleCloseModal();
 	}}

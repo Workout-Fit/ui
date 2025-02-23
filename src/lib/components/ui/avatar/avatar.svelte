@@ -4,12 +4,10 @@
 
 	let {
 		class: className,
-		// @ts-expect-error: ref actually exists.
-
 		loadingStatus = $bindable('loading'),
 		children,
 		...restProps
-	}: AvatarPrimitive.Props = $props();
+	}: AvatarPrimitive.RootProps = $props();
 </script>
 
 <AvatarPrimitive.Root

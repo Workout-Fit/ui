@@ -25,16 +25,8 @@
 	const { enhance, submitting } = form;
 </script>
 
-<form method="POST" use:enhance enctype="multipart/form-data">
+<form method="POST" class="item-end flex flex-col gap-5" use:enhance enctype="multipart/form-data">
+	<h2>Update Profile</h2>
 	<ProfileForm {form} />
 	<FormActions disabled={$submitting} loading={$submitting} oncancel={() => history.back()} />
 </form>
-
-<style>
-	form {
-		display: flex;
-		flex-direction: column;
-		align-items: end;
-		gap: calc(3 * var(--base-spacing));
-	}
-</style>

@@ -1,12 +1,9 @@
 <script lang="ts">
-	import ChevronUp from 'lucide-svelte/icons/chevron-up';
-	import { Select as SelectPrimitive, type WithoutChildrenOrChild } from 'bits-ui';
+	import ChevronUp from '@material-symbols/svg-400/sharp/keyboard_arrow_up.svg?component';
+	import { Select as SelectPrimitive } from 'bits-ui';
 	import { cn } from '$lib/utils.js';
 
-	let {
-		class: className,
-		...restProps
-	}: WithoutChildrenOrChild<SelectPrimitive.ScrollDownButtonProps> = $props();
+	let { class: className, ...restProps }: SelectPrimitive.ScrollDownButtonProps = $props();
 </script>
 
 <SelectPrimitive.ScrollUpButton

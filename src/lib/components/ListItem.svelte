@@ -27,22 +27,17 @@
 
 <svelte:element
 	this={elementType}
-	class={cn(
-		'grid-rows-[auto 1fr auto] grid grid-cols-1 p-2 transition-all duration-300 ease-in-out',
-		{ 'hover:bg-accent focus:bg-accent': Boolean(href || onclick) }
-	)}
+	class={cn('flex items-center justify-between p-2 transition-all duration-300 ease-in-out', {
+		'hover:bg-accent focus:bg-accent': Boolean(href || onclick)
+	})}
 	{...elementType === 'a' ? { href } : {}}
 	{onclick}
 >
-	<div>
-		{#if leftDecoration}{@render leftDecoration()}{/if}
-	</div>
-	<div class="col-2 flex w-full flex-col gap-2">
+	{#if leftDecoration}{@render leftDecoration()}{/if}
+	<div class="flex flex-grow flex-col gap-1">
 		<b>{title}</b>
 		{#if secondLine}<small class="whitespace-pre-line opacity-80">{secondLine}</small>{/if}
 		{#if thirdLine}<small class="whitespace-pre-line opacity-80">{thirdLine}</small>{/if}
 	</div>
-	<div>
-		{#if rightDecoration}{@render rightDecoration()}{/if}
-	</div>
+	{#if rightDecoration}{@render rightDecoration()}{/if}
 </svelte:element>
