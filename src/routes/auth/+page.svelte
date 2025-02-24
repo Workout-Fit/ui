@@ -16,7 +16,7 @@
 	import { Logo } from '$lib/components/ui/logo';
 	import type { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
 	import { goto } from '$app/navigation';
-	import { toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-sonner';
 	import type { CredentialResponse } from 'google-one-tap';
 	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';

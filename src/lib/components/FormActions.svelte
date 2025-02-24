@@ -20,7 +20,7 @@
 	} = $props();
 </script>
 
-<div class={cn('flex gap-2', className)}>
+<div class={cn('flex gap-4', className)}>
 	<Button {disabled} onclick={oncancel} variant="link">{cancelLabel}</Button>
 	<Button {disabled} {loading} type="submit">{saveLabel}</Button>
 </div>

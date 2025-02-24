@@ -2,7 +2,7 @@
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
-	import { toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-sonner';
 	import { Button } from '$lib/components/ui/button';
 	import {
 		AlertDialog,

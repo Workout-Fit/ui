@@ -3,7 +3,7 @@
 	import type { PageServerData } from './$types';
 	import * as m from '$lib/paraglide/messages';
 	import { goto } from '$app/navigation';
-	import { toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-sonner';
 
 	let { data }: { data: PageServerData } = $props();
 </script>

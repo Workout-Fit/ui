@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
-	import toast, { Toaster } from 'svelte-french-toast';
 	import { i18n } from '$lib/i18n';
 
 	import { invalidate } from '$app/navigation';
@@ -11,11 +10,13 @@
 	import { browser } from '$app/environment';
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { pwaInfo } from 'virtual:pwa-info';
+	import { toast } from 'svelte-sonner';
 
 	import { on } from 'svelte/events';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 	import UpdateToast from '$lib/components/UpdateToast.svelte';
 	import { ModeWatcher } from 'mode-watcher';
+	import { Toaster } from '$lib/components/ui/sonner';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 	let { session, supabase } = data;
@@ -52,6 +53,7 @@
 		if ($needRefresh)
 			updateToastId = toast(UpdateToast, { duration: Infinity, position: 'bottom-right' });
 		else if (updateToastId) toast.dismiss(updateToastId);
+		toast();
 	});
 </script>
 
@@ -62,15 +64,7 @@
 
 <ProgressBar color="var(--color-primary);" />
 
-<Toaster
-	toastOptions={{
-		iconTheme: {
-			primary: 'var(--color-primary)',
-			secondary: 'var(--color-background)'
-		},
-		className: 'toast'
-	}}
-/>
+<Toaster />
 
 <ModeWatcher defaultMode="dark" />
 <ParaglideJS {i18n}>

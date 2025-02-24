@@ -8,7 +8,7 @@
 	import { signUpFormSchema } from '../+page.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { PageServerData } from './$types';
-	import { toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';

@@ -11,9 +11,6 @@ importers:
       '@supabase/ssr':
         specifier: ^0.5.2
         version: 0.5.2(@supabase/supabase-js@2.48.1)
-      mode-watcher:
-        specifier: ^0.5.1
-        version: 0.5.1(svelte@5.20.2)
     devDependencies:
       '@dotenvx/dotenvx':
         specifier: ^1.37.0
@@ -144,6 +141,9 @@ importers:
       material-symbols:
         specifier: ^0.28.2
         version: 0.28.2
+      mode-watcher:
+        specifier: ^0.5.1
+        version: 0.5.1(svelte@5.20.2)
       prettier:
         specifier: ^3.5.2
         version: 3.5.2
@@ -168,9 +168,9 @@ importers:
       svelte-check:
         specifier: ^4.1.4
         version: 4.1.4(picomatch@4.0.2)(svelte@5.20.2)(typescript@5.7.3)
-      svelte-french-toast:
-        specifier: ^1.2.0
-        version: 1.2.0(svelte@5.20.2)
+      svelte-sonner:
+        specifier: ^0.3.28
+        version: 0.3.28(svelte@5.20.2)
       sveltekit-superforms:
         specifier: ^2.23.1
         version: 2.23.1(@sveltejs/kit@2.17.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.20.2)(vite@6.1.1(@types/node@22.13.5)(jiti@1.21.7)(terser@5.37.0)(yaml@2.7.0)))(svelte@5.20.2)(vite@6.1.1(@types/node@22.13.5)(jiti@1.21.7)(terser@5.37.0)(yaml@2.7.0)))(@types/json-schema@7.0.15)(svelte@5.20.2)(typescript@5.7.3)
@@ -4106,10 +4106,10 @@ packages:
       svelte:
         optional: true
 
-  svelte-french-toast@1.2.0:
-    resolution: {integrity: sha512-5PW+6RFX3xQPbR44CngYAP1Sd9oCq9P2FOox4FZffzJuZI2mHOB7q5gJBVnOiLF5y3moVGZ7u2bYt7+yPAgcEQ==}
+  svelte-sonner@0.3.28:
+    resolution: {integrity: sha512-K3AmlySeFifF/cKgsYNv5uXqMVNln0NBAacOYgmkQStLa/UoU0LhfAACU6Gr+YYC8bOCHdVmFNoKuDbMEsppJg==}
     peerDependencies:
-      svelte: ^3.57.0 || ^4.0.0
+      svelte: ^3.0.0 || ^4.0.0 || ^5.0.0-next.1
 
   svelte-toolbelt@0.5.0:
     resolution: {integrity: sha512-t3tenZcnfQoIeRuQf/jBU7bvTeT3TGkcEE+1EUr5orp0lR7NEpprflpuie3x9Dn0W9nOKqs3HwKGJeeN5Ok1sQ==}
@@ -4122,11 +4122,6 @@ packages:
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.0.0
-
-  svelte-writable-derived@3.1.1:
-    resolution: {integrity: sha512-w4LR6/bYZEuCs7SGr+M54oipk/UQKtiMadyOhW0PTwAtJ/Ai12QS77sLngEcfBx2q4H8ZBQucc9ktSA5sUGZWw==}
-    peerDependencies:
-      svelte: ^3.2.1 || ^4.0.0-next.1 || ^5.0.0-next.94
 
   svelte@5.20.2:
     resolution: {integrity: sha512-aYXJreNUiyTob0QOzRZeBXZMGeFZDch6SrSRV8QTncZb6zj0O3BEdUzPpojuHQ1pTvk+KX7I6rZCXPUf8pTPxA==}
@@ -9036,10 +9031,9 @@ snapshots:
     optionalDependencies:
       svelte: 5.20.2
 
-  svelte-french-toast@1.2.0(svelte@5.20.2):
+  svelte-sonner@0.3.28(svelte@5.20.2):
     dependencies:
       svelte: 5.20.2
-      svelte-writable-derived: 3.1.1(svelte@5.20.2)
 
   svelte-toolbelt@0.5.0(svelte@5.20.2):
     dependencies:
@@ -9052,10 +9046,6 @@ snapshots:
       clsx: 2.1.1
       runed: 0.23.4(svelte@5.20.2)
       style-to-object: 1.0.8
-      svelte: 5.20.2
-
-  svelte-writable-derived@3.1.1(svelte@5.20.2):
-    dependencies:
       svelte: 5.20.2
 
   svelte@5.20.2:

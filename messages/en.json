@@ -64,5 +64,6 @@
 	"avatar": "Avatar",
 	"email_sent": "Email sent",
 	"sign_up_success": "Account created",
-	"exercise_search": "Search for an exercise"
+	"exercise_search": "Search for an exercise",
+	"update_profile": "Update Profile"
 }
