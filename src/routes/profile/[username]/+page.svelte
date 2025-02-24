@@ -2,7 +2,7 @@
 	import WorkoutList from '$lib/layouts/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
-	import Link from '$lib/components/Link.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 	import { Avatar, AvatarImage } from '$lib/components/ui/avatar';
 
@@ -14,10 +14,16 @@
 		<AvatarImage src={data.profile.avatar ?? emptyProfilePicture} alt="" />
 	</Avatar>
 	<div class="flex flex-col items-center">
-		<h2 class="m-0">
+		<h2 class="m-0 text-2xl font-bold">
 			{data.profile.full_name}
 			{#if data.editable}
-				<Link class="link" href={`/profile/${data.profile.username}/edit`}>{m.edit()}</Link>
+				<Button
+					variant="link"
+					data-sveltekit-replacestate
+					href={`/profile/${data.profile.username}/edit`}
+				>
+					{m.edit()}
+				</Button>
 			{/if}
 		</h2>
 		<small>@{data.profile.username}</small>
@@ -37,7 +43,7 @@
 	<WorkoutList workouts={data.workouts}>
 		{#snippet action()}
 			{#if data.editable}
-				<Link href="/new" class="workouts__add link">+ {m.create_workout()}</Link>
+				<Button href="/new" class="workouts__add link">+ {m.create_workout()}</Button>
 			{/if}
 		{/snippet}
 	</WorkoutList>

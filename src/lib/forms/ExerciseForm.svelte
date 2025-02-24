@@ -118,17 +118,11 @@
 				{form}
 			/>
 			{#if index + 1 === $formData.sets.length}
-				<Button size="icon" type="button" variant="link" onclick={() => addSetGroup()} class="mt-8">
+				<Button size="icon" variant="link" onclick={() => addSetGroup()} class="mt-8">
 					<Add width={16} height={16} class="fill-primary" />
 				</Button>
 			{:else}
-				<Button
-					size="icon"
-					type="button"
-					variant="link"
-					onclick={() => removeSetGroup(index)}
-					class="mt-8"
-				>
+				<Button size="icon" variant="link" onclick={() => removeSetGroup(index)} class="mt-8">
 					<Remove width={16} height={16} class="fill-primary" />
 				</Button>
 			{/if}

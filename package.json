@@ -88,7 +88,8 @@
 		"zod": "^3.24.2"
 	},
 	"dependencies": {
-		"@supabase/ssr": "^0.5.2"
+		"@supabase/ssr": "^0.5.2",
+		"mode-watcher": "^0.5.1"
 	},
 	"lint-staged": {
 		"*.{svelte,js,ts,css,md}": "prettier --write"

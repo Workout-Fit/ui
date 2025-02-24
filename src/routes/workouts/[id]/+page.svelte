@@ -12,8 +12,7 @@
 		AlertDialogDescription,
 		AlertDialogFooter,
 		AlertDialogCancel,
-		AlertDialogAction,
-		AlertDialogPortal
+		AlertDialogAction
 	} from '$lib/components/ui/alert-dialog';
 	import { goto, invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
@@ -23,7 +22,6 @@
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { languageTag } from '$lib/paraglide/runtime';
-	import AlertDialogOverlay from '$lib/components/ui/alert-dialog/alert-dialog-overlay.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -41,14 +39,14 @@
 	let liking = $state(false);
 </script>
 
-<div class="workout">
-	<div class="workout__info">
+<div>
+	<div>
 		{#if data.workout?.creation_date}
 			<small>
 				{m.created_on()}{' '}{new Date(data.workout?.creation_date).toLocaleDateString()}
 			</small>
 		{/if}
-		<h1>{data.workout?.name}</h1>
+		<h1 class="text-4xl font-bold">{data.workout?.name}</h1>
 		<small>
 			{m.created_by()}{' '}<Link href={`/profile/${username}`}>{username}</Link>
 			{#if data.workout?.based_on}
@@ -85,10 +83,16 @@
 					};
 				}}
 			>
-				<Button variant="link" disabled={cloning}>{m.clone()}</Button>
+				<Button type="submit" variant="link" disabled={cloning}>{m.clone()}</Button>
 			</form>
 			{#if data.editable}
-				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>{m.edit()}</Link>
+				<Button
+					data-sveltekit-replacestate
+					variant="link"
+					href={`/workouts/${data.workout?.id}/edit`}
+				>
+					{m.edit()}
+				</Button>
 				<Button
 					variant="link"
 					onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
@@ -122,7 +126,7 @@
 			}}
 		>
 			<input type="hidden" name="liked" value={data.liked} />
-			<Button variant="link" disabled={liking}>
+			<Button type="submit" variant="link" disabled={liking} class="flex gap-2">
 				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
 				<Icon class="fill-primary" width={16} height={16} />
 				{data.likes}
@@ -132,7 +136,7 @@
 	</div>
 
 	<div class="mt-8">
-		<h2>{m.exercises()}</h2>
+		<h2 class="text-2xl font-bold">{m.exercises()}</h2>
 		<List items={data.workout?.exercises} emptyMessage={m.exercise_list_empty()}>
 			{#snippet item(exercise)}
 				<ExerciseListItem {exercise} />

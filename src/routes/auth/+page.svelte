@@ -119,7 +119,7 @@
 					disabled={ssoSignIn}
 					onUpdate={onAuthUpdate as any}
 				/>
-				<Button variant="link" form="sign-in" formaction="?/forgot" class="mt-2 text-right">
+				<Button variant="link" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
 					{m.forgot_password()}
 				</Button>
 			{/if}

@@ -7,19 +7,19 @@
 	import { i18n } from '$lib/i18n';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { Select, SelectTrigger, SelectItem, SelectContent, SelectGroup } from './ui/select';
+	import { Select, SelectTrigger, SelectItem, SelectContent } from './ui/select';
 </script>
 
 <Select
-	onSelectedChange={(value) =>
-		goto(i18n.resolveRoute(i18n.route(page.url.pathname), value?.value as AvailableLanguageTag))}
+	type="single"
+	value={languageTag()}
+	onValueChange={(value) =>
+		goto(i18n.resolveRoute(i18n.route(page.url.pathname), value as AvailableLanguageTag))}
 >
 	<SelectTrigger class="w-20">{languageTag()}</SelectTrigger>
 	<SelectContent>
-		<SelectGroup>
-			{#each availableLanguageTags as lang}
-				<SelectItem value={lang}>{lang}</SelectItem>
-			{/each}
-		</SelectGroup>
+		{#each availableLanguageTags as lang}
+			<SelectItem value={lang}>{lang}</SelectItem>
+		{/each}
 	</SelectContent>
 </Select>

@@ -11,8 +11,7 @@
 	New content available, click on reload button to update.
 	<div class="update-toast__actions">
 		<Button
-			type="button"
-			size="small"
+			size="sm"
 			variant="link"
 			onclick={() => {
 				needRefresh.set(false);
@@ -21,8 +20,7 @@
 			Dismiss
 		</Button>
 		<Button
-			type="button"
-			size="small"
+			size="sm"
 			onclick={() => {
 				updateServiceWorker(true);
 				needRefresh.set(false);

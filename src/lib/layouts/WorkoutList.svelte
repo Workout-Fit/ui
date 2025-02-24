@@ -23,7 +23,7 @@
 
 <div class="flex w-full flex-col gap-4">
 	<div class="flex items-center justify-between">
-		<h2 class="m-0">{m.workouts()} <small>{workouts.length}</small></h2>
+		<h2 class="m-0 text-2xl font-bold">{m.workouts()} <small>{workouts.length}</small></h2>
 		{#if action}{@render action()}{/if}
 	</div>
 	<Input bind:value={searchTerm} placeholder={`${m.search()}...`} />

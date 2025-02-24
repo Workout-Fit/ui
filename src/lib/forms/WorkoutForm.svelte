@@ -22,7 +22,7 @@
 </script>
 
 <script lang="ts">
-	import { pushState, replaceState } from '$app/navigation';
+	import { goto, pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
@@ -61,8 +61,20 @@
 >
 	<div class="flex flex-col gap-2">
 		<div class="flex items-center justify-between">
-			<h2 class="text-2xl">{title}</h2>
-			<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
+			<h2 class="text-2xl font-bold">{title}</h2>
+			<div class="flex gap-6">
+				<Button
+					variant="link"
+					disabled={$submitting}
+					onclick={() => {
+						if (page.params.id) goto(`/workouts/${page.params.id}`, { replaceState: true });
+						else history.back();
+					}}
+				>
+					{m.cancel()}
+				</Button>
+				<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
+			</div>
 		</div>
 
 		<FormInput
@@ -84,10 +96,9 @@
 	</div>
 	<div class="h-full">
 		<div class="flex items-center gap-2">
-			<h2>{m.exercises()}</h2>
+			<h2 class="text-2xl font-bold">{m.exercises()}</h2>
 			<Button
 				variant="link"
-				type="button"
 				disabled={$submitting}
 				onclick={() => {
 					exerciseForm?.reset();
@@ -103,7 +114,6 @@
 					{#snippet decoration()}
 						<div class="flex gap-2">
 							<Button
-								type="button"
 								disabled={$submitting}
 								onclick={() => {
 									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
@@ -114,7 +124,6 @@
 								{m.edit()}
 							</Button>
 							<Button
-								type="button"
 								disabled={$submitting}
 								onclick={() =>
 									($formData.exercises =

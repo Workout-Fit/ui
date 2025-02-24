@@ -26,7 +26,7 @@
 </script>
 
 <form method="POST" class="item-end flex flex-col gap-5" use:enhance enctype="multipart/form-data">
-	<h2>Update Profile</h2>
+	<h2 class="text-2xl font-bold">Update Profile</h2>
 	<ProfileForm {form} />
 	<FormActions disabled={$submitting} loading={$submitting} oncancel={() => history.back()} />
 </form>

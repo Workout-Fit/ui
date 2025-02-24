@@ -21,6 +21,6 @@
 </script>
 
 <div class={cn('flex gap-2', className)}>
-	<Button {disabled} type="button" onclick={oncancel} variant="link">{cancelLabel}</Button>
+	<Button {disabled} onclick={oncancel} variant="link">{cancelLabel}</Button>
 	<Button {disabled} {loading} type="submit">{saveLabel}</Button>
 </div>
