@@ -4,7 +4,7 @@
 	import { i18n } from '$lib/i18n';
 
 	import { invalidate } from '$app/navigation';
-	import { onMount, setContext, type Snippet } from 'svelte';
+	import { onMount, setContext, type ComponentType, type Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
 	import Header from '$lib/layouts/Header.svelte';
 	import { browser } from '$app/environment';
@@ -23,7 +23,7 @@
 
 	const serviceWorker = useRegisterSW();
 	const { needRefresh } = serviceWorker;
-	let updateToastId = $state<string | null>(null);
+	let updateToastId = $state<number | string | null>(null);
 
 	setContext('service-worker', serviceWorker);
 
@@ -50,10 +50,8 @@
 	});
 
 	$effect(() => {
-		if ($needRefresh)
-			updateToastId = toast(UpdateToast, { duration: Infinity, position: 'bottom-right' });
+		if ($needRefresh) updateToastId = toast(UpdateToast as any);
 		else if (updateToastId) toast.dismiss(updateToastId);
-		toast();
 	});
 </script>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import DarkMode from '@material-symbols/svg-400/sharp/dark_mode.svg?component';
@@ -8,14 +8,19 @@
 	import { Logo } from '$lib/components/ui/logo';
 	import * as m from '$lib/paraglide/messages';
 	import { toggleMode } from 'mode-watcher';
+	import { cn } from '$lib/utils';
 
 	let { username }: { username?: string } = $props();
 </script>
 
 <header class="flex items-center justify-between py-4">
-	<Link class="bg-transparent" href="/">
+	<Link class={cn('bg-transparent', buttonVariants({ variant: 'icon' }))} href="/">
 		{#snippet children(active)}
-			<Logo width={56} {active} />
+			<Logo
+				class="transition-[filter] duration-300 hover:invert focus:invert"
+				{active}
+				width={50}
+			/>
 		{/snippet}
 	</Link>
 	<nav class="flex justify-between gap-4">

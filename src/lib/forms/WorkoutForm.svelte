@@ -33,9 +33,6 @@
 	import * as m from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 
-	const handleCloseModal = () =>
-		replaceState('', { modalShown: undefined, exerciseIndex: undefined });
-
 	let { title, data, form = $bindable(), exerciseFormData, ...rest }: WorkoutFormProps = $props();
 
 	if (form === undefined)
@@ -50,7 +47,34 @@
 		submitting,
 		delayed
 	} = form as SuperForm<z.infer<typeof workoutFormSchema>>;
-	let exerciseForm: SuperForm<z.infer<typeof exerciseFormSchema>> | undefined = $state();
+
+	const exerciseForm = superForm(exerciseFormData, {
+		validators: zodClient(exerciseFormSchema),
+		dataType: 'json',
+		onUpdate: ({ result, cancel }) => {
+			if (result.type === 'success') {
+				$formData.exercises =
+					page.state.exerciseIndex !== undefined
+						? [
+								...$formData.exercises.slice(0, page.state.exerciseIndex),
+								result.data.form.data,
+								...$formData.exercises.slice(page.state.exerciseIndex + 1)
+							]
+						: [...$formData.exercises, result.data.form.data];
+				handleCloseModal();
+				cancel();
+			}
+		}
+	});
+
+	const handleCloseModal = () =>
+		replaceState('', { modalShown: undefined, exerciseIndex: undefined });
+
+	$effect(() => {
+		if (page.state.exerciseIndex !== undefined)
+			exerciseForm?.reset({ data: $formData.exercises[page.state.exerciseIndex] });
+		else exerciseForm.reset();
+	});
 </script>
 
 <form
@@ -62,9 +86,9 @@
 	<div class="flex flex-col gap-2">
 		<div class="flex items-center justify-between">
 			<h2 class="text-2xl font-bold">{title}</h2>
-			<div class="flex gap-6">
+			<div class="flex gap-2">
 				<Button
-					variant="link"
+					variant="secondary"
 					disabled={$submitting}
 					onclick={() => {
 						if (page.params.id) goto(`/workouts/${page.params.id}`, { replaceState: true });
@@ -98,10 +122,9 @@
 		<div class="flex items-center gap-2">
 			<h2 class="text-2xl font-bold">{m.exercises()}</h2>
 			<Button
-				variant="link"
+				variant="ghost"
 				disabled={$submitting}
 				onclick={() => {
-					exerciseForm?.reset();
 					pushState('', { modalShown: 'save-exercise' });
 				}}
 			>
@@ -115,22 +138,19 @@
 						<div class="flex gap-2">
 							<Button
 								disabled={$submitting}
-								onclick={() => {
-									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
-									exerciseForm?.reset({ data: exercise });
-								}}
-								variant="link"
-							>
-								{m.edit()}
-							</Button>
-							<Button
-								disabled={$submitting}
 								onclick={() =>
 									($formData.exercises =
 										$formData.exercises?.filter((item) => item !== exercise) ?? [])}
-								variant="link"
+								variant="ghost"
 							>
 								{m.remove()}
+							</Button>
+							<Button
+								disabled={$submitting}
+								onclick={() => pushState('', { modalShown: 'save-exercise', exerciseIndex: index })}
+								variant="ghost"
+							>
+								{m.edit()}
 							</Button>
 						</div>
 					{/snippet}
@@ -150,28 +170,6 @@
 		<DialogHeader>
 			<DialogTitle>{m.add_exercise()}</DialogTitle>
 		</DialogHeader>
-		<ExerciseForm
-			oncancel={handleCloseModal}
-			data={exerciseFormData}
-			bind:form={exerciseForm}
-			action="?/exercise"
-			onUpdate={({ result, cancel }) => {
-				if (result.type === 'success') {
-					$formData.exercises =
-						page.state.exerciseIndex !== undefined
-							? [
-									...$formData.exercises.slice(0, page.state.exerciseIndex),
-									result.data.form.data as z.infer<typeof exerciseFormSchema>,
-									...$formData.exercises.slice(page.state.exerciseIndex + 1)
-								]
-							: [
-									...$formData.exercises,
-									result.data.form.data as z.infer<typeof exerciseFormSchema>
-								];
-					handleCloseModal();
-					cancel();
-				}
-			}}
-		/>
+		<ExerciseForm oncancel={handleCloseModal} form={exerciseForm} action="?/exercise" />
 	</DialogContent>
 </Dialog>

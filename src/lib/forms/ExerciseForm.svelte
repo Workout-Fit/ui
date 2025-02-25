@@ -1,13 +1,12 @@
 <script lang="ts" module>
 	import { z } from 'zod';
-	import type { FormOptions, SuperForm, SuperValidated } from 'sveltekit-superforms/client';
+	import type { SuperForm } from 'sveltekit-superforms/client';
 
 	export type ExerciseFormProps = {
 		oncancel: () => void;
+		form: SuperForm<z.infer<typeof exerciseFormSchema>>;
 		action?: string;
-		data: SuperValidated<z.infer<typeof exerciseFormSchema>>;
-		form?: SuperForm<z.infer<typeof exerciseFormSchema>>;
-	} & Omit<FormOptions<z.infer<typeof exerciseFormSchema>>, 'validators' | 'dataType'>;
+	};
 
 	export const exerciseFormSchema = z.object({
 		id: z.number().optional(),
@@ -28,8 +27,6 @@
 	import { Combobox } from '$lib/components/ui/combobox';
 	import FormActions from '$lib/components/FormActions.svelte';
 	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
-	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { superForm } from 'sveltekit-superforms/client';
 	import Add from '@material-symbols/svg-400/sharp/add.svg?component';
 	import Remove from '@material-symbols/svg-400/sharp/remove.svg?component';
 	import * as m from '$lib/paraglide/messages';
@@ -40,12 +37,7 @@
 	import FormField from '$lib/components/ui/form/form-field.svelte';
 	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/ui/form';
 
-	let { data, oncancel, form = $bindable(), action, ...rest }: ExerciseFormProps = $props();
-	form = superForm(data, {
-		validators: zodClient(exerciseFormSchema),
-		dataType: 'json',
-		...rest
-	});
+	let { oncancel, form, action }: ExerciseFormProps = $props();
 
 	const loadExercises = async (query: string) => {
 		const searchParams = new URLSearchParams({ query, language: languageTag() });

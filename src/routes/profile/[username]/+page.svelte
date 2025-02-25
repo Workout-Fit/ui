@@ -43,7 +43,7 @@
 	<WorkoutList workouts={data.workouts}>
 		{#snippet action()}
 			{#if data.editable}
-				<Button href="/new" class="workouts__add link">+ {m.create_workout()}</Button>
+				<Button href="/new">+ {m.create_workout()}</Button>
 			{/if}
 		{/snippet}
 	</WorkoutList>

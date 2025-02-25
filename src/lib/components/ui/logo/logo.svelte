@@ -12,11 +12,7 @@
 <svg
 	{...props}
 	viewBox="0 0 159 172"
-	class:invert={active}
-	class={cn(
-		'fill-black stroke-white invert-0 transition-transform duration-300 ease-in-out hover:invert focus:invert',
-		className
-	)}
+	class={cn('h-full w-full fill-black stroke-white invert-0', className, { invert: active })}
 	xmlns="http://www.w3.org/2000/svg"
 >
 	<path

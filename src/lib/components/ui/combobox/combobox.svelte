@@ -37,17 +37,12 @@
 		disabled
 	}: AutocompleteProps = $props();
 
-	let inputValue = $state('');
+	let query = $state(value ? getItemLabel(value) : '');
 	let loading = $state(false);
 	let open = $state(false);
 	let results = $state<Item[]>([]);
-	let query = $state('');
 
-	const updateQuery = debounce((q: string) => (query = q), debounceValue);
-
-	$effect(() => {
-		updateQuery(inputValue);
-	});
+	const updateQuery = debounce((value: string) => (query = value), debounceValue);
 
 	$effect(() => {
 		if (query.length >= searchThreshold) {
@@ -64,11 +59,9 @@
 	{disabled}
 	type="single"
 	{name}
+	value={value ? getItemValue(value) : ''}
 	onValueChange={(val: string) => {
 		value = results.find((item) => getItemValue(item) === val);
-	}}
-	onOpenChange={(o) => {
-		if (!o) inputValue = '';
 	}}
 >
 	<FormLabel for={id}>{label}</FormLabel>
@@ -77,10 +70,11 @@
 	>
 		<Combobox.Input
 			{id}
+			{placeholder}
 			autocomplete="off"
 			class="inline-flex w-full text-base outline-none transition-colors placeholder:text-muted-foreground focus:outline-none sm:text-sm"
-			oninput={(e) => (inputValue = e.currentTarget.value)}
-			{placeholder}
+			defaultValue={query}
+			oninput={(e) => updateQuery(e.currentTarget?.value)}
 			aria-label={placeholder}
 		/>
 		<Combobox.Trigger>
