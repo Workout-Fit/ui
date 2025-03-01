@@ -77,11 +77,16 @@
 		});
 	};
 
+	const onAuthError: FormOptions<z.infer<typeof authFormSchema>>['onError'] = ({ result }) => {
+		toast.error(result.error.message);
+	};
+
 	const onAuthUpdate: FormOptions<z.infer<typeof authFormSchema>>['onUpdate'] = ({
 		result,
-		form
+		form,
+		cancel
 	}) => {
-		if (result.type === 'failure') return;
+		if (result.type === 'failure') cancel();
 		if (form.message) toast.success(form.message);
 		redirectToPreviousURL();
 	};
@@ -104,6 +109,7 @@
 					schema={signUpFormSchema}
 					passwordHTMLAutocomplete="new-password"
 					onUpdate={onAuthUpdate}
+					onError={onAuthError}
 					enctype="multipart/form-data"
 				>
 					{#snippet extraFields(form)}
@@ -117,6 +123,7 @@
 					submitLabel={m.sign_in()}
 					data={data.signInForm}
 					disabled={ssoSignIn}
+					onError={onAuthError}
 					onUpdate={onAuthUpdate as any}
 				/>
 				<Button variant="link" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
@@ -130,7 +137,6 @@
 	<small>
 		{mode === 'signup' ? m.sign_in_label() : m.sign_up_label()}
 		<Button
-			style="display: inline;"
 			variant="link"
 			disabled={ssoSignIn}
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}

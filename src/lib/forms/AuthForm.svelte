@@ -75,5 +75,5 @@
 		{form}
 	/>
 	{#if extraFields}{@render extraFields(form)}{/if}
-	<Button loading={$submitting || disabled}>{submitLabel}</Button>
+	<Button type="submit" loading={$submitting || disabled}>{submitLabel}</Button>
 </form>
