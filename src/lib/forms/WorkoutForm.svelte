@@ -32,6 +32,7 @@
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { toast } from 'svelte-sonner';
 
 	let { title, data, form = $bindable(), exerciseFormData, ...rest }: WorkoutFormProps = $props();
 
@@ -45,7 +46,8 @@
 		form: formData,
 		enhance,
 		submitting,
-		delayed
+		delayed,
+		message
 	} = form as SuperForm<z.infer<typeof workoutFormSchema>>;
 
 	const exerciseForm = superForm(exerciseFormData, {
@@ -74,6 +76,10 @@
 		if (page.state.exerciseIndex !== undefined)
 			exerciseForm?.reset({ data: $formData.exercises[page.state.exerciseIndex] });
 		else exerciseForm.reset();
+	});
+
+	$effect(() => {
+		if ($message) toast[$message.type]($message.text);
 	});
 </script>
 

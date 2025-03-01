@@ -4,9 +4,11 @@ import { i18n } from '$lib/i18n';
 import { languageTag } from '$lib/paraglide/runtime';
 import updateWorkout from '$lib/supabase/queries/updateWorkout.js';
 import { parseWorkoutExercises } from '$lib/utils/parser';
-import { error, fail, redirect } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
+import { error, fail } from '@sveltejs/kit';
+import { redirect } from 'sveltekit-flash-message/server';
+import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import * as m from '$lib/paraglide/messages';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
 	const { user } = await safeGetSession();
@@ -44,12 +46,13 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 	const workoutForm = await superValidate(parseWorkoutExercises(workout), zod(workoutFormSchema));
 	const exerciseForm = await superValidate(zod(exerciseFormSchema));
 
-	if (workout?.user_id === user?.id) return { form: workoutForm, exerciseFormData: exerciseForm };
-	return redirect(303, i18n.resolveRoute(`/workouts/${params.id}`));
+	return workout?.user_id === user?.id
+		? { form: workoutForm, exerciseFormData: exerciseForm }
+		: redirect(303, i18n.resolveRoute(`/workouts/${params.id}`));
 };
 
 export const actions = {
-	workout: async ({ locals: { supabase, user }, request, params }) => {
+	workout: async ({ locals: { supabase, user }, request, params, cookies }) => {
 		const form = await superValidate(request, zod(workoutFormSchema));
 		if (!user) return error(401, 'Unauthorized');
 
@@ -62,10 +65,14 @@ export const actions = {
 
 		if (updateWorkoutResponse.error || updateWorkoutExercisesResponse.error) {
 			console.error(updateWorkoutResponse.error ?? updateWorkoutExercisesResponse.error);
-			return error(500, 'Failed to update workout');
+			return message(form, { text: 'Failed to update workout', type: 'error' }, { status: 500 });
 		}
 
-		return redirect(303, i18n.resolveRoute(`/workouts/${params.id}`));
+		return redirect(
+			i18n.resolveRoute(`/workouts/${params.id}`),
+			{ text: m.edit_workout_success(), type: 'error' },
+			cookies
+		);
 	},
 	exercise: async ({ request }) => {
 		const form = await superValidate(request, zod(exerciseFormSchema));

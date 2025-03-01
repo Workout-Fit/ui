@@ -21,12 +21,19 @@ declare global {
 		}
 		interface PageData {
 			session: Session | null;
+			flash?: Superforms.Message;
 		}
 		interface PageState {
 			modalShown?: 'save-exercise' | 'confirm-delete-workout';
 			exerciseIndex?: number;
 		}
 		// interface Platform {}
+		namespace Superforms {
+			type Message = {
+				type: 'error' | 'success';
+				text: string;
+			};
+		}
 	}
 }
 

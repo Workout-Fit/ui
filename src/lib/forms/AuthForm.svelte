@@ -33,6 +33,7 @@
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
 	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
+	import { toast } from 'svelte-sonner';
 
 	let {
 		data,
@@ -52,7 +53,11 @@
 		...rest
 	});
 
-	const { enhance, submitting } = form;
+	const { message, enhance, submitting } = form;
+
+	$effect(() => {
+		if ($message) toast[$message.type]($message.text);
+	});
 </script>
 
 <form method="POST" class="flex flex-col gap-2" {id} {action} {enctype} use:enhance>

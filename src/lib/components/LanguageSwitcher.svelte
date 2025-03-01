@@ -18,7 +18,7 @@
 >
 	<SelectTrigger class="w-20">{languageTag()}</SelectTrigger>
 	<SelectContent>
-		{#each availableLanguageTags as lang}
+		{#each availableLanguageTags as lang (lang)}
 			<SelectItem value={lang}>{lang}</SelectItem>
 		{/each}
 	</SelectContent>

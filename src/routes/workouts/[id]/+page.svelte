@@ -14,14 +14,13 @@
 		AlertDialogCancel,
 		AlertDialogAction
 	} from '$lib/components/ui/alert-dialog';
-	import { goto, invalidate, replaceState } from '$app/navigation';
+	import { invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
 	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
 	import Link from '$lib/components/Link.svelte';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
-	import { languageTag } from '$lib/paraglide/runtime';
 
 	let { data }: { data: PageData } = $props();
 
@@ -29,11 +28,7 @@
 
 	async function handleDeleteWorkout() {
 		deleting = true;
-		const res = await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
-		if (res.ok) {
-			toast.success(m.workout_delete_success());
-			goto('/');
-		} else toast.error(m.workout_delete_error());
+		await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
 		deleting = false;
 	}
 	let deleting = $state(false);
@@ -45,15 +40,16 @@
 	<div>
 		{#if data.workout?.creation_date}
 			<small>
-				{m.created_on()}{' '}{new Date(data.workout?.creation_date).toLocaleDateString()}
+				{m.created_on()}{` ${new Date(data.workout?.creation_date).toLocaleDateString()}`}
 			</small>
 		{/if}
 		<h1 class="text-4xl font-bold">{data.workout?.name}</h1>
 		<small>
-			{m.created_by()}{' '}<Link href={`/profile/${username}`}>{username}</Link>
+			{m.created_by()}
+			<Link href={`/profile/${username}`}>{username}</Link>
 			{#if data.workout?.based_on}
 				<br />
-				{m.based_on()}{' '}
+				{m.based_on()}
 				<Link href={`/workouts/${data.workout?.based_on?.id}`}>{data.workout?.based_on?.name}</Link>
 			{/if}
 		</small>
@@ -65,23 +61,9 @@
 				action="?/clone"
 				use:enhance={() => {
 					cloning = true;
-					return async ({ result, update }) => {
+					return async ({ update }) => {
 						await update();
 						cloning = false;
-						if (result.type === 'error') toast.error(result.error);
-						else if (result.type === 'redirect') {
-							if (result.status === 307) {
-								toast.error(
-									m.demand_sign_in({
-										action: languageTag() === 'en' ? 'clone a workout' : 'clonar uma ficha'
-									})
-								);
-								goto(result.location);
-							} else {
-								toast.success(m.workout_clone_success());
-								goto(result.location);
-							}
-						}
 					};
 				}}
 			>
@@ -108,18 +90,11 @@
 			action="?/like"
 			use:enhance={() => {
 				liking = true;
-				return async ({ result }) => {
+				return async ({ result, update }) => {
+					await update();
 					liking = false;
-					if (result.type === 'redirect') {
-						toast.error(
-							m.demand_sign_in({
-								action: languageTag() === 'en' ? 'like a workout' : 'curtir uma ficha'
-							})
-						);
-						console.log(result);
-						return goto(result.location);
-					} else if (result.type === 'error') toast.error(result.error);
-					else {
+					if (result.type === 'error') toast.error(result.error);
+					else if (result.type === 'success') {
 						invalidate('supabase:likes');
 						data.liked = !data.liked;
 						data.likes += data.liked ? 1 : -1;

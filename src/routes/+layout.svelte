@@ -17,10 +17,13 @@
 	import UpdateToast from '$lib/components/UpdateToast.svelte';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
+	import { getFlash } from 'sveltekit-flash-message';
+	import { page } from '$app/state';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 	let { session, supabase } = data;
 
+	const flash = getFlash(page);
 	const serviceWorker = useRegisterSW();
 	const { needRefresh } = serviceWorker;
 	let updateToastId = $state<number | string | null>(null);
@@ -52,6 +55,15 @@
 	$effect(() => {
 		if ($needRefresh) updateToastId = toast(UpdateToast as any);
 		else if (updateToastId) toast.dismiss(updateToastId);
+	});
+
+	$inspect($flash);
+	$effect(() => {
+		if ($flash) toast[$flash.type]($flash.text);
+	});
+
+	$effect(() => {
+		if (page.error?.message && page.status !== 404) toast.error(page.error?.message);
 	});
 </script>
 

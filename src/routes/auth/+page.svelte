@@ -9,7 +9,7 @@
 <script lang="ts">
 	import AuthForm, { authFormSchema } from '$lib/forms/AuthForm.svelte';
 	import ProfileForm, { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
-	import type { FormOptions, SuperForm } from 'sveltekit-superforms/client';
+	import type { SuperForm } from 'sveltekit-superforms/client';
 	import type { PageServerData } from './$types';
 	import { z } from 'zod';
 	import { fly } from 'svelte/transition';
@@ -76,20 +76,6 @@
 			logo_alignment: 'left'
 		});
 	};
-
-	const onAuthError: FormOptions<z.infer<typeof authFormSchema>>['onError'] = ({ result }) => {
-		toast.error(result.error.message);
-	};
-
-	const onAuthUpdate: FormOptions<z.infer<typeof authFormSchema>>['onUpdate'] = ({
-		result,
-		form,
-		cancel
-	}) => {
-		if (result.type === 'failure') cancel();
-		if (form.message) toast.success(form.message);
-		redirectToPreviousURL();
-	};
 </script>
 
 <svelte:head>
@@ -108,8 +94,6 @@
 					data={data.signUpForm}
 					schema={signUpFormSchema}
 					passwordHTMLAutocomplete="new-password"
-					onUpdate={onAuthUpdate}
-					onError={onAuthError}
 					enctype="multipart/form-data"
 				>
 					{#snippet extraFields(form)}
@@ -123,8 +107,6 @@
 					submitLabel={m.sign_in()}
 					data={data.signInForm}
 					disabled={ssoSignIn}
-					onError={onAuthError}
-					onUpdate={onAuthUpdate as any}
 				/>
 				<Button variant="link" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
 					{m.forgot_password()}

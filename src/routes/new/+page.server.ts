@@ -1,9 +1,11 @@
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
 import { i18n } from '$lib/i18n';
-import { error, fail, redirect } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
+import { error, fail } from '@sveltejs/kit';
+import { redirect } from 'sveltekit-flash-message/server';
+import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import * as m from '$lib/paraglide/messages';
 
 export const load = async () => {
 	const workoutForm = await superValidate(zod(workoutFormSchema));
@@ -13,9 +15,8 @@ export const load = async () => {
 };
 
 export const actions = {
-	workout: async ({ locals: { supabase, user }, request }) => {
+	workout: async ({ locals: { supabase }, request, cookies }) => {
 		const form = await superValidate(request, zod(workoutFormSchema));
-		if (!user) return error(401, 'Unauthorized');
 
 		if (!form.valid) return fail(400, { form });
 
@@ -30,7 +31,7 @@ export const actions = {
 
 		if (createWorkout.error) {
 			console.error(createWorkout.error);
-			return error(500, 'Failed to create Workout');
+			return message(form, { text: 'Failed to create Workout', type: 'error' }, { status: 500 });
 		}
 
 		if (form.data.exercises.length > 0) {
@@ -40,7 +41,7 @@ export const actions = {
 					workout_id: createWorkout.data.id,
 					sets: exercise.sets,
 					repetitions: exercise.repetitions,
-					rests: exercise.rests,
+					rests: exercise.rests as number[],
 					notes: exercise.notes
 				}))
 			);
@@ -51,7 +52,11 @@ export const actions = {
 			}
 		}
 
-		return redirect(303, i18n.resolveRoute(`/workouts/${createWorkout.data.id}`));
+		return redirect(
+			i18n.resolveRoute(`/workouts/${createWorkout.data.id}`),
+			{ text: m.create_workout_success(), type: 'success' },
+			cookies
+		);
 	},
 	exercise: async ({ request }) => {
 		const form = await superValidate(request, zod(exerciseFormSchema));

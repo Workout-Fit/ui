@@ -1,15 +1,17 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import insertProfile from '$lib/supabase/queries/insertProfile';
 import { getProfileByUsername } from '$lib/supabase/queries/getProfile';
 import { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
-import { superValidate, fail } from 'sveltekit-superforms';
+import { superValidate, fail, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { SetNonNullable } from 'type-fest';
 import omit from 'lodash/omit';
 import { i18n } from '$lib/i18n';
 import getAvatar from '$lib/supabase/queries/getAvatar';
 import { z } from 'zod';
+import { redirect } from 'sveltekit-flash-message/server';
+import * as m from '$lib/paraglide/messages';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
 	const profileResponse = await getProfileByUsername(supabase, params.username);
@@ -28,7 +30,7 @@ export const load = async ({ locals: { supabase, user }, params }) => {
 };
 
 export const actions = {
-	default: async ({ locals: { supabase, user }, request }) => {
+	default: async ({ locals: { supabase, user }, request, cookies }) => {
 		const form = await superValidate(request, zod(profileFormSchema));
 		if (!user) return error(401, 'Unauthorized');
 
@@ -42,9 +44,13 @@ export const actions = {
 
 		if (userResponse.error || avatarResponse?.error) {
 			console.error(userResponse.error ?? avatarResponse?.error);
-			return error(500, 'Failed to update Profile');
+			return message(form, { text: 'Failed to update Profile', type: 'error' }, { status: 500 });
 		}
 
-		return redirect(303, i18n.resolveRoute(`/profile/${form.data.username}`));
+		return redirect(
+			i18n.resolveRoute(`/profile/${form.data.username}`),
+			{ text: m.profile_edit_success(), type: 'success' },
+			cookies
+		);
 	}
 } satisfies Actions;

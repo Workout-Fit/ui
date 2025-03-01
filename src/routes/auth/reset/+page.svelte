@@ -8,8 +8,6 @@
 	import { signUpFormSchema } from '../+page.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { PageServerData } from './$types';
-	import { toast } from 'svelte-sonner';
-	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 	import { FormInput } from '$lib/components/ui/form-input';
@@ -17,14 +15,7 @@
 	const { data }: { data: PageServerData } = $props();
 
 	const form = superForm(data.form, {
-		validators: zodClient(resetFormSchema),
-		onResult: ({ result }) => {
-			if (result.type === 'error') toast.error(result.error.message);
-			else if (result.type === 'redirect') {
-				toast.success(m.password_reset_success());
-				goto(result.location, { invalidateAll: true });
-			}
-		}
+		validators: zodClient(resetFormSchema)
 	});
 
 	const { enhance, submitting, delayed } = form;

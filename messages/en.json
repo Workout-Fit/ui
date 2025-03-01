@@ -56,6 +56,7 @@
 	"workout_delete_error": "Failed to delete workout",
 	"exercise_notes_placeholder": "Slow execution",
 	"password_reset_success": "Successfully reset your password",
+	"password_reset_error": "Failed to reset your password",
 	"workout_clone_success": "Successfully cloned workout",
 	"profile_edit_success": "Successfully edited your profile",
 	"edit_workout_success": "Successfully edited workout",

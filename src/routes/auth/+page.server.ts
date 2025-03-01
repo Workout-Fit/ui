@@ -7,7 +7,6 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { signUpFormSchema } from './+page.svelte';
 import insertProfile from '$lib/supabase/queries/insertProfile';
 import pick from 'lodash/pick';
-import type { AuthError } from '@supabase/supabase-js';
 import { z } from 'zod';
 import * as m from '$lib/paraglide/messages';
 
@@ -34,7 +33,6 @@ export const actions: Actions = {
 		const { error: accountError, data } = await supabase.auth.signUp(
 			pick(form.data, ['email', 'password'])
 		);
-
 		const [userResponse, avatarResponse] = await insertProfile(
 			supabase,
 			{
@@ -48,12 +46,9 @@ export const actions: Actions = {
 
 		if (signUpError) {
 			console.error(signUpError);
-			return error(
-				(signUpError as AuthError).status ?? 500,
-				signUpError.message ?? 'Failed to sign-up'
-			);
+			return message(form, { text: signUpError.message ?? 'Failed to sign-up', type: 'error' });
 		}
-		return message(form, m.sign_up_success());
+		return message(form, { text: m.sign_up_success(), type: 'success' });
 	},
 	signin: async ({ request, locals: { supabase } }) => {
 		const form = await superValidate(
@@ -63,8 +58,14 @@ export const actions: Actions = {
 		if (!form.valid) return fail(400, { form });
 
 		const { error: signInError } = await supabase.auth.signInWithPassword(form.data);
-		if (signInError)
-			return error(signInError.status ?? 500, signInError.message ?? 'Failed to sign-in');
+		if (signInError) {
+			console.error(signInError);
+			return message(
+				form,
+				{ text: signInError.message ?? 'Failed to sign-in', type: 'error' },
+				{ status: (signInError.status as any) ?? 500 }
+			);
+		}
 		return { form };
 	},
 	forgot: async ({ request, locals: { supabase }, url }) => {
@@ -76,8 +77,12 @@ export const actions: Actions = {
 		});
 		if (forgotError) {
 			console.error(forgotError);
-			return error(forgotError.status ?? 500, forgotError.message ?? 'Failed to send reset email');
+			return message(
+				form,
+				{ text: forgotError.message ?? 'Failed to send reset e-mail', type: 'error' },
+				{ status: 500 }
+			);
 		}
-		return message(form, m.email_sent());
+		return message(form, { text: m.email_sent(), type: 'success' });
 	}
 };

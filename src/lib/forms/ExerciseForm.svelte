@@ -83,7 +83,7 @@
 		<FormDescription />
 		<FormFieldErrors />
 	</FormField>
-	{#each $formData.sets as _, index}
+	{#each $formData.sets as _, index (index)}
 		<div class="flex gap-2">
 			<FormInput
 				type="number"
