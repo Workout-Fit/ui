@@ -18,7 +18,7 @@ export const load = async ({ data, depends, fetch }) => {
 				cookies: { getAll: () => data.cookies }
 			});
 
-	// @ts-expect-error
+	// @ts-expect-error: This error always happens
 	supabase.auth.suppressGetSessionWarning = true;
 
 	const {

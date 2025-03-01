@@ -11,8 +11,10 @@
 	import { i18n } from '$lib/i18n';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
+	import { buttonVariants } from './ui/button';
+	import { cn } from '$lib/utils';
 
-	const { href, children, exact = true, ...rest }: LinkProps = $props();
+	const { href, children, exact = true, class: className, ...rest }: LinkProps = $props();
 
 	let active = $state(false);
 
@@ -23,24 +25,15 @@
 	});
 </script>
 
-<a {href} {...rest} class:active>
+<a
+	{href}
+	{...rest}
+	class={cn(
+		buttonVariants({ variant: 'link' }),
+		'rounded-none p-0',
+		{ underline: active },
+		className
+	)}
+>
 	{@render children?.(active)}
 </a>
-
-<style>
-	.link {
-		cursor: pointer;
-		color: var(--color-primary);
-		font-weight: 500;
-		text-transform: uppercase;
-		text-decoration: none;
-		font-size: 0.7rem;
-		transition: all 0.2s ease-in-out;
-	}
-
-	.link:is(:focus, .active) {
-		outline: none;
-		color: var(--color-background);
-		background-color: var(--color-primary);
-	}
-</style>

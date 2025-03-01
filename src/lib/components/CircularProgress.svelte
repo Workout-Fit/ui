@@ -1,11 +1,13 @@
 <script lang="ts">
-	let { color = 'white' }: { color?: 'white' | 'black' | 'primary' } = $props();
+	import { cn } from '$lib/utils';
+
+	let { class: className = '' } = $props();
 </script>
 
 <svg
 	width="24"
 	height="24"
-	class={`circular-progress--${color}`}
+	class={cn('circular-progress', className)}
 	viewBox="0 0 24 24"
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"
@@ -43,17 +45,5 @@
 			stroke-dasharray: 42 150;
 			stroke-dashoffset: -59;
 		}
-	}
-
-	.circular-progress--white {
-		stroke: white;
-	}
-
-	.circular-progress--black {
-		stroke: black;
-	}
-
-	.circular-progress--primary {
-		stroke: var(--color-primary);
 	}
 </style>

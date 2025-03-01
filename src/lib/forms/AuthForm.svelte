@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts" generics="Schema extends ZodObject<Record<string, ZodTypeAny>>">
-	import TextField from '$lib/components/TextField.svelte';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
@@ -31,8 +31,7 @@
 		type SuperValidated
 	} from 'sveltekit-superforms/client';
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
-	import PasswordField from '$lib/components/PasswordField.svelte';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 
 	let {
@@ -56,8 +55,8 @@
 	const { enhance, submitting } = form;
 </script>
 
-<form method="POST" {id} {action} {enctype} use:enhance>
-	<TextField
+<form method="POST" class="flex flex-col gap-2" {id} {action} {enctype} use:enhance>
+	<FormInput
 		label={m.email()}
 		field={'email' as any}
 		placeholder="johndoe@email.com"
@@ -66,7 +65,8 @@
 		{form}
 		type="email"
 	/>
-	<PasswordField
+	<FormInput
+		type="password"
 		disabled={$submitting || disabled}
 		label={m.password()}
 		placeholder="********"
@@ -77,11 +77,3 @@
 	{#if extraFields}{@render extraFields(form)}{/if}
 	<Button loading={$submitting || disabled}>{submitLabel}</Button>
 </form>
-
-<style>
-	form {
-		display: flex;
-		gap: var(--base-spacing);
-		flex-direction: column;
-	}
-</style>

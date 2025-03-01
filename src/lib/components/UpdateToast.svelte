@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
-	import Button from './Button.svelte';
+	import { Button } from './ui/button';
 	import { getContext } from 'svelte';
 
 	const { needRefresh, updateServiceWorker } =
@@ -11,9 +11,8 @@
 	New content available, click on reload button to update.
 	<div class="update-toast__actions">
 		<Button
-			type="button"
-			size="small"
-			variant="text"
+			size="sm"
+			variant="link"
 			onclick={() => {
 				needRefresh.set(false);
 			}}
@@ -21,8 +20,7 @@
 			Dismiss
 		</Button>
 		<Button
-			type="button"
-			size="small"
+			size="sm"
 			onclick={() => {
 				updateServiceWorker(true);
 				needRefresh.set(false);

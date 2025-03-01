@@ -1,14 +1,17 @@
 <script lang="ts">
-	import Button from './Button.svelte';
+	import { Button } from './ui/button';
 	import * as m from '$lib/paraglide/messages';
+	import { cn } from '$lib/utils';
 
 	let {
 		oncancel,
+		class: className,
 		saveLabel = m.save(),
 		cancelLabel = m.cancel(),
 		loading = false,
 		disabled = false
 	}: {
+		class?: string;
 		oncancel: () => void;
 		saveLabel?: string;
 		cancelLabel?: string;
@@ -17,14 +20,7 @@
 	} = $props();
 </script>
 
-<div class="form-actions">
-	<Button {disabled} type="button" onclick={oncancel} variant="text">{cancelLabel}</Button>
+<div class={cn('flex gap-4', className)}>
+	<Button {disabled} onclick={oncancel} variant="secondary">{cancelLabel}</Button>
 	<Button {disabled} {loading} type="submit">{saveLabel}</Button>
 </div>
-
-<style>
-	.form-actions {
-		display: flex;
-		gap: var(--base-spacing);
-	}
-</style>

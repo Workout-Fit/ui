@@ -4,7 +4,7 @@
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import type { PageData } from './$types';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
 	import * as m from '$lib/paraglide/messages';
 	import type { z } from 'zod';
@@ -25,16 +25,18 @@
 	const { enhance, submitting } = form;
 </script>
 
-<form method="POST" use:enhance enctype="multipart/form-data">
+<form
+	method="POST"
+	class="item-end m-auto flex flex-col gap-5"
+	use:enhance
+	enctype="multipart/form-data"
+>
+	<h2 class="text-2xl font-bold">{m.update_profile()}</h2>
 	<ProfileForm {form} />
-	<FormActions disabled={$submitting} loading={$submitting} oncancel={() => history.back()} />
+	<FormActions
+		class="ml-auto"
+		disabled={$submitting}
+		loading={$submitting}
+		oncancel={() => history.back()}
+	/>
 </form>
-
-<style>
-	form {
-		display: flex;
-		flex-direction: column;
-		align-items: end;
-		gap: calc(3 * var(--base-spacing));
-	}
-</style>

@@ -1,9 +1,7 @@
 <script lang="ts">
+	import '../app.css';
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
-	import toast, { Toaster } from 'svelte-french-toast';
 	import { i18n } from '$lib/i18n';
-
-	import '$lib/theme/index.css';
 
 	import { invalidate } from '$app/navigation';
 	import { onMount, setContext, type Snippet } from 'svelte';
@@ -12,17 +10,20 @@
 	import { browser } from '$app/environment';
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { pwaInfo } from 'virtual:pwa-info';
+	import { toast } from 'svelte-sonner';
 
 	import { on } from 'svelte/events';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 	import UpdateToast from '$lib/components/UpdateToast.svelte';
+	import { ModeWatcher } from 'mode-watcher';
+	import { Toaster } from '$lib/components/ui/sonner';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 	let { session, supabase } = data;
 
 	const serviceWorker = useRegisterSW();
 	const { needRefresh } = serviceWorker;
-	let updateToastId = $state<string | null>(null);
+	let updateToastId = $state<number | string | null>(null);
 
 	setContext('service-worker', serviceWorker);
 
@@ -49,8 +50,7 @@
 	});
 
 	$effect(() => {
-		if ($needRefresh)
-			updateToastId = toast(UpdateToast, { duration: Infinity, position: 'bottom-right' });
+		if ($needRefresh) updateToastId = toast(UpdateToast as any);
 		else if (updateToastId) toast.dismiss(updateToastId);
 	});
 </script>
@@ -62,31 +62,12 @@
 
 <ProgressBar color="var(--color-primary);" />
 
-<Toaster
-	toastOptions={{
-		iconTheme: {
-			primary: 'var(--color-primary)',
-			secondary: 'var(--color-background)'
-		},
-		className: 'toast'
-	}}
-/>
+<Toaster />
 
+<ModeWatcher defaultMode="dark" />
 <ParaglideJS {i18n}>
-	<div>
+	<div class="m-auto box-border flex min-h-screen max-w-5xl flex-col p-4">
 		<Header username={data.username ?? undefined} />
 		{@render children()}
 	</div>
 </ParaglideJS>
-
-<style>
-	div {
-		padding: calc(var(--base-spacing) * 2);
-		max-width: 960px;
-		margin: auto;
-		min-height: 100vh;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-	}
-</style>

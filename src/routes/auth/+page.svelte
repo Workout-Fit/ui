@@ -13,12 +13,12 @@
 	import type { PageServerData } from './$types';
 	import { z } from 'zod';
 	import { fly } from 'svelte/transition';
-	import Logo from '$lib/components/Logo.svelte';
+	import { Logo } from '$lib/components/ui/logo';
 	import type { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
 	import { goto } from '$app/navigation';
-	import { toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-sonner';
 	import type { CredentialResponse } from 'google-one-tap';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 	import { page } from '$app/state';
 	import { i18n } from '$lib/i18n';
@@ -92,10 +92,10 @@
 	<script src="https://accounts.google.com/gsi/client" async onload={initializeGoogleSSO}></script>
 </svelte:head>
 
-<div class="auth">
-	<Logo width={100} />
+<div class="m-auto flex min-w-[250px] flex-col items-center gap-2">
+	<Logo width={150} />
 	{#key mode}
-		<div style="width: 100%;" in:fly={{ x: 50, duration: 300 }}>
+		<div class="w-full" in:fly={{ x: 50, duration: 300 }}>
 			{#if mode === 'signup'}
 				<AuthForm
 					action="?/signup"
@@ -119,19 +119,19 @@
 					disabled={ssoSignIn}
 					onUpdate={onAuthUpdate as any}
 				/>
-				<Button variant="text" form="sign-in" formaction="?/forgot" class="forgot-password">
+				<Button variant="link" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
 					{m.forgot_password()}
 				</Button>
 			{/if}
 		</div>
 	{/key}
-	<hr style="width: 100%;" />
+	<hr class="w-full" />
 	<div bind:this={googleSSOButton}></div>
 	<small>
 		{mode === 'signup' ? m.sign_in_label() : m.sign_up_label()}
 		<Button
 			style="display: inline;"
-			variant="text"
+			variant="link"
 			disabled={ssoSignIn}
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
 		>
@@ -139,34 +139,3 @@
 		</Button>
 	</small>
 </div>
-
-<style>
-	.auth {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--base-spacing);
-		max-width: min(100%, 350px);
-		margin: auto;
-		padding: var(--base-spacing);
-		box-sizing: content-box;
-	}
-
-	:global(button.forgot-password) {
-		margin-top: var(--base-spacing);
-		text-align: right;
-		font-size: 0.6rem;
-		height: auto;
-		margin-left: auto;
-	}
-
-	hr {
-		border: none;
-		margin: calc(0.5 * var(--base-spacing)) 0;
-		border-bottom: 1px dashed var(--text-medium);
-	}
-
-	:global(svg.logo:hover) {
-		filter: none;
-	}
-</style>

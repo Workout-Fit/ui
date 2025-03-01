@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cn } from '$lib/utils';
 	import { type Snippet } from 'svelte';
 
 	type ListItemProps = {
@@ -24,60 +25,19 @@
 	const elementType = href !== undefined ? 'a' : 'div';
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
 <svelte:element
 	this={elementType}
-	class="list-item"
-	class:list-item--clickable={href || onclick}
+	class={cn('flex items-center justify-between p-2 transition-all duration-300 ease-in-out', {
+		'hover:bg-accent focus:bg-accent': Boolean(href || onclick)
+	})}
 	{...elementType === 'a' ? { href } : {}}
 	{onclick}
 >
-	<div class="list-item__left-decoration">
-		{#if leftDecoration}{@render leftDecoration()}{/if}
+	{#if leftDecoration}{@render leftDecoration()}{/if}
+	<div class="flex flex-grow flex-col gap-1">
+		<b>{title}</b>
+		{#if secondLine}<small class="whitespace-pre-line opacity-80">{secondLine}</small>{/if}
+		{#if thirdLine}<small class="whitespace-pre-line opacity-80">{thirdLine}</small>{/if}
 	</div>
-	<div class="list-item__content">
-		<span class="list-item__title">{title}</span>
-		{#if secondLine}<small class="list-item__second-line">{secondLine}</small>{/if}
-		{#if thirdLine}<small class="list-item__third-line">{thirdLine}</small>{/if}
-	</div>
-	<div class="list-item__right-decoration">
-		{#if rightDecoration}{@render rightDecoration()}{/if}
-	</div>
+	{#if rightDecoration}{@render rightDecoration()}{/if}
 </svelte:element>
-
-<style>
-	.list-item {
-		display: grid;
-		grid-template: 1fr / auto 1fr auto;
-		padding: var(--base-spacing);
-		transition: background-color 0.3s ease-in-out;
-	}
-
-	.list-item--clickable:is(:hover, :focus) {
-		background-color: var(--text-low);
-		cursor: pointer;
-	}
-
-	a.list-item {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.list-item__content {
-		grid-column: 2;
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--base-spacing) / 2);
-		width: 100%;
-	}
-
-	.list-item__title {
-		font-weight: 700;
-	}
-
-	.list-item__second-line,
-	.list-item__third-line {
-		white-space: pre-line;
-		color: var(--text-medium);
-	}
-</style>

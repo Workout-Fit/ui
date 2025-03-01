@@ -2,9 +2,18 @@
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
-	import { toast } from 'svelte-french-toast';
-	import Button from '$lib/components/Button.svelte';
-	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
+	import { toast } from 'svelte-sonner';
+	import { Button } from '$lib/components/ui/button';
+	import {
+		AlertDialog,
+		AlertDialogContent,
+		AlertDialogHeader,
+		AlertDialogTitle,
+		AlertDialogDescription,
+		AlertDialogFooter,
+		AlertDialogCancel,
+		AlertDialogAction
+	} from '$lib/components/ui/alert-dialog';
 	import { goto, invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
@@ -19,25 +28,27 @@
 	const username = (data.workout.profile as unknown as { username: string }).username;
 
 	async function handleDeleteWorkout() {
+		deleting = true;
 		const res = await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
 		if (res.ok) {
 			toast.success(m.workout_delete_success());
 			goto('/');
 		} else toast.error(m.workout_delete_error());
+		deleting = false;
 	}
-
+	let deleting = $state(false);
 	let cloning = $state(false);
 	let liking = $state(false);
 </script>
 
-<div class="workout">
-	<div class="workout__info">
+<div>
+	<div>
 		{#if data.workout?.creation_date}
 			<small>
 				{m.created_on()}{' '}{new Date(data.workout?.creation_date).toLocaleDateString()}
 			</small>
 		{/if}
-		<h1>{data.workout?.name}</h1>
+		<h1 class="text-4xl font-bold">{data.workout?.name}</h1>
 		<small>
 			{m.created_by()}{' '}<Link href={`/profile/${username}`}>{username}</Link>
 			{#if data.workout?.based_on}
@@ -47,9 +58,10 @@
 			{/if}
 		</small>
 		<p>{data.workout?.notes}</p>
-		<div class="workout__actions">
+		<div class="flex items-center gap-4">
 			<form
 				method="POST"
+				class="inline-flex"
 				action="?/clone"
 				use:enhance={() => {
 					cloning = true;
@@ -73,12 +85,18 @@
 					};
 				}}
 			>
-				<Button variant="text" disabled={cloning}>{m.clone()}</Button>
+				<Button type="submit" variant="link" disabled={cloning}>{m.clone()}</Button>
 			</form>
 			{#if data.editable}
-				<Link class="link" href={`/workouts/${data.workout?.id}/edit`}>{m.edit()}</Link>
 				<Button
-					variant="text"
+					data-sveltekit-replacestate
+					variant="link"
+					href={`/workouts/${data.workout?.id}/edit`}
+				>
+					{m.edit()}
+				</Button>
+				<Button
+					variant="link"
 					onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
 				>
 					{m.delete_action()}
@@ -110,17 +128,17 @@
 			}}
 		>
 			<input type="hidden" name="liked" value={data.liked} />
-			<Button class="workout__like" variant="text" disabled={liking}>
+			<Button type="submit" variant="link" disabled={liking} class="flex gap-2">
 				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
-				<Icon style="fill: var(--color-primary);" width={16} height={16} />
+				<Icon class="fill-primary" width={16} height={16} />
 				{data.likes}
 				{m.likes()}
 			</Button>
 		</form>
 	</div>
 
-	<div class="workout__exercise-list">
-		<h2>{m.exercises()}</h2>
+	<div class="mt-8">
+		<h2 class="text-2xl font-bold">{m.exercises()}</h2>
 		<List items={data.workout?.exercises} emptyMessage={m.exercise_list_empty()}>
 			{#snippet item(exercise)}
 				<ExerciseListItem {exercise} />
@@ -129,36 +147,24 @@
 	</div>
 </div>
 
-<ConfirmationDialog
+<AlertDialog
 	open={page.state.modalShown === 'confirm-delete-workout'}
-	title={m.delete_workout_confirmation_title({ workout: data.workout?.name })}
-	message={m.delete_workout_confirmation_message()}
-	confirmLabel={m.delete_action()}
-	oncancel={() => replaceState('', { modalShown: undefined })}
-	onconfirm={handleDeleteWorkout}
-/>
-
-<style>
-	h1 {
-		margin: 0;
-	}
-
-	h2 {
-		margin: var(--base-spacing) 0;
-	}
-
-	.workout__exercise-list {
-		margin-top: calc(var(--base-spacing) * 4);
-	}
-
-	.workout__actions {
-		display: flex;
-		gap: calc(var(--base-spacing) * 2);
-		align-items: center;
-	}
-
-	:global(.workout__like) {
-		display: flex;
-		gap: var(--base-spacing);
-	}
-</style>
+	onOpenChange={(open) => {
+		if (!open) replaceState('', { modalShown: undefined });
+	}}
+>
+	<AlertDialogContent>
+		<AlertDialogHeader>
+			<AlertDialogTitle>
+				{m.delete_workout_confirmation_title({ workout: data.workout?.name })}
+			</AlertDialogTitle>
+			<AlertDialogDescription>{m.delete_workout_confirmation_message()}</AlertDialogDescription>
+		</AlertDialogHeader>
+		<AlertDialogFooter>
+			<AlertDialogCancel>Cancel</AlertDialogCancel>
+			<AlertDialogAction loading={deleting} onclick={handleDeleteWorkout}>
+				{m.delete_action()}
+			</AlertDialogAction>
+		</AlertDialogFooter>
+	</AlertDialogContent>
+</AlertDialog>

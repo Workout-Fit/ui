@@ -37,7 +37,7 @@ const createProfileFromSSO = async (
 	}
 };
 
-export const POST = async ({ request, locals: { supabase }, url }) => {
+export const POST = async ({ request, locals: { supabase } }) => {
 	const data: SignInWithIdTokenCredentials = await request.json();
 	const { data: signInData, error: signInError } = await supabase.auth.signInWithIdToken(data);
 

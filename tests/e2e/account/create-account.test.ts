@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
-import type { User } from '@supabase/supabase-js';
 import AuthPage from '../pages/auth.page';
 import * as m from '$lib/paraglide/messages';
 import { createUser } from '../factories';

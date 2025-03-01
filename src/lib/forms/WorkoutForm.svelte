@@ -22,19 +22,16 @@
 </script>
 
 <script lang="ts">
-	import { pushState, replaceState } from '$app/navigation';
+	import { goto, pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
-	import TextField from '$lib/components/TextField.svelte';
-	import Dialog from '$lib/components/Dialog.svelte';
-	import Button from '$lib/components/Button.svelte';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
+	import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$lib/components/ui/dialog';
+	import { Button } from '$lib/components/ui/button';
 	import List from '$lib/components/List.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-
-	const handleCloseModal = () =>
-		replaceState('', { modalShown: undefined, exerciseIndex: undefined });
 
 	let { title, data, form = $bindable(), exerciseFormData, ...rest }: WorkoutFormProps = $props();
 
@@ -50,17 +47,61 @@
 		submitting,
 		delayed
 	} = form as SuperForm<z.infer<typeof workoutFormSchema>>;
-	let exerciseForm: SuperForm<z.infer<typeof exerciseFormSchema>> | undefined = $state();
+
+	const exerciseForm = superForm(exerciseFormData, {
+		validators: zodClient(exerciseFormSchema),
+		dataType: 'json',
+		onUpdate: ({ result, cancel }) => {
+			if (result.type === 'success') {
+				$formData.exercises =
+					page.state.exerciseIndex !== undefined
+						? [
+								...$formData.exercises.slice(0, page.state.exerciseIndex),
+								result.data.form.data,
+								...$formData.exercises.slice(page.state.exerciseIndex + 1)
+							]
+						: [...$formData.exercises, result.data.form.data];
+				handleCloseModal();
+				cancel();
+			}
+		}
+	});
+
+	const handleCloseModal = () =>
+		replaceState('', { modalShown: undefined, exerciseIndex: undefined });
+
+	$effect(() => {
+		if (page.state.exerciseIndex !== undefined)
+			exerciseForm?.reset({ data: $formData.exercises[page.state.exerciseIndex] });
+		else exerciseForm.reset();
+	});
 </script>
 
-<form class="workout-form" action="?/workout" method="POST" use:enhance>
-	<div class="workout-form__info">
-		<div class="workout-form__title">
-			<h2>{title}</h2>
-			<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
+<form
+	class="grid-rows-[auto 1fr auto] grid h-full grid-cols-1 gap-2"
+	action="?/workout"
+	method="POST"
+	use:enhance
+>
+	<div class="flex flex-col gap-2">
+		<div class="flex items-center justify-between">
+			<h2 class="text-2xl font-bold">{title}</h2>
+			<div class="flex gap-2">
+				<Button
+					variant="secondary"
+					disabled={$submitting}
+					onclick={() => {
+						if (page.params.id) goto(`/workouts/${page.params.id}`, { replaceState: true });
+						else history.back();
+					}}
+				>
+					{m.cancel()}
+				</Button>
+				<Button type="submit" disabled={$submitting} loading={$delayed}>{m.save()}</Button>
+			</div>
 		</div>
 
-		<TextField
+		<FormInput
 			label={m.name()}
 			type="text"
 			{form}
@@ -68,7 +109,7 @@
 			field="name"
 			placeholder={m.workout_name_placeholder()}
 		/>
-		<TextField
+		<FormInput
 			label={m.notes()}
 			{form}
 			disabled={$submitting}
@@ -77,15 +118,13 @@
 			placeholder={m.workout_notes_placeholder()}
 		/>
 	</div>
-	<div class="workout-form__exercise-list">
-		<div class="workout-form__exercise-list-title">
-			<h2>{m.exercises()}</h2>
+	<div class="h-full">
+		<div class="flex items-center gap-2">
+			<h2 class="text-2xl font-bold">{m.exercises()}</h2>
 			<Button
-				variant="text"
-				type="button"
+				variant="ghost"
 				disabled={$submitting}
 				onclick={() => {
-					exerciseForm?.reset();
 					pushState('', { modalShown: 'save-exercise' });
 				}}
 			>
@@ -96,27 +135,22 @@
 			{#snippet item(exercise, index)}
 				<ExerciseListItem {exercise}>
 					{#snippet decoration()}
-						<div class="workout-form__exercise-list-item-actions">
+						<div class="flex gap-2">
 							<Button
-								type="button"
-								disabled={$submitting}
-								onclick={() => {
-									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
-									exerciseForm?.reset({ data: exercise });
-								}}
-								variant="text"
-							>
-								{m.edit()}
-							</Button>
-							<Button
-								type="button"
 								disabled={$submitting}
 								onclick={() =>
 									($formData.exercises =
 										$formData.exercises?.filter((item) => item !== exercise) ?? [])}
-								variant="text"
+								variant="ghost"
 							>
 								{m.remove()}
+							</Button>
+							<Button
+								disabled={$submitting}
+								onclick={() => pushState('', { modalShown: 'save-exercise', exerciseIndex: index })}
+								variant="ghost"
+							>
+								{m.edit()}
 							</Button>
 						</div>
 					{/snippet}
@@ -126,75 +160,16 @@
 	</div>
 </form>
 
-<Dialog open={page.state.modalShown === 'save-exercise'} onclose={handleCloseModal}>
-	<div class="exercise-dialog">
-		<h3>{m.add_exercise()}</h3>
-		<ExerciseForm
-			oncancel={handleCloseModal}
-			data={exerciseFormData}
-			bind:form={exerciseForm}
-			action="?/exercise"
-			onUpdate={({ result, cancel }) => {
-				if (result.type === 'success') {
-					$formData.exercises =
-						page.state.exerciseIndex !== undefined
-							? [
-									...$formData.exercises.slice(0, page.state.exerciseIndex),
-									result.data.form.data as z.infer<typeof exerciseFormSchema>,
-									...$formData.exercises.slice(page.state.exerciseIndex + 1)
-								]
-							: [
-									...$formData.exercises,
-									result.data.form.data as z.infer<typeof exerciseFormSchema>
-								];
-					handleCloseModal();
-					cancel();
-				}
-			}}
-		/>
-	</div>
+<Dialog
+	open={page.state.modalShown === 'save-exercise'}
+	onOpenChange={(open) => {
+		if (!open) handleCloseModal();
+	}}
+>
+	<DialogContent>
+		<DialogHeader>
+			<DialogTitle>{m.add_exercise()}</DialogTitle>
+		</DialogHeader>
+		<ExerciseForm oncancel={handleCloseModal} form={exerciseForm} action="?/exercise" />
+	</DialogContent>
 </Dialog>
-
-<style>
-	.workout-form {
-		display: grid;
-		grid-template: auto 1fr auto / 1fr;
-		gap: var(--base-spacing);
-		height: 100%;
-	}
-
-	.workout-form__info {
-		display: flex;
-		gap: var(--base-spacing);
-		flex-direction: column;
-	}
-
-	.workout-form__exercise-list {
-		height: 100%;
-	}
-
-	.workout-form__title {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.workout-form__exercise-list-title {
-		display: flex;
-		align-items: center;
-		gap: var(--base-spacing);
-	}
-
-	.exercise-dialog {
-		padding: calc(var(--base-spacing) * 2);
-	}
-
-	h3 {
-		margin-top: 0;
-	}
-
-	.workout-form__exercise-list-item-actions {
-		display: flex;
-		gap: var(--base-spacing);
-	}
-</style>

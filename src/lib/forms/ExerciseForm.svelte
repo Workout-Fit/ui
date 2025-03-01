@@ -1,13 +1,12 @@
 <script lang="ts" module>
 	import { z } from 'zod';
-	import type { FormOptions, SuperForm, SuperValidated } from 'sveltekit-superforms/client';
+	import type { SuperForm } from 'sveltekit-superforms/client';
 
 	export type ExerciseFormProps = {
 		oncancel: () => void;
+		form: SuperForm<z.infer<typeof exerciseFormSchema>>;
 		action?: string;
-		data: SuperValidated<z.infer<typeof exerciseFormSchema>>;
-		form?: SuperForm<z.infer<typeof exerciseFormSchema>>;
-	} & Omit<FormOptions<z.infer<typeof exerciseFormSchema>>, 'validators' | 'dataType'>;
+	};
 
 	export const exerciseFormSchema = z.object({
 		id: z.number().optional(),
@@ -25,23 +24,20 @@
 </script>
 
 <script lang="ts">
-	import Autocomplete from '$lib/components/Autocomplete.svelte';
+	import { Combobox } from '$lib/components/ui/combobox';
 	import FormActions from '$lib/components/FormActions.svelte';
-	import TextField from '$lib/components/TextField.svelte';
-	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { superForm } from 'sveltekit-superforms/client';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
+	import Add from '@material-symbols/svg-400/sharp/add.svg?component';
+	import Remove from '@material-symbols/svg-400/sharp/remove.svg?component';
 	import * as m from '$lib/paraglide/messages';
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
 	import { i18n } from '$lib/i18n';
-	import Button from '$lib/components/Button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import { languageTag } from '$lib/paraglide/runtime';
+	import FormField from '$lib/components/ui/form/form-field.svelte';
+	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/ui/form';
 
-	let { data, oncancel, form = $bindable(), action, ...rest }: ExerciseFormProps = $props();
-	form = superForm(data, {
-		validators: zodClient(exerciseFormSchema),
-		dataType: 'json',
-		...rest
-	});
+	let { oncancel, form, action }: ExerciseFormProps = $props();
 
 	const loadExercises = async (query: string) => {
 		const searchParams = new URLSearchParams({ query, language: languageTag() });
@@ -49,7 +45,7 @@
 		return (await response.json()) as NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>;
 	};
 
-	const { form: formData, submitting, errors, enhance, delayed } = form;
+	const { form: formData, submitting, enhance, delayed } = form;
 
 	const addSetGroup = () => {
 		$formData.sets = [...($formData.sets ?? []), null as any];
@@ -67,29 +63,29 @@
 	};
 </script>
 
-{#snippet exerciseAutocompleteEntry(
-	item: NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>[number]
-)}
-	{item.name}
-{/snippet}
-
-<form class="exercise-form" {action} method="POST" use:enhance>
-	<Autocomplete
-		id="exercise"
-		loadFunction={loadExercises}
-		name="exercise"
-		label={m.exercise()}
-		debounceValue={300}
-		searchThreshold={3}
-		disabled={$submitting}
-		renderValue={exerciseAutocompleteEntry}
-		bind:value={$formData.exercise}
-		error={$errors.exercise?._errors?.[0]}
-		renderItem={exerciseAutocompleteEntry}
-	/>
+<form class="flex flex-col" {action} method="POST" use:enhance>
+	<FormField {form} name="exercise">
+		<FormControl>
+			<Combobox
+				id="exercise"
+				loadFunction={loadExercises}
+				name="exercise"
+				label={m.exercise()}
+				debounceValue={300}
+				searchThreshold={3}
+				placeholder={m.exercise_search()}
+				disabled={$submitting}
+				getItemValue={({ id }) => id}
+				getItemLabel={({ name }) => name}
+				bind:value={$formData.exercise}
+			/>
+		</FormControl>
+		<FormDescription />
+		<FormFieldErrors />
+	</FormField>
 	{#each $formData.sets as _, index}
-		<div>
-			<TextField
+		<div class="flex gap-2">
+			<FormInput
 				type="number"
 				disabled={$submitting}
 				label={m.sets()}
@@ -97,7 +93,7 @@
 				placeholder="4"
 				{form}
 			/>
-			<TextField
+			<FormInput
 				type="number"
 				label={m.repetitions()}
 				field="repetitions[{index}]"
@@ -105,7 +101,7 @@
 				{form}
 				disabled={$submitting}
 			/>
-			<TextField
+			<FormInput
 				disabled={$submitting}
 				type="number"
 				label={m.rest()}
@@ -114,45 +110,24 @@
 				{form}
 			/>
 			{#if index + 1 === $formData.sets.length}
-				<Button size="large" type="button" variant="text" onclick={addSetGroup}>+</Button>
+				<Button size="icon" variant="link" onclick={() => addSetGroup()} class="mt-8">
+					<Add width={16} height={16} class="fill-primary" />
+				</Button>
 			{:else}
-				<Button size="large" type="button" variant="text" onclick={() => removeSetGroup(index)}>
-					-
+				<Button size="icon" variant="link" onclick={() => removeSetGroup(index)} class="mt-8">
+					<Remove width={16} height={16} class="fill-primary" />
 				</Button>
 			{/if}
 		</div>
 	{/each}
-	<TextField
+	<FormInput
 		disabled={$submitting}
-		multiline
+		type=""
 		field="notes"
 		id="exercise-notes"
 		label={m.notes()}
 		placeholder={m.exercise_notes_placeholder()}
 		{form}
 	/>
-	<FormActions disabled={$submitting} loading={$delayed} {oncancel} />
+	<FormActions disabled={$submitting} class="ml-auto" loading={$delayed} {oncancel} />
 </form>
-
-<style>
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: var(--base-spacing);
-		min-width: 300px;
-	}
-
-	form > div {
-		display: flex;
-		width: 100%;
-		gap: var(--base-spacing);
-	}
-
-	:global(form > div > button) {
-		align-self: center;
-	}
-
-	.exercise-form :global(.form-actions) {
-		margin-left: auto;
-	}
-</style>
