@@ -165,7 +165,7 @@ importers:
       svelte-sonner:
         specifier: ^0.3.28
         version: 0.3.28(svelte@5.20.5)
-      sveltekit-flash-text:
+      sveltekit-flash-message:
         specifier: ^2.4.6
         version: 2.4.6(@sveltejs/kit@2.17.3(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.20.5)(vite@6.2.0(@types/node@22.13.8)(jiti@1.21.7)(terser@5.37.0)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.2.0(@types/node@22.13.8)(jiti@1.21.7)(terser@5.37.0)(yaml@2.7.0)))(svelte@5.20.5)
       sveltekit-superforms:
