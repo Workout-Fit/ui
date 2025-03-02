@@ -65,35 +65,37 @@
 	}}
 >
 	<FormLabel for={id}>{label}</FormLabel>
-	<div
-		class="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-	>
+	<div class="relative">
 		<Combobox.Input
 			{id}
 			{placeholder}
 			autocomplete="off"
-			class="inline-flex w-full text-base outline-none transition-colors placeholder:text-muted-foreground focus:outline-none sm:text-sm"
+			class="inline-flex h-9 w-full items-center justify-between rounded-md border border-input
+      bg-transparent px-3 py-1 shadow-sm outline-none transition-colors
+      placeholder:text-muted-foreground focus:outline-none focus-visible:outline-none
+      focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
 			defaultValue={query}
 			oninput={(e) => updateQuery(e.currentTarget?.value)}
 			aria-label={placeholder}
 		/>
-		<Combobox.Trigger>
-			{#if loading}
-				<CircularProgress class="stroke-primary opacity-50" />
-			{:else}
-				<ChevronsUpDown width={16} class="opacity-50" />
-			{/if}
-		</Combobox.Trigger>
+		{#if loading}
+			<CircularProgress class="absolute end-1 size-6 h-9 stroke-primary opacity-50" />
+		{:else}
+			<Combobox.Trigger aria-label="expand" disabled={loading} class="absolute end-1 size-6 h-9">
+				<ChevronsUpDown width={16} height={16} class="fill-foreground opacity-50" />
+			</Combobox.Trigger>
+		{/if}
 	</div>
 	<Combobox.Content
 		class="max-h-52 w-[var(--bits-combobox-anchor-width)] min-w-[var(--bits-combobox-anchor-width)] rounded-xl border border-muted bg-background px-2 shadow-popover outline-none"
-		sideOffset={10}
 	>
 		<Combobox.ScrollUpButton class="flex w-full items-center justify-center">
 			<ChevronsUp width={16} class="size-3" />
 		</Combobox.ScrollUpButton>
 		<Combobox.Viewport class="p-1">
-			{#if loading}<span>Loading...</span>{:else}
+			{#if loading}
+				<small class="text-sm">Loading...</small>
+			{:else}
 				{#each results as result, i (i + getItemValue(result))}
 					<Combobox.Item
 						class="rounded-button flex h-10 w-full select-none items-center py-3 pl-5 pr-1.5 text-sm capitalize outline-none  data-[highlighted]:bg-muted"

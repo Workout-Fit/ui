@@ -26,7 +26,7 @@ export const actions: Actions = {
 		else
 			return redirect(
 				i18n.resolveRoute('/'),
-				{ message: m.password_reset_success(), type: 'success' },
+				{ text: m.password_reset_success(), type: 'success' },
 				cookies
 			);
 	}

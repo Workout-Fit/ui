@@ -57,7 +57,6 @@
 		else if (updateToastId) toast.dismiss(updateToastId);
 	});
 
-	$inspect($flash);
 	$effect(() => {
 		if ($flash) toast[$flash.type]($flash.text);
 	});

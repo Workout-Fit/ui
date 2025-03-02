@@ -23,6 +23,7 @@ export default class WorkoutPage {
 		const exerciseDialog = await this.page.getByRole('dialog');
 
 		await exerciseDialog.getByLabel(m.exercise()).fill(exercise.name);
+		await exerciseDialog.getByLabel(m.exercise()).getByRole('button', { name: 'expand' }).click();
 		await exerciseDialog.getByRole('option', { name: exercise.name, exact: true }).click();
 		await exerciseDialog.getByLabel(m.sets()).fill(sets[0].toString());
 		await exerciseDialog.getByLabel(m.repetitions()).fill(repetitions[0].toString());
@@ -40,8 +41,9 @@ export default class WorkoutPage {
 		await this.page.getByRole('button', { name: m.edit() }).nth(index).click();
 		const exerciseDialog = await this.page.getByRole('dialog');
 
-		await exerciseDialog.getByRole('button', { name: 'clear' }).click();
+		await exerciseDialog.getByLabel(m.exercise()).clear();
 		await exerciseDialog.getByLabel(m.exercise()).fill(exercise.name);
+		await exerciseDialog.getByLabel(m.exercise()).getByRole('button', { name: 'expand' }).click();
 		await exerciseDialog.getByRole('option', { name: exercise.name, exact: true }).click();
 		await exerciseDialog.getByLabel(m.sets()).fill(sets[0].toString());
 		await exerciseDialog.getByLabel(m.repetitions()).fill(repetitions[0].toString());
