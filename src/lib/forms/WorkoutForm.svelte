@@ -69,14 +69,9 @@
 		}
 	});
 
-	const handleCloseModal = () =>
+	const handleCloseModal = () => {
 		replaceState('', { modalShown: undefined, exerciseIndex: undefined });
-
-	$effect(() => {
-		if (page.state.exerciseIndex !== undefined)
-			exerciseForm?.reset({ data: $formData.exercises[page.state.exerciseIndex] });
-		else exerciseForm.reset();
-	});
+	};
 
 	$effect(() => {
 		if ($message) toast[$message.type]($message.text);
@@ -153,7 +148,10 @@
 							</Button>
 							<Button
 								disabled={$submitting}
-								onclick={() => pushState('', { modalShown: 'save-exercise', exerciseIndex: index })}
+								onclick={() => {
+									exerciseForm?.reset({ data: $formData.exercises[index] });
+									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
+								}}
 								variant="ghost"
 							>
 								{m.edit()}
