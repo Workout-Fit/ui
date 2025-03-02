@@ -115,5 +115,19 @@ export const actions = {
 			console.error(likeError);
 			return error(500, 'Failed to like workout');
 		}
+	},
+	['delete']: async ({ params: { id }, locals: { supabase }, cookies }) => {
+		const { error: deleteWorkoutError } = await supabase.from('workouts').delete().eq('id', id);
+
+		if (deleteWorkoutError) {
+			console.error(deleteWorkoutError);
+			return error(500, 'Failed to delete workout');
+		}
+
+		return redirect(
+			i18n.resolveRoute('/'),
+			{ text: m.workout_delete_success(), type: 'success' },
+			cookies
+		);
 	}
 };

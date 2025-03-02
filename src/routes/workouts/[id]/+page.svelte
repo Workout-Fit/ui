@@ -26,11 +26,6 @@
 
 	const username = (data.workout.profile as unknown as { username: string }).username;
 
-	async function handleDeleteWorkout() {
-		deleting = true;
-		await fetch(`/api/workouts/${data.workout.id}`, { method: 'DELETE' });
-		deleting = false;
-	}
 	let deleting = $state(false);
 	let cloning = $state(false);
 	let liking = $state(false);
@@ -137,9 +132,22 @@
 		</AlertDialogHeader>
 		<AlertDialogFooter>
 			<AlertDialogCancel>Cancel</AlertDialogCancel>
-			<AlertDialogAction loading={deleting} onclick={handleDeleteWorkout}>
-				{m.delete_action()}
-			</AlertDialogAction>
+			<form
+				method="POST"
+				class="inline-flex"
+				action="?/delete"
+				use:enhance={() => {
+					deleting = true;
+					return async ({ update }) => {
+						await update();
+						deleting = false;
+					};
+				}}
+			>
+				<AlertDialogAction loading={deleting}>
+					{m.delete_action()}
+				</AlertDialogAction>
+			</form>
 		</AlertDialogFooter>
 	</AlertDialogContent>
 </AlertDialog>

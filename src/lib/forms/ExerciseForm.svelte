@@ -31,7 +31,6 @@
 	import Remove from '@material-symbols/svg-400/sharp/remove.svg?component';
 	import * as m from '$lib/paraglide/messages';
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
-	import { i18n } from '$lib/i18n';
 	import { Button } from '$lib/components/ui/button';
 	import { languageTag } from '$lib/paraglide/runtime';
 	import FormField from '$lib/components/ui/form/form-field.svelte';
@@ -41,7 +40,7 @@
 
 	const loadExercises = async (query: string) => {
 		const searchParams = new URLSearchParams({ query, language: languageTag() });
-		const response = await fetch(i18n.resolveRoute('/api/exercises?' + searchParams.toString()));
+		const response = await fetch('/api/exercises?' + searchParams.toString());
 		return (await response.json()) as NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>;
 	};
 

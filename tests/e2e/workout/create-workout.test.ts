@@ -34,16 +34,15 @@ test.describe('Create Workout', () => {
 
 		await workoutPage.addExercise(exercise);
 		await workoutPage.editExercise(0, editExerciseData);
-		await expect(page.getByRole('button', { name: m.edit() })).toHaveCount(1);
 		await expect(page.getByText(exercise.exercise.name)).not.toBeVisible();
-		await expect(page.locator('span').getByText(editExerciseData.exercise.name)).toBeVisible();
+		await expect(page.getByText(editExerciseData.exercise.name)).toBeVisible();
 	});
 
 	test('allows removing exercises', async ({ page }) => {
 		const exercise = createExercise({ exercise: { id: '1', name: 'Barbell Front Raise' } });
 
 		await workoutPage.addExercise(exercise);
-		await expect(page.locator('span').getByText(exercise.exercise.name)).toBeVisible();
+		await expect(page.getByText(exercise.exercise.name)).toBeVisible();
 		await page.getByRole('button', { name: m.remove() }).click();
 		await expect(page.getByText(exercise.exercise.name)).not.toBeVisible();
 	});

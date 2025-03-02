@@ -43,7 +43,6 @@ export default class WorkoutPage {
 
 		await exerciseDialog.getByLabel(m.exercise()).clear();
 		await exerciseDialog.getByLabel(m.exercise()).fill(exercise.name);
-		await exerciseDialog.getByRole('button', { name: 'expand' }).click();
 		await exerciseDialog.getByRole('option', { name: exercise.name, exact: true }).click();
 		await exerciseDialog.getByLabel(m.sets()).fill(sets[0].toString());
 		await exerciseDialog.getByLabel(m.repetitions()).fill(repetitions[0].toString());
@@ -56,7 +55,10 @@ export default class WorkoutPage {
 
 	async deleteWorkout() {
 		await this.page.getByRole('button', { name: m.delete_action() }).click();
-		await this.page.getByRole('dialog').getByRole('button', { name: m.delete_action() }).click();
+		await this.page
+			.getByRole('alertdialog')
+			.getByRole('button', { name: m.delete_action() })
+			.click();
 	}
 
 	async cloneWorkout() {

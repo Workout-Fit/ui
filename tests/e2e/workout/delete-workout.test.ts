@@ -27,21 +27,17 @@ test.describe('Delete Workout', () => {
 		await page.getByRole('button', { name: m.delete_action() }).click();
 		await expect(
 			page
-				.getByRole('dialog')
+				.getByRole('alertdialog')
 				.getByText(m.delete_workout_confirmation_title({ workout: workoutName }))
 		).toBeVisible();
-		await page.getByRole('dialog').getByRole('button', { name: m.cancel() }).click();
-		await expect(page.getByRole('dialog')).not.toBeVisible();
+		await page.getByRole('alertdialog').getByRole('button', { name: m.cancel() }).click();
+		await expect(page.getByRole('alertdialog')).not.toBeVisible();
 		await expect(page.getByText(workoutName, { exact: true })).toBeVisible();
 	});
 
 	test('deletes workout after confirmation', async ({ page }) => {
 		await workoutPage.goto(workoutId);
-		await page.getByRole('button', { name: m.delete_action() }).click();
-		await expect(
-			page.getByText(m.delete_workout_confirmation_title({ workout: workoutName }))
-		).toBeVisible();
-		await page.getByRole('dialog').getByRole('button', { name: m.delete_action() }).click();
+		await workoutPage.deleteWorkout();
 		await expect(page.getByText(m.workout_delete_success())).toBeVisible();
 	});
 });
