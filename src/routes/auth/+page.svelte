@@ -40,12 +40,12 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ ...credentials, nonce: data.nonce })
 		});
-
 		if (response.ok) redirectToPreviousURL();
 		else {
 			const { message } = await response.json();
 			toast.error(message);
 		}
+		ssoSignIn = false;
 	};
 
 	const handleSignInWithGoogle = ({ credential }: CredentialResponse) => {
