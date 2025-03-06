@@ -71,7 +71,7 @@
 	{@html pwaInfo?.webManifest?.linkTag ?? ''}
 </svelte:head>
 
-<ProgressBar color="var(--color-primary);" />
+<ProgressBar class="text-primary" />
 
 <Toaster />
 
