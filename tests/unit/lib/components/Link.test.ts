@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/svelte';
 import { createRawSnippet, flushSync } from 'svelte';
-import Link, { type LinkProps } from '$lib/components/Link.svelte';
+import { Link, type LinkProps } from '$lib/components/link';
 import { faker } from '@faker-js/faker';
 import { goto } from '$app/navigation';
 

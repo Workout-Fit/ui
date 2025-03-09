@@ -24,12 +24,12 @@
 <script lang="ts">
 	import { goto, pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
-	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
+	import ExerciseListItem from '$lib/layouts/ExerciseListItem.svelte';
 	import ExerciseForm, { exerciseFormSchema } from './ExerciseForm.svelte';
-	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
-	import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$lib/components/ui/dialog';
-	import { Button } from '$lib/components/ui/button';
-	import List from '$lib/components/List.svelte';
+	import { FormInput } from '$lib/components/form-input';
+	import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$lib/components/dialog';
+	import { Button } from '$lib/components/button';
+	import { List } from '$lib/components/list';
 	import * as m from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';

@@ -1,16 +1,26 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
-	import Link from '$lib/components/Link.svelte';
+	import { Button, buttonVariants } from '$lib/components/button';
+	import { LanguageSwitcher } from '$lib/components/language-switcher';
+	import { Link } from '$lib/components/link';
 	import DarkMode from '@material-symbols/svg-400/sharp/dark_mode.svg?component';
 	import LightMode from '@material-symbols/svg-400/sharp/light_mode.svg?component';
-	import { Logo } from '$lib/components/ui/logo';
+	import { Logo } from '$lib/components/logo';
 	import * as m from '$lib/paraglide/messages';
 	import { toggleMode } from 'mode-watcher';
+	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 	import { cn } from '$lib/utils';
+	import Avatar from '$lib/components/avatar/avatar.svelte';
+	import { AvatarImage } from '$lib/components/avatar';
+	import {
+		DropdownMenu,
+		DropdownMenuGroup,
+		DropdownMenuTrigger,
+		DropdownMenuContent,
+		DropdownMenuItem
+	} from '$lib/components/dropdown-menu';
 
-	let { username }: { username?: string } = $props();
+	let { username, avatar }: { username?: string; avatar?: string } = $props();
 </script>
 
 <header class="flex items-center justify-between py-4">
@@ -34,10 +44,27 @@
 			/>
 		</Button>
 		{#if username}
-			<Link class="link" exact={false} href={`/profile/${username}`}>{m.profile()}</Link>
-			<form method="POST" class="inline-flex" action="/?/signout" use:enhance>
-				<Button variant="link" type="submit" class="p-0">{m.sign_out()}</Button>
-			</form>
+			<DropdownMenu>
+				<DropdownMenuTrigger>
+					<Avatar>
+						<AvatarImage src={avatar ?? emptyProfilePicture} alt="" />
+					</Avatar>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent collisionPadding={16}>
+					<DropdownMenuGroup>
+						<DropdownMenuItem>
+							<Link exact={false} href={`/profile/${username}`}>
+								{m.profile()}
+							</Link>
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<form method="POST" action="/?/signout" use:enhance>
+								<Button variant="ghost" type="submit" class="p-0">{m.sign_out()}</Button>
+							</form>
+						</DropdownMenuItem>
+					</DropdownMenuGroup>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		{:else}
 			<Link class="link" href="/auth">{m.sign_in()}</Link>
 		{/if}

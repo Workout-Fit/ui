@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts" generics="Schema extends ZodObject<Record<string, ZodTypeAny>>">
-	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
+	import { FormInput } from '$lib/components/form-input';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { Snippet } from 'svelte';
 	import type { HTMLFormAttributes } from 'svelte/elements';
@@ -31,7 +31,7 @@
 		type SuperValidated
 	} from 'sveltekit-superforms/client';
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/button';
 	import * as m from '$lib/paraglide/messages';
 	import { toast } from 'svelte-sonner';
 

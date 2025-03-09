@@ -8,9 +8,9 @@
 	import { signUpFormSchema } from '../+page.svelte';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { PageServerData } from './$types';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/button';
 	import * as m from '$lib/paraglide/messages';
-	import { FormInput } from '$lib/components/ui/form-input';
+	import { FormInput } from '$lib/components/form-input';
 
 	const { data }: { data: PageServerData } = $props();
 

@@ -14,10 +14,10 @@
 </script>
 
 <script lang="ts">
-	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
+	import { FormInput } from '$lib/components/form-input';
 	import { type SuperForm } from 'sveltekit-superforms/client';
-	import { Avatar, AvatarImage } from '$lib/components/ui/avatar';
-	import { FormFileInput } from '$lib/components/ui/form-input';
+	import { Avatar, AvatarImage } from '$lib/components/avatar';
+	import { FormFileInput } from '$lib/components/form-input';
 
 	const { form: formData }: { form: SuperForm<z.infer<typeof profileFormSchema>> } = $props();
 

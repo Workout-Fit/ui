@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
-import FormActions from '$lib/components/FormActions.svelte';
+import { FormActions } from '$lib/components/form-actions';
 
 describe('<FormActions />', () => {
 	it('renders with default labels', () => {

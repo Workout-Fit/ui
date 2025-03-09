@@ -1,4 +1,4 @@
-import { error, fail } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 import type { Actions } from './$types';
 import { authFormSchema } from '$lib/forms/AuthForm.svelte';

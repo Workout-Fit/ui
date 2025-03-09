@@ -24,17 +24,17 @@
 </script>
 
 <script lang="ts">
-	import { Combobox } from '$lib/components/ui/combobox';
-	import FormActions from '$lib/components/FormActions.svelte';
-	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
+	import { Combobox } from '$lib/components/combobox';
+	import { FormActions } from '$lib/components/form-actions';
+	import { FormInput } from '$lib/components/form-input';
 	import Add from '@material-symbols/svg-400/sharp/add.svg?component';
 	import Remove from '@material-symbols/svg-400/sharp/remove.svg?component';
 	import * as m from '$lib/paraglide/messages';
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/button';
 	import { languageTag } from '$lib/paraglide/runtime';
-	import FormField from '$lib/components/ui/form/form-field.svelte';
-	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/ui/form';
+	import { FormField } from '$lib/components/form';
+	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/form';
 
 	let { oncancel, form, action }: ExerciseFormProps = $props();
 
@@ -109,11 +109,11 @@
 				{form}
 			/>
 			{#if index + 1 === $formData.sets.length}
-				<Button size="icon" variant="link" onclick={() => addSetGroup()} class="mt-8">
+				<Button size="icon" variant="ghost" onclick={() => addSetGroup()} class="mt-8">
 					<Add width={16} height={16} class="fill-primary" />
 				</Button>
 			{:else}
-				<Button size="icon" variant="link" onclick={() => removeSetGroup(index)} class="mt-8">
+				<Button size="icon" variant="ghost" onclick={() => removeSetGroup(index)} class="mt-8">
 					<Remove width={16} height={16} class="fill-primary" />
 				</Button>
 			{/if}

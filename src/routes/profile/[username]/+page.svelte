@@ -2,9 +2,9 @@
 	import WorkoutList from '$lib/layouts/WorkoutList.svelte';
 	import type { PageServerData } from './$types';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/button';
 	import * as m from '$lib/paraglide/messages';
-	import { Avatar, AvatarImage } from '$lib/components/ui/avatar';
+	import { Avatar, AvatarImage } from '$lib/components/avatar';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
@@ -18,7 +18,7 @@
 			{data.profile.full_name}
 			{#if data.editable}
 				<Button
-					variant="link"
+					variant="ghost"
 					data-sveltekit-replacestate
 					href={`/profile/${data.profile.username}/edit`}
 				>

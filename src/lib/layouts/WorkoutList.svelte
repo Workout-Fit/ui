@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type getWorkouts from '$lib/supabase/queries/getWorkouts';
 	import type { Snippet } from 'svelte';
-	import ListItem from '../components/ListItem.svelte';
-	import List from '$lib/components/List.svelte';
+	import { List, ListItem } from '$lib/components/list';
 	import * as m from '$lib/paraglide/messages';
-	import { Input } from '$lib/components/ui/input';
+	import { Input } from '$lib/components/input';
 
 	type WorkoutListProps = {
 		workouts: Exclude<Awaited<ReturnType<typeof getWorkouts>>['data'], null>;

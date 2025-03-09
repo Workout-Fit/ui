@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FormActions from '$lib/components/FormActions.svelte';
+	import { FormActions } from '$lib/components/form-actions';
 	import ProfileForm, { profileFormSchema } from '$lib/forms/ProfileForm.svelte';
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import type { PageData } from './$types';

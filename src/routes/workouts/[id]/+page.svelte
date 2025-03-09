@@ -1,9 +1,9 @@
 <script lang="ts">
-	import ExerciseListItem from '$lib/components/ExerciseListItem.svelte';
+	import ExerciseListItem from '$lib/layouts/ExerciseListItem.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/state';
 	import { toast } from 'svelte-sonner';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/button';
 	import {
 		AlertDialog,
 		AlertDialogContent,
@@ -13,13 +13,13 @@
 		AlertDialogFooter,
 		AlertDialogCancel,
 		AlertDialogAction
-	} from '$lib/components/ui/alert-dialog';
+	} from '$lib/components/alert-dialog';
 	import { invalidate, replaceState } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import FavoriteOutlinedIcon from '@material-symbols/svg-400/sharp/favorite.svg?component';
 	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
-	import Link from '$lib/components/Link.svelte';
-	import List from '$lib/components/List.svelte';
+	import { Link } from '$lib/components/link';
+	import { List } from '$lib/components/list';
 	import * as m from '$lib/paraglide/messages';
 
 	let { data }: { data: PageData } = $props();
@@ -62,18 +62,18 @@
 					};
 				}}
 			>
-				<Button type="submit" variant="link" disabled={cloning}>{m.clone()}</Button>
+				<Button type="submit" variant="ghost" disabled={cloning}>{m.clone()}</Button>
 			</form>
 			{#if data.editable}
 				<Button
 					data-sveltekit-replacestate
-					variant="link"
+					variant="ghost"
 					href={`/workouts/${data.workout?.id}/edit`}
 				>
 					{m.edit()}
 				</Button>
 				<Button
-					variant="link"
+					variant="ghost"
 					onclick={() => replaceState('', { modalShown: 'confirm-delete-workout' })}
 				>
 					{m.delete_action()}
@@ -98,7 +98,7 @@
 			}}
 		>
 			<input type="hidden" name="liked" value={data.liked} />
-			<Button type="submit" variant="link" disabled={liking} class="flex gap-2">
+			<Button type="submit" variant="ghost" disabled={liking} class="flex gap-2">
 				{@const Icon = data.liked ? FavoriteIcon : FavoriteOutlinedIcon}
 				<Icon class="fill-primary" width={16} height={16} />
 				{data.likes}

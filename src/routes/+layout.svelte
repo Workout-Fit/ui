@@ -14,9 +14,9 @@
 
 	import { on } from 'svelte/events';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
-	import UpdateToast from '$lib/components/UpdateToast.svelte';
+	import { UpdateToast } from '$lib/components/update-toast';
 	import { ModeWatcher } from 'mode-watcher';
-	import { Toaster } from '$lib/components/ui/sonner';
+	import { Toaster } from '$lib/components/sonner';
 	import { getFlash } from 'sveltekit-flash-message';
 	import { page } from '$app/state';
 
@@ -78,7 +78,7 @@
 <ModeWatcher defaultMode="dark" />
 <ParaglideJS {i18n}>
 	<div class="m-auto box-border flex min-h-screen max-w-5xl flex-col p-4">
-		<Header username={data.username ?? undefined} />
+		<Header username={data.username ?? undefined} avatar={data.avatar} />
 		{@render children()}
 	</div>
 </ParaglideJS>

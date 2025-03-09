@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import { faker } from '@faker-js/faker';
-import ListItem from '$lib/components/ListItem.svelte';
+import { ListItem } from '$lib/components/list';
 import { createRawSnippet } from 'svelte';
 
 describe('<ListItem />', () => {

@@ -33,6 +33,7 @@ export const load = async ({ data, depends, fetch }) => {
 		session,
 		supabase,
 		user,
+		avatar: data.avatar,
 		username: session ? (await getProfile(supabase, session.user.id)).data?.username : undefined
 	};
 };

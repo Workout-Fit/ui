@@ -13,12 +13,12 @@
 	import type { PageServerData } from './$types';
 	import { z } from 'zod';
 	import { fly } from 'svelte/transition';
-	import { Logo } from '$lib/components/ui/logo';
+	import { Logo } from '$lib/components/logo';
 	import type { SignInWithIdTokenCredentials } from '@supabase/supabase-js';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
 	import type { CredentialResponse } from 'google-one-tap';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/button';
 	import * as m from '$lib/paraglide/messages';
 	import { page } from '$app/state';
 	import { i18n } from '$lib/i18n';
@@ -108,7 +108,7 @@
 					data={data.signInForm}
 					disabled={ssoSignIn}
 				/>
-				<Button variant="link" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
+				<Button variant="ghost" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
 					{m.forgot_password()}
 				</Button>
 			{/if}
@@ -119,7 +119,7 @@
 	<small>
 		{mode === 'signup' ? m.sign_in_label() : m.sign_up_label()}
 		<Button
-			variant="link"
+			variant="ghost"
 			disabled={ssoSignIn}
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
 		>

@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
-import List, { type ListProps } from '$lib/components/List.svelte';
+import { List, type ListProps } from '$lib/components/list';
 import { createRawSnippet } from 'svelte';
 import { faker } from '@faker-js/faker';
 
