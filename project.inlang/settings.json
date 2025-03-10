@@ -3,11 +3,11 @@
 	"sourceLanguageTag": "en",
 	"languageTags": ["en", "pt-br"],
 	"modules": [
-		"https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-empty-pattern@latest/dist",
-		"https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-missing-translation@latest/dist",
-		"https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-without-source@latest/dist",
-		"https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@latest/dist",
-		"https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@latest/dist"
+		"https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-empty-pattern@latest/dist.js",
+		"https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-missing-translation@latest/dist.js",
+		"https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-without-source@latest/dist.js",
+		"https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@latest/dist.js",
+		"https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@latest/dist.js"
 	],
 	"plugin.inlang.messageFormat": {
 		"pathPattern": "./messages/{languageTag}.json"

@@ -45,7 +45,7 @@
 		</Button>
 		{#if username}
 			<DropdownMenu>
-				<DropdownMenuTrigger>
+				<DropdownMenuTrigger name={m.account_menu()}>
 					<Avatar>
 						<AvatarImage src={avatar ?? emptyProfilePicture} alt="" />
 					</Avatar>

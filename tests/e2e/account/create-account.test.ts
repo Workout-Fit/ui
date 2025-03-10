@@ -26,8 +26,9 @@ test.describe('Create Account', () => {
 		user = createUser();
 
 		await authPage.signUp(user);
-		await expect(page.getByRole('button', { name: m.sign_out() })).toBeVisible();
-		page.getByRole('link', { name: m.profile() }).click();
+		await expect(page.getByText(`${m.workouts()} 0`, { exact: true })).toBeVisible();
+		await page.getByRole('button', { name: m.account_menu() }).click();
+		await page.getByRole('link', { name: m.profile() }).click();
 		await expect(page.getByText(user.full_name)).toBeVisible();
 		await expect(page.getByText(user.username)).toBeVisible();
 		if (user.weight) await expect(page.getByText(user.weight.toString())).toBeVisible();
