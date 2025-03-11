@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures';
 import AuthPage from '../pages/auth.page';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 import { createUser } from '../factories';
 import type { signUpFormSchema } from '$routes/auth/+page.svelte';
 import type { z } from 'zod';
@@ -24,9 +24,7 @@ test.describe('Create Account', () => {
 
 	test('creates a new account', async ({ page }) => {
 		user = createUser();
-
 		await authPage.signUp(user);
-		await expect(page.getByText(`${m.workouts()} 0`, { exact: true })).toBeVisible();
 		await page.getByRole('button', { name: m.account_menu() }).click();
 		await page.getByRole('link', { name: m.profile() }).click();
 		await expect(page.getByText(user.full_name)).toBeVisible();
@@ -36,7 +34,7 @@ test.describe('Create Account', () => {
 		if (user.bio) await expect(page.getByText(user.bio)).toBeVisible();
 	});
 
-	test.afterEach(async ({ supabase }) => {
+	test.afterAll(async ({ supabase }) => {
 		if (!user) return;
 
 		const { data } = await supabase

@@ -1,9 +1,10 @@
-import { i18n } from '$lib/i18n';
 import { createServerClient } from '@supabase/ssr';
 import { type Handle, redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { paraglideMiddleware } from '$lib/paraglide/server';
+import { deLocalizeHref, localizeHref } from '$lib/paraglide/runtime';
 
 const PUBLIC_URLS = [
 	'/auth',
@@ -62,16 +63,23 @@ const authGuard: Handle = async ({ event, resolve }) => {
 	if (!event.locals.session && !PUBLIC_URLS.includes(event.route.id as string))
 		redirect(
 			303,
-			i18n.resolveRoute(
-				'/auth?redirect_uri=' + i18n.route(event.url.pathname.replace('__data.json', ''))
+			localizeHref(
+				'/auth?redirect_uri=' + deLocalizeHref(event.url.pathname.replace('__data.json', ''))
 			)
 		);
 	if (event.locals.session && event.url.pathname.includes('/auth'))
-		redirect(303, i18n.resolveRoute('/'));
+		redirect(303, localizeHref('/'));
 
 	return resolve(event);
 };
 
+const paraglideHandle: Handle = ({ event, resolve }) =>
+	paraglideMiddleware(event.request, ({ locale }) => {
+		return resolve(event, {
+			transformPageChunk: ({ html }) => html.replace('%lang%', locale)
+		});
+	});
+
 const preload: Handle = async ({ event, resolve }) => resolve(event, { preload: () => true });
 
-export const handle: Handle = sequence(supabase, authGuard, i18n.handle(), preload);
+export const handle: Handle = sequence(supabase, authGuard, paraglideHandle, preload);

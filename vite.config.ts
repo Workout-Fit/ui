@@ -1,4 +1,4 @@
-import { paraglide } from '@inlang/paraglide-sveltekit/vite';
+import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
@@ -7,8 +7,12 @@ import svg from '@poppanator/sveltekit-svg';
 
 export default defineConfig({
 	plugins: [
-		paraglide({ project: './project.inlang', outdir: './src/lib/paraglide' }),
 		sveltekit(),
+		paraglideVitePlugin({
+			project: './project.inlang',
+			outdir: './src/lib/paraglide',
+			strategy: ['cookie', 'baseLocale']
+		}),
 		svelteTesting(),
 		svg(),
 		SvelteKitPWA({

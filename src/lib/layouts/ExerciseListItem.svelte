@@ -2,7 +2,7 @@
 	import type { WorkoutExercise } from '$lib/types';
 	import type { Snippet } from 'svelte';
 	import { ListItem } from '$lib/components/list';
-	import * as m from '$lib/paraglide/messages.js';
+	import { m } from '$lib/paraglide/messages';
 
 	let {
 		exercise,

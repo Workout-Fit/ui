@@ -3,8 +3,9 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 	webServer: {
-		command: 'pnpm build && pnpm preview',
-		port: 4173
+		command: 'pnpm dev',
+		reuseExistingServer: true,
+		port: 5173
 	},
 
 	testDir: 'tests/e2e',

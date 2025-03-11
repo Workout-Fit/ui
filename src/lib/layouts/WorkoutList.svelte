@@ -2,8 +2,9 @@
 	import type getWorkouts from '$lib/supabase/queries/getWorkouts';
 	import type { Snippet } from 'svelte';
 	import { List, ListItem } from '$lib/components/list';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { Input } from '$lib/components/input';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	type WorkoutListProps = {
 		workouts: Exclude<Awaited<ReturnType<typeof getWorkouts>>['data'], null>;
@@ -31,7 +32,7 @@
 			<ListItem
 				title={workout.name}
 				secondLine={workout.notes ?? undefined}
-				href={`/workouts/${workout.id}`}
+				href={localizeHref(`/workouts/${workout.id}`)}
 			>
 				{#snippet rightDecoration()}
 					<small>{workout.exercises[0]?.count} {m.exercises()}</small>

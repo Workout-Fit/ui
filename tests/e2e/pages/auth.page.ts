@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 import type { z } from 'zod';
 import type { signUpFormSchema } from '$routes/auth/+page.svelte';
 import ProfilePage from './profile.page';

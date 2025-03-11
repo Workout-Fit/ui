@@ -4,7 +4,7 @@ import { test } from '../fixtures';
 import ProfilePage from '../pages/profile.page';
 import type { User } from '@supabase/supabase-js';
 import AuthPage from '../pages/auth.page';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 
 test.describe('Edit Profile', () => {
 	let profilePage: ProfilePage;

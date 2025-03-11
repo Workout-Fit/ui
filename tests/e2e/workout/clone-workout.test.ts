@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import WorkoutPage from '../pages/workout.page';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 import { faker } from '@faker-js/faker';
 import { test } from '../fixtures';
 

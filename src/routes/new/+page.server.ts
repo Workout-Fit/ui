@@ -1,11 +1,11 @@
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
-import { i18n } from '$lib/i18n';
 import { error, fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
+import { localizeHref } from '$lib/paraglide/runtime';
 
 export const load = async () => {
 	const workoutForm = await superValidate(zod(workoutFormSchema));
@@ -53,7 +53,7 @@ export const actions = {
 		}
 
 		return redirect(
-			i18n.resolveRoute(`/workouts/${createWorkout.data.id}`),
+			localizeHref(`/workouts/${createWorkout.data.id}`),
 			{ text: m.create_workout_success(), type: 'success' },
 			cookies
 		);

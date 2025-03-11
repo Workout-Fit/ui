@@ -1,5 +1,4 @@
 import type { AvailableLanguageTag } from '../../lib/paraglide/runtime';
-import type { ParaglideLocals } from '@inlang/paraglide-sveltekit';
 // See https://svelte.dev/docs/kit/types#app.d.ts
 /// <reference types="vite-plugin-pwa/svelte" />
 
@@ -12,8 +11,6 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			paraglide: ParaglideLocals<AvailableLanguageTag>;
-
 			supabase: SupabaseClient<Database>;
 			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>;
 			session: Session | null;

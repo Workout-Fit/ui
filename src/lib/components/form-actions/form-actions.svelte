@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '../button';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { cn } from '$lib/utils';
 
 	let {

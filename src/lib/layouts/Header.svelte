@@ -6,7 +6,7 @@
 	import DarkMode from '@material-symbols/svg-400/sharp/dark_mode.svg?component';
 	import LightMode from '@material-symbols/svg-400/sharp/light_mode.svg?component';
 	import { Logo } from '$lib/components/logo';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { toggleMode } from 'mode-watcher';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 	import { cn } from '$lib/utils';
@@ -19,12 +19,13 @@
 		DropdownMenuContent,
 		DropdownMenuItem
 	} from '$lib/components/dropdown-menu';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	let { username, avatar }: { username?: string; avatar?: string } = $props();
 </script>
 
 <header class="flex items-center justify-between py-4">
-	<Link class={cn('bg-transparent', buttonVariants({ variant: 'icon' }))} href="/">
+	<Link class={cn('bg-transparent', buttonVariants({ variant: 'icon' }))} href={localizeHref('/')}>
 		{#snippet children(active)}
 			<Logo
 				class="transition-[filter] duration-300 hover:invert focus:invert"
@@ -53,7 +54,7 @@
 				<DropdownMenuContent collisionPadding={16}>
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
-							<Link exact={false} href={`/profile/${username}`}>
+							<Link exact={false} href={localizeHref(`/profile/${username}`)}>
 								{m.profile()}
 							</Link>
 						</DropdownMenuItem>
@@ -66,7 +67,7 @@
 				</DropdownMenuContent>
 			</DropdownMenu>
 		{:else}
-			<Link class="link" href="/auth">{m.sign_in()}</Link>
+			<Link class="link" href={localizeHref('/auth')}>{m.sign_in()}</Link>
 		{/if}
 	</nav>
 </header>

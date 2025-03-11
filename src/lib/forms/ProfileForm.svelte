@@ -1,7 +1,7 @@
 <script lang="ts" module>
 	import { z } from 'zod';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 
 	export const profileFormSchema = z.object({
 		username: z.string().nonempty(),

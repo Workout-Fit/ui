@@ -1,14 +1,13 @@
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
-import { i18n } from '$lib/i18n';
-import { languageTag } from '$lib/paraglide/runtime';
+import { getLocale, localizeHref } from '$lib/paraglide/runtime';
 import updateWorkout from '$lib/supabase/queries/updateWorkout.js';
 import { parseWorkoutExercises } from '$lib/utils/parser';
 import { error, fail } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
 	const { user } = await safeGetSession();
@@ -32,7 +31,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
       )
     `
 		)
-		.eq('exercises.exercise.i18n.language', languageTag())
+		.eq('exercises.exercise.i18n.language', getLocale())
 		.eq('id', params.id)
 		.single();
 
@@ -48,7 +47,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 
 	return workout?.user_id === user?.id
 		? { form: workoutForm, exerciseFormData: exerciseForm }
-		: redirect(303, i18n.resolveRoute(`/workouts/${params.id}`));
+		: redirect(303, localizeHref(`/workouts/${params.id}`));
 };
 
 export const actions = {
@@ -69,7 +68,7 @@ export const actions = {
 		}
 
 		return redirect(
-			i18n.resolveRoute(`/workouts/${params.id}`),
+			localizeHref(`/workouts/${params.id}`),
 			{ text: m.edit_workout_success(), type: 'error' },
 			cookies
 		);

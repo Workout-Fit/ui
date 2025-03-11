@@ -20,7 +20,8 @@
 	import FavoriteIcon from '@material-symbols/svg-400/sharp/favorite-fill.svg?component';
 	import { Link } from '$lib/components/link';
 	import { List } from '$lib/components/list';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	let { data }: { data: PageData } = $props();
 
@@ -41,11 +42,13 @@
 		<h1 class="text-4xl font-bold">{data.workout?.name}</h1>
 		<small>
 			{m.created_by()}
-			<Link href={`/profile/${username}`}>{username}</Link>
+			<Link href={localizeHref(`/profile/${username}`)}>{username}</Link>
 			{#if data.workout?.based_on}
 				<br />
 				{m.based_on()}
-				<Link href={`/workouts/${data.workout?.based_on?.id}`}>{data.workout?.based_on?.name}</Link>
+				<Link href={localizeHref(`/workouts/${data.workout?.based_on?.id}`)}
+					>{data.workout?.based_on?.name}</Link
+				>
 			{/if}
 		</small>
 		<p>{data.workout?.notes}</p>
@@ -68,7 +71,7 @@
 				<Button
 					data-sveltekit-replacestate
 					variant="ghost"
-					href={`/workouts/${data.workout?.id}/edit`}
+					href={localizeHref(`/workouts/${data.workout?.id}/edit`)}
 				>
 					{m.edit()}
 				</Button>

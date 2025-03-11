@@ -32,7 +32,7 @@
 	} from 'sveltekit-superforms/client';
 	import { z, type ZodObject, type ZodTypeAny } from 'zod';
 	import { Button } from '$lib/components/button';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { toast } from 'svelte-sonner';
 
 	let {

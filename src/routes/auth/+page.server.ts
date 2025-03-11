@@ -8,7 +8,7 @@ import { signUpFormSchema } from './+page.svelte';
 import insertProfile from '$lib/supabase/queries/insertProfile';
 import pick from 'lodash/pick';
 import { z } from 'zod';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 
 export const load = async () => {
 	const nonce = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));

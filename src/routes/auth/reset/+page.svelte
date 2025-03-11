@@ -9,7 +9,7 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import type { PageServerData } from './$types';
 	import { Button } from '$lib/components/button';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { FormInput } from '$lib/components/form-input';
 
 	const { data }: { data: PageServerData } = $props();

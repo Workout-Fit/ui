@@ -30,7 +30,7 @@
 	import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$lib/components/dialog';
 	import { Button } from '$lib/components/button';
 	import { List } from '$lib/components/list';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { toast } from 'svelte-sonner';
 

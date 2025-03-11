@@ -1,7 +1,7 @@
 <script lang="ts">
 	import WorkoutForm, { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
 	import type { PageServerData } from './$types';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { type SuperForm } from 'sveltekit-superforms';
 	import type { z } from 'zod';
 

@@ -3,8 +3,9 @@
 	import type { PageServerData } from './$types';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 	import { Button } from '$lib/components/button';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { Avatar, AvatarImage } from '$lib/components/avatar';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
@@ -20,7 +21,7 @@
 				<Button
 					variant="ghost"
 					data-sveltekit-replacestate
-					href={`/profile/${data.profile.username}/edit`}
+					href={localizeHref(`/profile/${data.profile.username}/edit`)}
 				>
 					{m.edit()}
 				</Button>
@@ -43,7 +44,7 @@
 	<WorkoutList workouts={data.workouts}>
 		{#snippet action()}
 			{#if data.editable}
-				<Button href="/new">+ {m.create_workout()}</Button>
+				<Button href={localizeHref('/new')}>+ {m.create_workout()}</Button>
 			{/if}
 		{/snippet}
 	</WorkoutList>

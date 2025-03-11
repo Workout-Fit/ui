@@ -8,19 +8,18 @@
 
 <script lang="ts">
 	import { page } from '$app/state';
-	import { i18n } from '$lib/i18n';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
 	import { buttonVariants } from '../button';
 	import { cn } from '$lib/utils';
+	import { deLocalizeHref } from '$lib/paraglide/runtime';
 
 	const { href, children, exact = true, class: className, ...rest }: LinkProps = $props();
 
 	let active = $state(false);
 
 	$effect(() => {
-		if (exact)
-			active = [page.url.pathname, `${page.url.pathname}/`].includes(i18n.resolveRoute(href));
+		if (exact) active = [page.url.pathname, `${page.url.pathname}/`].includes(deLocalizeHref(href));
 		else active = page.url.pathname.includes(href);
 	});
 </script>

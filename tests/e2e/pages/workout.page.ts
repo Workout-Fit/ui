@@ -1,5 +1,5 @@
 import { type Page, expect } from '@playwright/test';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 import type { WorkoutExercise } from '$lib/types';
 
 export default class WorkoutPage {

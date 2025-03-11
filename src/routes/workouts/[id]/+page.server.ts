@@ -1,10 +1,9 @@
-import { i18n } from '$lib/i18n';
-import { languageTag } from '$lib/paraglide/runtime.js';
+import { getLocale, localizeHref } from '$lib/paraglide/runtime';
 import { parseWorkoutExercises } from '$lib/utils/parser';
 import { error } from '@sveltejs/kit';
 import omit from 'lodash/omit';
 import { redirect } from 'sveltekit-flash-message/server';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 
 export const load = async ({ locals: { supabase, safeGetSession }, params }) => {
 	const { user } = await safeGetSession();
@@ -35,7 +34,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
       profile(username)
     `
 		)
-		.eq('exercises.exercise.i18n.language', languageTag())
+		.eq('exercises.exercise.i18n.language', getLocale())
 		.eq('id', params.id)
 		.maybeSingle();
 
@@ -58,7 +57,7 @@ export const actions = {
 		if (!user)
 			return redirect(
 				307,
-				i18n.resolveRoute('/auth?redirect_uri=' + url.pathname),
+				localizeHref('/auth?redirect_uri=' + url.pathname),
 				{
 					text: m.demand_sign_in({
 						action: {
@@ -81,7 +80,7 @@ export const actions = {
 			return error(500, 'Failed to clone workout');
 		}
 		return redirect(
-			i18n.resolveRoute(`/workouts/${workoutId}`),
+			localizeHref(`/workouts/${workoutId}`),
 			{ text: m.workout_clone_success(), type: 'success' },
 			cookies
 		);
@@ -93,7 +92,7 @@ export const actions = {
 		if (!user)
 			return redirect(
 				307,
-				i18n.resolveRoute('/auth?redirect_uri=' + url.pathname),
+				localizeHref('/auth?redirect_uri=' + url.pathname),
 				{
 					text: m.demand_sign_in({
 						action: {
@@ -125,7 +124,7 @@ export const actions = {
 		}
 
 		return redirect(
-			i18n.resolveRoute('/'),
+			localizeHref('/'),
 			{ text: m.workout_delete_success(), type: 'success' },
 			cookies
 		);

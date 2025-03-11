@@ -4,7 +4,7 @@
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import type { PageData } from './$types';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import type { z } from 'zod';
 
 	const { data }: { data: PageData } = $props();

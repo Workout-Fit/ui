@@ -19,9 +19,9 @@
 	import { toast } from 'svelte-sonner';
 	import type { CredentialResponse } from 'google-one-tap';
 	import { Button } from '$lib/components/button';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { page } from '$app/state';
-	import { i18n } from '$lib/i18n';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	const { data }: { data: PageServerData } = $props();
 
@@ -29,7 +29,7 @@
 	let ssoSignIn = $state(false);
 
 	const redirectToPreviousURL = () =>
-		goto(i18n.resolveRoute(page.url.searchParams.get('redirect_uri') ?? '/'), {
+		goto(localizeHref(page.url.searchParams.get('redirect_uri') ?? '/'), {
 			invalidateAll: true
 		});
 

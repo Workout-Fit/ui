@@ -1,6 +1,6 @@
 import { test as setup, expect } from '@playwright/test';
 
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 import path from 'path';
 import AuthPage from '../pages/auth.page';
 

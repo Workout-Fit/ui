@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import WorkoutPage from '../pages/workout.page';
 import { faker } from '@faker-js/faker';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
 
 import { test } from '../fixtures';
 import { createExercise } from '../factories';

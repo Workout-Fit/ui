@@ -5,8 +5,8 @@ import type { Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { resetFormSchema } from './+page.svelte';
-import { i18n } from '$lib/i18n';
-import * as m from '$lib/paraglide/messages';
+import { m } from '$lib/paraglide/messages';
+import { localizeHref } from '$lib/paraglide/runtime';
 
 export const load = async () => ({
 	form: await superValidate(zod(resetFormSchema))
@@ -25,7 +25,7 @@ export const actions: Actions = {
 			return error(resetError.status ?? 500, resetError.message ?? m.password_reset_error());
 		else
 			return redirect(
-				i18n.resolveRoute('/'),
+				localizeHref('/'),
 				{ text: m.password_reset_success(), type: 'success' },
 				cookies
 			);

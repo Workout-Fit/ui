@@ -1,24 +1,16 @@
 <script lang="ts">
-	import {
-		availableLanguageTags,
-		languageTag,
-		type AvailableLanguageTag
-	} from '$lib/paraglide/runtime.js';
-	import { i18n } from '$lib/i18n';
-	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
+	import { locales, getLocale, setLocale } from '$lib/paraglide/runtime';
 	import { Select, SelectTrigger, SelectItem, SelectContent } from '../select';
 </script>
 
 <Select
 	type="single"
-	value={languageTag()}
-	onValueChange={(value) =>
-		goto(i18n.resolveRoute(i18n.route(page.url.pathname), value as AvailableLanguageTag))}
+	value={getLocale()}
+	onValueChange={(value) => setLocale(value as 'en' | 'pt-br')}
 >
-	<SelectTrigger class="w-20">{languageTag()}</SelectTrigger>
+	<SelectTrigger class="w-20">{getLocale()}</SelectTrigger>
 	<SelectContent>
-		{#each availableLanguageTags as lang (lang)}
+		{#each locales as lang (lang)}
 			<SelectItem value={lang}>{lang}</SelectItem>
 		{/each}
 	</SelectContent>

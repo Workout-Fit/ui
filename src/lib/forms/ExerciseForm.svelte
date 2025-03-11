@@ -29,17 +29,17 @@
 	import { FormInput } from '$lib/components/form-input';
 	import Add from '@material-symbols/svg-400/sharp/add.svg?component';
 	import Remove from '@material-symbols/svg-400/sharp/remove.svg?component';
-	import * as m from '$lib/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import type { getExercises } from '$lib/supabase/queries/getExercises';
 	import { Button } from '$lib/components/button';
-	import { languageTag } from '$lib/paraglide/runtime';
+	import { getLocale } from '$lib/paraglide/runtime';
 	import { FormField } from '$lib/components/form';
 	import { FormControl, FormDescription, FormFieldErrors } from '$lib/components/form';
 
 	let { oncancel, form, action }: ExerciseFormProps = $props();
 
 	const loadExercises = async (query: string) => {
-		const searchParams = new URLSearchParams({ query, language: languageTag() });
+		const searchParams = new URLSearchParams({ query, language: getLocale() });
 		const response = await fetch('/api/exercises?' + searchParams.toString());
 		return (await response.json()) as NonNullable<Awaited<ReturnType<typeof getExercises>>['data']>;
 	};

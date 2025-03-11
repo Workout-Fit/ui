@@ -1,8 +1,5 @@
 <script lang="ts">
 	import '../app.css';
-	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
-	import { i18n } from '$lib/i18n';
-
 	import { invalidate } from '$app/navigation';
 	import { onMount, setContext, type Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
@@ -11,7 +8,6 @@
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { toast } from 'svelte-sonner';
-
 	import { on } from 'svelte/events';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 	import { UpdateToast } from '$lib/components/update-toast';
@@ -76,9 +72,7 @@
 <Toaster />
 
 <ModeWatcher defaultMode="dark" />
-<ParaglideJS {i18n}>
-	<div class="m-auto box-border flex min-h-screen max-w-5xl flex-col p-4">
-		<Header username={data.username ?? undefined} avatar={data.avatar} />
-		{@render children()}
-	</div>
-</ParaglideJS>
+<div class="m-auto box-border flex min-h-screen max-w-5xl flex-col p-4">
+	<Header username={data.username ?? undefined} avatar={data.avatar} />
+	{@render children()}
+</div>
