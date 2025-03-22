@@ -16,9 +16,10 @@ test.describe('Create Account', () => {
 	});
 
 	test('validates user form', async ({ page }) => {
-		await page.getByRole('button', { name: m.sign_up() }).click();
-		await page.getByRole('button', { name: m.sign_up() }).click();
+		await page.getByRole('button', { name: m.go_to({ destination: m.sign_up() }) }).click();
+		await page.getByRole('button', { name: m.sign_up(), exact: true }).click();
 		await expect(page.getByText('String must contain at least 1 character(s)')).toHaveCount(3);
+
 		await expect(page.getByText('String must contain at least 8 character(s)')).toHaveCount(1);
 	});
 
@@ -34,7 +35,7 @@ test.describe('Create Account', () => {
 		if (user.bio) await expect(page.getByText(user.bio)).toBeVisible();
 	});
 
-	test.afterAll(async ({ supabase }) => {
+	test.afterEach(async ({ supabase }) => {
 		if (!user) return;
 
 		const { data } = await supabase

@@ -11,12 +11,10 @@ import getAvatar from '$lib/supabase/queries/getAvatar';
 import { z } from 'zod';
 import { redirect } from 'sveltekit-flash-message/server';
 import { m } from '$lib/paraglide/messages';
-import { localizeHref } from '$lib/paraglide/runtime';
 
 export const load = async ({ locals: { supabase, user }, params }) => {
 	const profileResponse = await getProfileByUsername(supabase, params.username);
-	if (!profileResponse.data || profileResponse.data.user_id !== user?.id)
-		return redirect(307, localizeHref('/'));
+	if (!profileResponse.data || profileResponse.data.user_id !== user?.id) return redirect(307, '/');
 
 	const form = await superValidate(
 		{
@@ -48,7 +46,7 @@ export const actions = {
 		}
 
 		return redirect(
-			localizeHref(`/profile/${form.data.username}`),
+			`/profile/${form.data.username}`,
 			{ text: m.profile_edit_success(), type: 'success' },
 			cookies
 		);

@@ -21,17 +21,11 @@
 	import { Button } from '$lib/components/button';
 	import { m } from '$lib/paraglide/messages';
 	import { page } from '$app/state';
-	import { localizeHref } from '$lib/paraglide/runtime';
 
 	const { data }: { data: PageServerData } = $props();
 
 	let mode: 'signup' | 'signin' = $state('signin');
 	let ssoSignIn = $state(false);
-
-	const redirectToPreviousURL = () =>
-		goto(localizeHref(page.url.searchParams.get('redirect_uri') ?? '/'), {
-			invalidateAll: true
-		});
 
 	const handleSignInWithProvider = async (credentials: SignInWithIdTokenCredentials) => {
 		ssoSignIn = true;
@@ -40,7 +34,8 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ ...credentials, nonce: data.nonce })
 		});
-		if (response.ok) redirectToPreviousURL();
+		if (response.ok)
+			goto(page.url.searchParams.get('redirect_uri') ?? '/', { invalidateAll: true });
 		else {
 			const { message } = await response.json();
 			toast.error(message);
@@ -108,7 +103,13 @@
 					data={data.signInForm}
 					disabled={ssoSignIn}
 				/>
-				<Button variant="ghost" form="sign-in" formaction="?/forgot" class="ml-auto mt-2 flex">
+				<Button
+					type="submit"
+					variant="ghost"
+					form="sign-in"
+					formaction="?/forgot"
+					class="ml-auto mt-2 flex"
+				>
 					{m.forgot_password()}
 				</Button>
 			{/if}
@@ -121,6 +122,7 @@
 		<Button
 			variant="ghost"
 			disabled={ssoSignIn}
+			aria-label={m.go_to({ destination: mode === 'signup' ? m.sign_in() : m.sign_up() })}
 			onclick={() => (mode = mode === 'signup' ? 'signin' : 'signup')}
 		>
 			{mode === 'signup' ? m.sign_in() : m.sign_up()}

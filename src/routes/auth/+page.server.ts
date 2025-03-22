@@ -1,8 +1,9 @@
-import { fail } from '@sveltejs/kit';
+import { redirect as svelteKitRedirect } from '@sveltejs/kit';
 
 import type { Actions } from './$types';
+import { redirect } from 'sveltekit-flash-message/server';
 import { authFormSchema } from '$lib/forms/AuthForm.svelte';
-import { message, superValidate } from 'sveltekit-superforms';
+import { fail, message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { signUpFormSchema } from './+page.svelte';
 import insertProfile from '$lib/supabase/queries/insertProfile';
@@ -26,13 +27,19 @@ export const load = async () => {
 };
 
 export const actions: Actions = {
-	signup: async ({ request, locals: { supabase } }) => {
+	signup: async ({ request, locals: { supabase }, cookies, url }) => {
 		const form = await superValidate(request, zod(signUpFormSchema));
 		if (!form.valid) return fail(400, { form });
 
 		const { error: accountError, data } = await supabase.auth.signUp(
 			pick(form.data, ['email', 'password'])
 		);
+
+		if (accountError) {
+			console.error(accountError);
+			return message(form, { text: 'Failed to sign-up', type: 'error' });
+		}
+
 		const [userResponse, avatarResponse] = await insertProfile(
 			supabase,
 			{
@@ -46,11 +53,15 @@ export const actions: Actions = {
 
 		if (signUpError) {
 			console.error(signUpError);
-			return message(form, { text: signUpError.message ?? 'Failed to sign-up', type: 'error' });
+			return message(form, { text: 'Failed to sign-up', type: 'error' });
 		}
-		return message(form, { text: m.sign_up_success(), type: 'success' });
+		return redirect(
+			url.searchParams.get('redirect_uri') ?? '/',
+			{ text: m.sign_up_success(), type: 'success' },
+			cookies
+		);
 	},
-	signin: async ({ request, locals: { supabase } }) => {
+	signin: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(
 			request,
 			zod(z.object({ ...authFormSchema.shape, password: z.string().nonempty() }))
@@ -66,7 +77,7 @@ export const actions: Actions = {
 				{ status: (signInError.status as any) ?? 500 }
 			);
 		}
-		return { form };
+		return svelteKitRedirect(303, url.searchParams.get('redirect_uri') ?? '/');
 	},
 	forgot: async ({ request, locals: { supabase }, url }) => {
 		const form = await superValidate(request, zod(authFormSchema));

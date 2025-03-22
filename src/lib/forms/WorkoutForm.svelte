@@ -119,50 +119,50 @@
 			placeholder={m.workout_notes_placeholder()}
 		/>
 	</div>
-	<div class="h-full">
-		<div class="flex items-center gap-2">
-			<h2 class="text-2xl font-bold">{m.exercises()}</h2>
-			<Button
-				variant="ghost"
-				disabled={$submitting}
-				onclick={() => {
-					pushState('', { modalShown: 'save-exercise' });
-				}}
-			>
-				+ {m.add_exercise()}
-			</Button>
-		</div>
-		<List items={$formData.exercises} emptyMessage="No exercises added">
-			{#snippet item(exercise, index)}
-				<ExerciseListItem {exercise}>
-					{#snippet decoration()}
-						<div class="flex gap-2">
-							<Button
-								disabled={$submitting}
-								onclick={() =>
-									($formData.exercises =
-										$formData.exercises?.filter((item) => item !== exercise) ?? [])}
-								variant="ghost"
-							>
-								{m.remove()}
-							</Button>
-							<Button
-								disabled={$submitting}
-								onclick={() => {
-									exerciseForm?.reset({ data: $formData.exercises[index] });
-									pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
-								}}
-								variant="ghost"
-							>
-								{m.edit()}
-							</Button>
-						</div>
-					{/snippet}
-				</ExerciseListItem>
-			{/snippet}
-		</List>
-	</div>
 </form>
+<div class="h-full">
+	<div class="flex items-center gap-2">
+		<h2 class="text-2xl font-bold">{m.exercises()}</h2>
+		<Button
+			variant="ghost"
+			disabled={$submitting}
+			onclick={() => {
+				pushState('', { modalShown: 'save-exercise' });
+			}}
+		>
+			+ {m.add_exercise()}
+		</Button>
+	</div>
+	<List items={$formData.exercises} emptyMessage="No exercises added">
+		{#snippet item(exercise, index)}
+			<ExerciseListItem {exercise}>
+				{#snippet decoration()}
+					<div class="flex gap-2">
+						<Button
+							disabled={$submitting}
+							onclick={() =>
+								($formData.exercises =
+									$formData.exercises?.filter((item) => item !== exercise) ?? [])}
+							variant="ghost"
+						>
+							{m.remove()}
+						</Button>
+						<Button
+							disabled={$submitting}
+							onclick={() => {
+								exerciseForm?.reset({ data: $formData.exercises[index] });
+								pushState('', { modalShown: 'save-exercise', exerciseIndex: index });
+							}}
+							variant="ghost"
+						>
+							{m.edit()}
+						</Button>
+					</div>
+				{/snippet}
+			</ExerciseListItem>
+		{/snippet}
+	</List>
+</div>
 
 <Dialog
 	open={page.state.modalShown === 'save-exercise'}

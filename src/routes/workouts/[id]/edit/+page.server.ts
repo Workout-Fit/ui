@@ -1,6 +1,6 @@
 import { exerciseFormSchema } from '$lib/forms/ExerciseForm.svelte';
 import { workoutFormSchema } from '$lib/forms/WorkoutForm.svelte';
-import { getLocale, localizeHref } from '$lib/paraglide/runtime';
+import { getLocale } from '$lib/paraglide/runtime';
 import updateWorkout from '$lib/supabase/queries/updateWorkout.js';
 import { parseWorkoutExercises } from '$lib/utils/parser';
 import { error, fail } from '@sveltejs/kit';
@@ -47,7 +47,7 @@ export const load = async ({ locals: { supabase, safeGetSession }, params }) => 
 
 	return workout?.user_id === user?.id
 		? { form: workoutForm, exerciseFormData: exerciseForm }
-		: redirect(303, localizeHref(`/workouts/${params.id}`));
+		: redirect(303, `/workouts/${params.id}`);
 };
 
 export const actions = {
@@ -68,7 +68,7 @@ export const actions = {
 		}
 
 		return redirect(
-			localizeHref(`/workouts/${params.id}`),
+			`/workouts/${params.id}`,
 			{ text: m.edit_workout_success(), type: 'error' },
 			cookies
 		);

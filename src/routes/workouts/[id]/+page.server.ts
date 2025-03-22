@@ -1,4 +1,4 @@
-import { getLocale, localizeHref } from '$lib/paraglide/runtime';
+import { getLocale } from '$lib/paraglide/runtime';
 import { parseWorkoutExercises } from '$lib/utils/parser';
 import { error } from '@sveltejs/kit';
 import omit from 'lodash/omit';
@@ -57,7 +57,7 @@ export const actions = {
 		if (!user)
 			return redirect(
 				307,
-				localizeHref('/auth?redirect_uri=' + url.pathname),
+				'/auth?redirect_uri=' + url.pathname,
 				{
 					text: m.demand_sign_in({
 						action: {
@@ -80,7 +80,7 @@ export const actions = {
 			return error(500, 'Failed to clone workout');
 		}
 		return redirect(
-			localizeHref(`/workouts/${workoutId}`),
+			`/workouts/${workoutId}`,
 			{ text: m.workout_clone_success(), type: 'success' },
 			cookies
 		);
@@ -92,7 +92,7 @@ export const actions = {
 		if (!user)
 			return redirect(
 				307,
-				localizeHref('/auth?redirect_uri=' + url.pathname),
+				'/auth?redirect_uri=' + url.pathname,
 				{
 					text: m.demand_sign_in({
 						action: {
@@ -123,10 +123,6 @@ export const actions = {
 			return error(500, 'Failed to delete workout');
 		}
 
-		return redirect(
-			localizeHref('/'),
-			{ text: m.workout_delete_success(), type: 'success' },
-			cookies
-		);
+		return redirect('/', { text: m.workout_delete_success(), type: 'success' }, cookies);
 	}
 };

@@ -4,7 +4,6 @@
 	import { List, ListItem } from '$lib/components/list';
 	import { m } from '$lib/paraglide/messages';
 	import { Input } from '$lib/components/input';
-	import { localizeHref } from '$lib/paraglide/runtime';
 
 	type WorkoutListProps = {
 		workouts: Exclude<Awaited<ReturnType<typeof getWorkouts>>['data'], null>;
@@ -32,7 +31,7 @@
 			<ListItem
 				title={workout.name}
 				secondLine={workout.notes ?? undefined}
-				href={localizeHref(`/workouts/${workout.id}`)}
+				href={`/workouts/${workout.id}`}
 			>
 				{#snippet rightDecoration()}
 					<small>{workout.exercises[0]?.count} {m.exercises()}</small>

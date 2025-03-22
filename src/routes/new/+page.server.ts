@@ -5,7 +5,6 @@ import { redirect } from 'sveltekit-flash-message/server';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { m } from '$lib/paraglide/messages';
-import { localizeHref } from '$lib/paraglide/runtime';
 
 export const load = async () => {
 	const workoutForm = await superValidate(zod(workoutFormSchema));
@@ -53,7 +52,7 @@ export const actions = {
 		}
 
 		return redirect(
-			localizeHref(`/workouts/${createWorkout.data.id}`),
+			`/workouts/${createWorkout.data.id}`,
 			{ text: m.create_workout_success(), type: 'success' },
 			cookies
 		);

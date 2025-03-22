@@ -11,7 +11,7 @@ setup('authenticate', async ({ page }) => {
 		email: process.env.PLAYWRIGHT_TEST_USER_EMAIL!,
 		password: process.env.PLAYWRIGHT_TEST_USER_PASSWORD!
 	});
-	await expect(page.getByRole('button', { name: m.sign_out() })).toBeVisible();
+	await expect(page.getByRole('button', { name: m.account_menu() })).toBeVisible();
 
 	await page
 		.context()

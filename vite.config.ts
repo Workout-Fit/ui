@@ -8,11 +8,6 @@ import svg from '@poppanator/sveltekit-svg';
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		paraglideVitePlugin({
-			project: './project.inlang',
-			outdir: './src/lib/paraglide',
-			strategy: ['cookie', 'baseLocale']
-		}),
 		svelteTesting(),
 		svg(),
 		SvelteKitPWA({
@@ -48,6 +43,11 @@ export default defineConfig({
 				suppressWarnings: true,
 				type: 'module'
 			}
+		}),
+		paraglideVitePlugin({
+			project: './project.inlang',
+			outdir: './src/lib/paraglide',
+			strategy: ['cookie', 'baseLocale']
 		})
 	],
 

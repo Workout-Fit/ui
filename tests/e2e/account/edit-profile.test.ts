@@ -38,7 +38,7 @@ test.describe('Edit Profile', () => {
 
 		await authPage.goto();
 		await authPage.signIn({ email, password });
-		await expect(page.getByRole('button', { name: m.sign_out() })).toBeVisible();
+		await expect(page.getByRole('button', { name: m.account_menu() })).toBeVisible();
 
 		await profilePage.goto(username);
 	});

@@ -6,7 +6,6 @@ import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { resetFormSchema } from './+page.svelte';
 import { m } from '$lib/paraglide/messages';
-import { localizeHref } from '$lib/paraglide/runtime';
 
 export const load = async () => ({
 	form: await superValidate(zod(resetFormSchema))
@@ -23,11 +22,6 @@ export const actions: Actions = {
 
 		if (resetError)
 			return error(resetError.status ?? 500, resetError.message ?? m.password_reset_error());
-		else
-			return redirect(
-				localizeHref('/'),
-				{ text: m.password_reset_success(), type: 'success' },
-				cookies
-			);
+		else return redirect('/', { text: m.password_reset_success(), type: 'success' }, cookies);
 	}
 };
