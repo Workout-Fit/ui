@@ -121,7 +121,7 @@
 	{/each}
 	<FormInput
 		disabled={$submitting}
-		type=""
+		multiline
 		field="notes"
 		id="exercise-notes"
 		label={m.notes()}

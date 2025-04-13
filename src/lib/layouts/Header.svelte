@@ -7,7 +7,7 @@
 	import LightMode from '@material-symbols/svg-400/sharp/light_mode.svg?component';
 	import { Logo } from '$lib/components/logo';
 	import { m } from '$lib/paraglide/messages';
-	import { toggleMode } from 'mode-watcher';
+	import { mode, toggleMode } from 'mode-watcher';
 	import emptyProfilePicture from '$lib/assets/img/empty_ppic.webp';
 	import { cn } from '$lib/utils';
 	import Avatar from '$lib/components/avatar/avatar.svelte';
@@ -17,7 +17,8 @@
 		DropdownMenuGroup,
 		DropdownMenuTrigger,
 		DropdownMenuContent,
-		DropdownMenuItem
+		DropdownMenuItem,
+		DropdownMenuSeparator
 	} from '$lib/components/dropdown-menu';
 
 	let { username, avatar }: { username?: string; avatar?: string } = $props();
@@ -34,15 +35,6 @@
 		{/snippet}
 	</Link>
 	<nav class="flex justify-between gap-4">
-		<LanguageSwitcher />
-		<Button onclick={toggleMode} variant="ghost" size="icon">
-			<LightMode
-				class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 fill-primary transition-all dark:-rotate-90 dark:scale-0"
-			/>
-			<DarkMode
-				class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 fill-primary transition-all dark:rotate-0 dark:scale-100"
-			/>
-		</Button>
 		{#if username}
 			<DropdownMenu>
 				<DropdownMenuTrigger aria-label={m.account_menu()}>
@@ -50,13 +42,25 @@
 						<AvatarImage src={avatar ?? emptyProfilePicture} alt="" />
 					</Avatar>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent collisionPadding={16}>
+				<DropdownMenuContent>
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
-							<Link exact={false} href={`/profile/${username}`}>
+							<Link exact={false} class="hover:bg-none" href={`/profile/${username}`}>
 								{m.profile()}
 							</Link>
 						</DropdownMenuItem>
+						<DropdownMenuItem onclick={toggleMode}>
+							{#if $mode === 'light'}
+								<LightMode class="h-[1.2rem] w-[1.2rem] fill-primary transition-all" />
+								{m.light()}
+							{:else}
+								<DarkMode class="h-[1.2rem] w-[1.2rem] fill-primary transition-all" />
+								{m.dark()}
+							{/if}
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<LanguageSwitcher class="w-full" />
+						<DropdownMenuSeparator />
 						<DropdownMenuItem>
 							<form method="POST" action="/?/signout" use:enhance>
 								<Button variant="ghost" type="submit" class="p-0">{m.sign_out()}</Button>
@@ -66,6 +70,15 @@
 				</DropdownMenuContent>
 			</DropdownMenu>
 		{:else}
+			<LanguageSwitcher />
+			<Button onclick={toggleMode} variant="ghost" size="icon">
+				<LightMode
+					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 fill-primary transition-all dark:-rotate-90 dark:scale-0"
+				/>
+				<DarkMode
+					class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 fill-primary transition-all dark:rotate-0 dark:scale-100"
+				/>
+			</Button>
 			<Link class="link" href="/auth">{m.sign_in()}</Link>
 		{/if}
 	</nav>
