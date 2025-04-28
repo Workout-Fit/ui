@@ -55,14 +55,15 @@
 		dataType: 'json',
 		onUpdate: ({ result, cancel }) => {
 			if (result.type === 'success') {
+				const exercise = result.data.form.data;
 				$formData.exercises =
 					page.state.exerciseIndex !== undefined
 						? [
 								...$formData.exercises.slice(0, page.state.exerciseIndex),
-								result.data.form.data,
+								exercise,
 								...$formData.exercises.slice(page.state.exerciseIndex + 1)
 							]
-						: [...$formData.exercises, result.data.form.data];
+						: [...$formData.exercises, { ...exercise, id: exercise.id ?? `added:${Date.now()}` }];
 				handleCloseModal();
 				cancel();
 			}
@@ -133,7 +134,14 @@
 			+ {m.add_exercise()}
 		</Button>
 	</div>
-	<List items={$formData.exercises} emptyMessage="No exercises added">
+	<List
+		items={$formData.exercises}
+		onReorder={(items) => {
+			$formData.exercises = [...items];
+		}}
+		sortable
+		emptyMessage="No exercises added"
+	>
 		{#snippet item(exercise, index)}
 			<ExerciseListItem {exercise}>
 				{#snippet decoration()}

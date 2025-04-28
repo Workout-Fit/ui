@@ -50,7 +50,6 @@ export default defineConfig({
 			strategy: ['cookie', 'baseLocale']
 		})
 	],
-
 	test: {
 		setupFiles: ['./vitest.setup.ts'],
 		include: ['tests/unit/**/*.test.ts'],

@@ -59,7 +59,11 @@ export const actions = {
 
 		const [updateWorkoutResponse, updateWorkoutExercisesResponse] = await updateWorkout(supabase, {
 			id: params.id,
-			...form.data
+			...form.data,
+			exercises: form.data.exercises.map((exercise) => ({
+				...exercise,
+				id: Number.isNaN(exercise.id) ? undefined : exercise.id
+			}))
 		});
 
 		if (updateWorkoutResponse.error || updateWorkoutExercisesResponse.error) {

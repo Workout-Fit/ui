@@ -20,7 +20,8 @@ const updateWorkout = async (
 				rests: rests as number[],
 				workout_id: workout.id,
 				exercise_id: exercise.id
-			}))
+			})),
+			target_workout_id: workout.id
 		})
 	]);
 
