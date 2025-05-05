@@ -9,7 +9,7 @@
 	};
 
 	export const exerciseFormSchema = z.object({
-		id: z.number().optional(),
+		id: z.number().or(z.string()).optional(),
 		exercise: z
 			.object({
 				id: z.string(),

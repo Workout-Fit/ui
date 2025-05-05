@@ -175,7 +175,10 @@
 <Dialog
 	open={page.state.modalShown === 'save-exercise'}
 	onOpenChange={(open) => {
-		if (!open) handleCloseModal();
+		if (!open) {
+			handleCloseModal();
+			exerciseForm.reset();
+		}
 	}}
 >
 	<DialogContent>
