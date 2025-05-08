@@ -62,7 +62,7 @@ export const actions = {
 			...form.data,
 			exercises: form.data.exercises.map((exercise) => ({
 				...exercise,
-				id: Number.isNaN(exercise.id) ? undefined : exercise.id
+				id: exercise.id && isNaN(exercise.id as number) ? undefined : exercise.id
 			}))
 		});
 
@@ -73,7 +73,7 @@ export const actions = {
 
 		return redirect(
 			`/workouts/${params.id}`,
-			{ text: m.edit_workout_success(), type: 'error' },
+			{ text: m.edit_workout_success(), type: 'success' },
 			cookies
 		);
 	},
