@@ -50,7 +50,7 @@
 							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem onclick={toggleMode}>
-							{#if $mode === 'light'}
+							{#if mode.current === 'light'}
 								<LightMode class="h-[1.2rem] w-[1.2rem] fill-primary transition-all" />
 								{m.light()}
 							{:else}

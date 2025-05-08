@@ -77,6 +77,8 @@
 	$effect(() => {
 		if ($message) toast[$message.type]($message.text);
 	});
+
+	let dialogPortalRef: HTMLDivElement | null = $state(null);
 </script>
 
 <form
@@ -148,9 +150,10 @@
 					<div class="flex gap-2">
 						<Button
 							disabled={$submitting}
-							onclick={() =>
-								($formData.exercises =
-									$formData.exercises?.filter((item) => item !== exercise) ?? [])}
+							onclick={() => {
+								$formData.exercises.splice(index, 1);
+								$formData.exercises = $formData.exercises;
+							}}
 							variant="ghost"
 						>
 							{m.remove()}

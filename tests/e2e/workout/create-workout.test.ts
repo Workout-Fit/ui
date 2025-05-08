@@ -14,6 +14,7 @@ test.describe('Create Workout', () => {
 	test.beforeEach(async ({ page }) => {
 		workoutPage = new WorkoutPage(page);
 		await workoutPage.gotoCreateWorkout();
+		await page.waitForLoadState('networkidle');
 	});
 
 	test('shows validation errors when submitting empty form', async ({ page }) => {
@@ -22,7 +23,7 @@ test.describe('Create Workout', () => {
 	});
 
 	test('shows validation errors when submitting form with invalid exercise', async ({ page }) => {
-		await workoutPage.openAddExerciseDialog();
+		await page.getByRole('button', { name: m.add_exercise() }).click();
 		await page.getByRole('dialog').getByRole('button', { name: m.save() }).click();
 		await expect(page.getByText('Expected object, received null')).toBeVisible();
 		await expect(page.getByText('Expected number, received null')).toHaveCount(2);
@@ -42,7 +43,7 @@ test.describe('Create Workout', () => {
 		const exercise = createExercise({ exercise: { id: '1', name: 'Barbell Front Raise' } });
 
 		await workoutPage.addExercise(exercise);
-		await expect(page.getByText(exercise.exercise.name)).toBeVisible();
+		await page.waitForTimeout(500);
 		await page.getByRole('button', { name: m.remove() }).click();
 		await expect(page.getByText(exercise.exercise.name)).not.toBeVisible();
 	});

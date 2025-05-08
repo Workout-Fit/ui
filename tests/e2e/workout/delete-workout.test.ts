@@ -20,10 +20,11 @@ test.describe('Delete Workout', () => {
 
 		workoutId = workout!.id;
 		workoutName = workout!.name;
+		await workoutPage.goto(workoutId);
+		await page.waitForLoadState('networkidle');
 	});
 
 	test('prevents deletion of workout without confirmation', async ({ page }) => {
-		await workoutPage.goto(workoutId);
 		await page.getByRole('button', { name: m.delete_action() }).click();
 		await expect(
 			page
@@ -36,7 +37,6 @@ test.describe('Delete Workout', () => {
 	});
 
 	test('deletes workout after confirmation', async ({ page }) => {
-		await workoutPage.goto(workoutId);
 		await workoutPage.deleteWorkout();
 		await expect(page.getByText(m.workout_delete_success())).toBeVisible();
 	});

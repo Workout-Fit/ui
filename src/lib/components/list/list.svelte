@@ -40,6 +40,7 @@
 			items: items as Item[],
 			flipDurationMs: 300,
 			dragDisabled: !sortable,
+			autoAriaDisabled: true,
 			dropTargetStyle: { outline: 'none' },
 			dropTargetClasses: ['bg-slate-300/10', 'w-full']
 		}}

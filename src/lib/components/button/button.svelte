@@ -47,11 +47,11 @@
 	let {
 		class: className,
 		variant = 'default',
+		size = 'default',
 		ref = $bindable(null),
 		href = undefined,
 		type = 'button',
 		loading,
-		size,
 		children,
 		...restProps
 	}: ButtonProps = $props();
@@ -63,11 +63,11 @@
 	</a>
 {:else}
 	<button
-		{...restProps}
 		bind:this={ref}
 		class={cn(buttonVariants({ variant, size }), className)}
 		disabled={restProps.disabled || loading}
 		{type}
+		{...restProps}
 	>
 		{#if loading}<ProgressIndicator />{:else}{@render children?.()}{/if}
 	</button>

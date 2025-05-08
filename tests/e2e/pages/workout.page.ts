@@ -19,7 +19,7 @@ export default class WorkoutPage {
 	}
 
 	async addExercise({ exercise, sets, repetitions, rests, notes }: WorkoutExercise) {
-		await this.openAddExerciseDialog();
+		await this.page.getByRole('button', { name: m.add_exercise() }).click();
 		const exerciseDialog = await this.page.getByRole('dialog');
 
 		await exerciseDialog.getByLabel(m.exercise()).fill(exercise.name);
@@ -32,11 +32,6 @@ export default class WorkoutPage {
 
 		await exerciseDialog.getByRole('button', { name: m.save() }).click();
 		await expect(exerciseDialog).not.toBeVisible();
-	}
-
-	async openAddExerciseDialog() {
-		await this.page.getByRole('button', { name: m.add_exercise() }).click();
-		await this.page.waitForTimeout(500);
 	}
 
 	async editExercise(

@@ -20,6 +20,7 @@ test.describe('Edit Workout', () => {
 		workoutId = workout!.id;
 		await workoutPage.goto(workoutId);
 		await page.getByRole('link', { name: m.edit() }).click();
+		await page.waitForLoadState('networkidle');
 	});
 
 	test('allows editing workout', async ({ page }) => {
