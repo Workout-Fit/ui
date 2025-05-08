@@ -22,7 +22,7 @@ test.describe('Create Workout', () => {
 	});
 
 	test('shows validation errors when submitting form with invalid exercise', async ({ page }) => {
-		await page.getByRole('button', { name: m.add_exercise() }).click();
+		await workoutPage.openAddExerciseDialog();
 		await page.getByRole('dialog').getByRole('button', { name: m.save() }).click();
 		await expect(page.getByText('Expected object, received null')).toBeVisible();
 		await expect(page.getByText('Expected number, received null')).toHaveCount(2);

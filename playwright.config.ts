@@ -11,21 +11,21 @@ export default defineConfig({
 	testDir: 'tests/e2e',
 	projects: [
 		// Setup project
-		// {
-		// 	name: 'workout teardown',
-		// 	use: { storageState: 'playwright/.auth/user.json' },
-		// 	testMatch: /workout\.teardown\.ts/
-		// },
-		// { name: 'workout setup', testMatch: /auth\.setup\.ts/, teardown: 'workout teardown' },
-		// {
-		// 	name: 'workout',
-		// 	testDir: 'tests/e2e/workout',
-		// 	use: {
-		// 		...devices['Desktop Chrome'],
-		// 		storageState: 'playwright/.auth/user.json'
-		// 	},
-		// 	dependencies: ['workout setup']
-		// },
+		{
+			name: 'workout teardown',
+			use: { storageState: 'playwright/.auth/user.json' },
+			testMatch: /workout\.teardown\.ts/
+		},
+		{ name: 'workout setup', testMatch: /auth\.setup\.ts/, teardown: 'workout teardown' },
+		{
+			name: 'workout',
+			testDir: 'tests/e2e/workout',
+			use: {
+				...devices['Desktop Chrome'],
+				storageState: 'playwright/.auth/user.json'
+			},
+			dependencies: ['workout setup']
+		},
 		{
 			name: 'account',
 			testDir: 'tests/e2e/account',

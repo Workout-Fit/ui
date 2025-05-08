@@ -134,7 +134,6 @@
 			<AlertDialogCancel>Cancel</AlertDialogCancel>
 			<form
 				method="POST"
-				class="inline-flex"
 				action="?/delete"
 				use:enhance={() => {
 					deleting = true;
@@ -144,7 +143,7 @@
 					};
 				}}
 			>
-				<AlertDialogAction loading={deleting}>
+				<AlertDialogAction class="w-full" loading={deleting}>
 					{m.delete_action()}
 				</AlertDialogAction>
 			</form>
