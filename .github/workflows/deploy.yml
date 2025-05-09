@@ -42,11 +42,9 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm install -g pnpm netlify-cli && pnpm i --frozen-lockfile
-      - name: Build
-        run: pnpm build
+      - name: Deploy to Netlify
         env:
           DOTENV_PRIVATE_KEY: ${{ secrets.DOTENV_PRIVATE_KEY }}
-      - name: Deploy to Netlify
         run: |
           netlify deploy \
             --dir build \
